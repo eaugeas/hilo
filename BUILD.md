@@ -12,6 +12,12 @@ interpreter along with the following dependencies is required:
  - Python 3.6 or higher
  - Virtualenv
 
+---
+The best way to verify the dependencies are to look at the build
+[workflow](.github/workflows/build.yml) implemented to build and
+test the project.
+---
+ 
 If all those dependencies are installed, you should be able to
 clone and set up an isolated virtual environment to work.
 
