@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package hilo_rpc.stub.proto;
+
+import "google/protobuf/timestamp.proto";
+
+message Source {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message CreateSourceRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateSourceResponse {
+  string id = 1;
+}
+
+message DeleteSourceRequest {
+  string id = 1;
+}
+
+message DeleteSourceResponse {}
+
+message GetSourceRequest {
+  string id = 1;
+}
+
+message GetSourceResponse {
+  Source source = 1;
+}
+
+service SourceApi {
+  rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse);
+  rpc DeleteSource(DeleteSourceRequest) returns (DeleteSourceResponse);
+  rpc GetSource(GetSourceRequest) returns (GetSourceResponse);
+}
