@@ -25,8 +25,25 @@ $ git clone git@github.com:eaugeas/hilo.git
 $ make init
 ```
 
+This creates a virtual environment in the root of the project `.venv`. In order
+to activate this environment you can run
+
+```sh
+$ source .venv/bin/activate
+```
+
+This is an isolated environment from the rest of the system, so any changes you
+make to your virtual Python environment should not have effects on your system.
+
 ## How to build
-Once you have set up the environment, you can build all the packages with make
+Once you have set up the environment, you can build all the packages with make.
+As a reminder, you may want to activate the virtual environment to isolate the
+project from the rest of the system
+
+```sh
+$ source .venv/bin/activate
+```
+
 
 ```sh
 $ make && make install
