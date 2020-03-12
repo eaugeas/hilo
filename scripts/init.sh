@@ -17,7 +17,6 @@ if [ ! -d "$VENV" ]; then
         exit 1
     fi
 
-    GPU=$(has_nvidia_gpu)
     $VIRTUALENV -p "$PYTHON3" .venv
     source "$VENV"/bin/activate
 
