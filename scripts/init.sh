@@ -1,21 +1,6 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
 
 VENV=".venv"
-
-function has_nvidia_gpu() {
-    if [ -z "$(command -v nvidia-smi)" ]; then
-        echo "0"
-        return
-    fi
-
-    GPU_COUNT=$(nvidia-smi -L | wc -l)
-    if [ "$GPU_COUNT" == "0" ]; then
-        echo "0"
-        return
-    fi
-
-    echo "1"
-}
 
 # set up python environment if it doesn't exist
 if [ ! -d "$VENV" ]; then
@@ -36,11 +21,5 @@ if [ ! -d "$VENV" ]; then
     $VIRTUALENV -p "$PYTHON3" .venv
     source "$VENV"/bin/activate
 
-    # install dependencies based on whether GPU support
-    # is available
-    if [ "$GPU" == "1" ]; then
-        pip install -r requirements_gpu.txt
-    else
-        pip install -r requirements_nongpu.txt
-    fi
+    pip install -r requirements.txt
 fi
