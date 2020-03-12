@@ -1,12 +1,17 @@
 PYTHON=python3
 PIP=pip
 PYTEST=pytest
+MYPY=mypy
+FLAKE8=flake8
 GRPCC=python -m grpc_tools.protoc
 PROTOS=proto/*.proto
 AUTOGEN=hilo_rpc/proto/source_pb2.py \
 	hilo_rpc/proto/source_pb2_grpc.py
 
-.PHONY: proto build clean install test
+SRC=hilo_rpc
+TESTS=tests
+
+.PHONY: proto build clean install test check
 
 all: build
 
@@ -37,3 +42,17 @@ clean:
 
 test:
 	$(PYTEST) tests
+
+check: typecheck-src typecheck-tests lint-src lint-tests
+
+typecheck-src:
+	$(MYPY) --ignore-missing-imports $(SRC)
+
+typecheck-tests:
+	$(MYPY) --ignore-missing-imports $(TESTS)
+
+lint-src:
+	$(FLAKE8) $(SRC)
+
+lint-tests:
+	$(FLAKE8) $(TESTS)
