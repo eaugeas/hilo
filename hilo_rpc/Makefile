@@ -52,7 +52,7 @@ typecheck-tests:
 	$(MYPY) --ignore-missing-imports $(TESTS)
 
 lint-src:
-	$(FLAKE8) $(SRC)
+	$(FLAKE8) --exclude *_pb2* $(SRC)
 
 lint-tests:
 	$(FLAKE8) $(TESTS)
