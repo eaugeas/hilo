@@ -43,13 +43,10 @@ clean:
 test:
 	$(PYTEST) tests
 
-check: typecheck-src typecheck-tests lint-src lint-tests
+check: typecheck lint-src lint-tests
 
-typecheck-src:
-	$(MYPY) --ignore-missing-imports $(SRC)
-
-typecheck-tests:
-	$(MYPY) --ignore-missing-imports $(TESTS)
+typecheck:
+	$(MYPY) --ignore-missing-imports
 
 lint-src:
 	$(FLAKE8) --exclude *_pb2* $(SRC)
