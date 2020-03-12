@@ -6,10 +6,10 @@ setup(
     description='hilo command line tool',
     author='eaugeas',
     author_email='eaugeas@gmail.com',
-    packages=['hilo'],
+    packages=['hilo_src'],
     install_requires=['hilo_rpc'],
     dependency_links=[
         'hilo_rpc'
     ],
-    scripts=[]
+    scripts=['hilo']
 )

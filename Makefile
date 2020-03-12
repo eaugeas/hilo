@@ -5,7 +5,7 @@ BUILDS=hilo_rpc/build hilo_stage/build hilo_server/build hilo/build
 DISTS=hilo_rpc/dist hilo_stage/dist hilo_server/dist hilo/dist
 MAKES=hilo_rpc
 
-.PHONY: init build clean install
+.PHONY: init build clean install test
 
 all: build
 
@@ -28,3 +28,9 @@ clean:
 	$(MAKE) -C hilo_stage clean
 	$(MAKE) -C hilo_server clean
 	$(MAKE) -C hilo clean
+
+test:
+	$(MAKE) -C hilo_rpc test
+	$(MAKE) -C hilo_stage test
+	$(MAKE) -C hilo_server test
+	$(MAKE) -C hilo test

@@ -1,11 +1,12 @@
 PYTHON=python3
 PIP=pip
+PYTEST=pytest
 GRPCC=python -m grpc_tools.protoc
 PROTOS=proto/*.proto
 AUTOGEN=hilo_rpc/proto/source_pb2.py \
 	hilo_rpc/proto/source_pb2_grpc.py
 
-.PHONY: proto build clean install
+.PHONY: proto build clean install test
 
 all: build
 
@@ -33,3 +34,6 @@ clean:
 	rm -rf build dist *.egg-info __pycache__
 	@echo "CLEAN protobuf generated files"
 	@ rm -f $(AUTOGEN)
+
+test:
+	$(PYTEST) tests

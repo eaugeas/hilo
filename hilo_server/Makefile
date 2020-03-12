@@ -1,5 +1,6 @@
 PYTHON=python3
 PIP=pip
+PYTEST=pytest
 
 build:
 	$(PYTHON) setup.py build
@@ -10,3 +11,6 @@ clean:
 
 install:
 	$(PIP) install -e .
+
+test:
+	$(PYTEST) tests

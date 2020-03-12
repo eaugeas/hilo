@@ -6,10 +6,10 @@ setup(
     description='hilo api server implementation',
     author='eaugeas',
     author_email='eaugeas@gmail.com',
-    packages=['hilo_server'],
+    packages=['hilo_server_src'],
     install_requires=['hilo_rpc'],
     dependency_links=[
         'hilo_rpc'
     ],
-    scripts=[]
+    scripts=['hilo_server']
 )
