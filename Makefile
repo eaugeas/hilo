@@ -14,7 +14,8 @@ all: build
 
 init: .venv
 
-.venv: ./scripts/init.sh
+.venv:
+	./scripts/init.sh
 
 build: $(BUILDS)
 
