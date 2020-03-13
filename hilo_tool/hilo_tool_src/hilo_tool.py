@@ -1,5 +1,22 @@
+from typing import Optional, Text
+
 from hilo_rpc.proto.source_pb2 import SourceConfig
-import hilo_argparse
+from hilo_rpc.argparse import (
+    add_props_to_parser,
+    fill_in_properties_from_args)
+
+from hilo_tool_src.pipeline.pipeline_builder import PipelineBuilder
+from hilo_tool_src.pipeline.ingest_pipeline import IngestPipelineBuilder
+
+
+def get_pipeline_builder(pipeline_name: Optional[Text]) -> PipelineBuilder:
+    if pipeline_name == 'ingest':
+        return IngestPipelineBuilder()
+    elif not pipeline_name:
+        raise ValueError('-pipeline option must be set')
+    else:
+        raise ValueError(
+            'unknown value {0} for option -pipeline'.format(pipeline_name))
 
 
 def main(argv):
@@ -10,18 +27,19 @@ def main(argv):
         description='command line utility to execute pipelines')
     parser.add_argument('-pipeline', type=str, help=(
         'name of the pipeline to execute'))
-    hilo_argparse.add_props_to_parser(
-        SourceConfig, parser,
-        prop_filter=hilo_argparse.hidden_filter)
+    add_props_to_parser(
+        SourceConfig, parser)
     args = parser.parse_args(argv[1:])
-
-    source_config = hilo_argparse.fill_in_properties_from_args(
+    source_config = fill_in_properties_from_args(
         args, SourceConfig)
 
-    if not args.pipeline:
-        print('ERROR: -pipeline option must be set')
-        print()
+    print('config: ', source_config)
+    try:
+        builder = get_pipeline_builder(args.pipeline)
+    except ValueError as e:
+        print(str(e))
         parser.print_help()
-        sys.exit(0)
+        sys.exit(1)
 
-    print(source_config)
+    pipeline = builder.build()
+    print(pipeline)
