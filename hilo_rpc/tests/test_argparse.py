@@ -2,7 +2,7 @@ from argparse import ArgumentParser, Namespace
 import unittest
 
 
-from hilo_argparse import add_props_to_parser, fill_in_properties_from_args
+from hilo_rpc.argparse import add_props_to_parser, fill_in_properties_from_args
 from hilo_rpc.proto.source_pb2 import SourceConfig
 
 
