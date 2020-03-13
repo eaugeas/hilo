@@ -8,8 +8,6 @@ setup(
     author_email='eaugeas@gmail.com',
     packages=['hilo_src'],
     install_requires=['hilo_rpc'],
-    dependency_links=[
-        'hilo_rpc'
-    ],
-    scripts=['hilo']
+    scripts=['hilo'],
+    dependency_links=[]
 )

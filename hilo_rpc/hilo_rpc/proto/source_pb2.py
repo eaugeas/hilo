@@ -16,53 +16,190 @@ from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='proto/source.proto',
-  package='hilo_rpc.stub.proto',
+  package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x12proto/source.proto\x12\x13hilo_rpc.stub.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x97\x01\n\x06Source\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"8\n\x13\x43reateSourceRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\"\"\n\x14\x43reateSourceResponse\x12\n\n\x02id\x18\x01 \x01(\t\"!\n\x13\x44\x65leteSourceRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x16\n\x14\x44\x65leteSourceResponse\"\x1e\n\x10GetSourceRequest\x12\n\n\x02id\x18\x01 \x01(\t\"@\n\x11GetSourceResponse\x12+\n\x06source\x18\x01 \x01(\x0b\x32\x1b.hilo_rpc.stub.proto.Source2\xb1\x02\n\tSourceApi\x12\x63\n\x0c\x43reateSource\x12(.hilo_rpc.stub.proto.CreateSourceRequest\x1a).hilo_rpc.stub.proto.CreateSourceResponse\x12\x63\n\x0c\x44\x65leteSource\x12(.hilo_rpc.stub.proto.DeleteSourceRequest\x1a).hilo_rpc.stub.proto.DeleteSourceResponse\x12Z\n\tGetSource\x12%.hilo_rpc.stub.proto.GetSourceRequest\x1a&.hilo_rpc.stub.proto.GetSourceResponseb\x06proto3'
+  serialized_pb=b'\n\x12proto/source.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"$\n\x0fTsvParserConfig\x12\x11\n\tseparator\x18\x01 \x01(\t\"H\n\x0cParserConfig\x12.\n\x03tsv\x18\x01 \x01(\x0b\x32\x1f.hilo_rpc.proto.TsvParserConfigH\x00\x42\x08\n\x06parser\"M\n\x0fLocalFileConfig\x12\x0c\n\x04path\x18\x01 \x01(\t\x12,\n\x06parser\x18\x02 \x01(\x0b\x32\x1c.hilo_rpc.proto.ParserConfig\"I\n\x0cSourceConfig\x12/\n\x04\x66ile\x18\x01 \x01(\x0b\x32\x1f.hilo_rpc.proto.LocalFileConfigH\x00\x42\x08\n\x06\x63onfig\"\x97\x01\n\x06Source\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"8\n\x13\x43reateSourceRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\"\"\n\x14\x43reateSourceResponse\x12\n\n\x02id\x18\x01 \x01(\t\"!\n\x13\x44\x65leteSourceRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x16\n\x14\x44\x65leteSourceResponse\"\x1e\n\x10GetSourceRequest\x12\n\n\x02id\x18\x01 \x01(\t\";\n\x11GetSourceResponse\x12&\n\x06source\x18\x01 \x01(\x0b\x32\x16.hilo_rpc.proto.Source2\x93\x02\n\tSourceApi\x12Y\n\x0c\x43reateSource\x12#.hilo_rpc.proto.CreateSourceRequest\x1a$.hilo_rpc.proto.CreateSourceResponse\x12Y\n\x0c\x44\x65leteSource\x12#.hilo_rpc.proto.DeleteSourceRequest\x1a$.hilo_rpc.proto.DeleteSourceResponse\x12P\n\tGetSource\x12 .hilo_rpc.proto.GetSourceRequest\x1a!.hilo_rpc.proto.GetSourceResponseb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
 
 
 
-_SOURCE = _descriptor.Descriptor(
-  name='Source',
-  full_name='hilo_rpc.stub.proto.Source',
+_TSVPARSERCONFIG = _descriptor.Descriptor(
+  name='TsvParserConfig',
+  full_name='hilo_rpc.proto.TsvParserConfig',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='hilo_rpc.stub.proto.Source.id', index=0,
+      name='separator', full_name='hilo_rpc.proto.TsvParserConfig.separator', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=71,
+  serialized_end=107,
+)
+
+
+_PARSERCONFIG = _descriptor.Descriptor(
+  name='ParserConfig',
+  full_name='hilo_rpc.proto.ParserConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='tsv', full_name='hilo_rpc.proto.ParserConfig.tsv', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='parser', full_name='hilo_rpc.proto.ParserConfig.parser',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=109,
+  serialized_end=181,
+)
+
+
+_LOCALFILECONFIG = _descriptor.Descriptor(
+  name='LocalFileConfig',
+  full_name='hilo_rpc.proto.LocalFileConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='path', full_name='hilo_rpc.proto.LocalFileConfig.path', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='hilo_rpc.stub.proto.Source.name', index=1,
+      name='parser', full_name='hilo_rpc.proto.LocalFileConfig.parser', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=183,
+  serialized_end=260,
+)
+
+
+_SOURCECONFIG = _descriptor.Descriptor(
+  name='SourceConfig',
+  full_name='hilo_rpc.proto.SourceConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='file', full_name='hilo_rpc.proto.SourceConfig.file', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='config', full_name='hilo_rpc.proto.SourceConfig.config',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=262,
+  serialized_end=335,
+)
+
+
+_SOURCE = _descriptor.Descriptor(
+  name='Source',
+  full_name='hilo_rpc.proto.Source',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='hilo_rpc.proto.Source.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='hilo_rpc.proto.Source.name', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='description', full_name='hilo_rpc.stub.proto.Source.description', index=2,
+      name='description', full_name='hilo_rpc.proto.Source.description', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='created_at', full_name='hilo_rpc.stub.proto.Source.created_at', index=3,
+      name='created_at', full_name='hilo_rpc.proto.Source.created_at', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='updated_at', full_name='hilo_rpc.stub.proto.Source.updated_at', index=4,
+      name='updated_at', full_name='hilo_rpc.proto.Source.updated_at', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -80,27 +217,27 @@ _SOURCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=77,
-  serialized_end=228,
+  serialized_start=338,
+  serialized_end=489,
 )
 
 
 _CREATESOURCEREQUEST = _descriptor.Descriptor(
   name='CreateSourceRequest',
-  full_name='hilo_rpc.stub.proto.CreateSourceRequest',
+  full_name='hilo_rpc.proto.CreateSourceRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='hilo_rpc.stub.proto.CreateSourceRequest.name', index=0,
+      name='name', full_name='hilo_rpc.proto.CreateSourceRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='description', full_name='hilo_rpc.stub.proto.CreateSourceRequest.description', index=1,
+      name='description', full_name='hilo_rpc.proto.CreateSourceRequest.description', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -118,20 +255,20 @@ _CREATESOURCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=230,
-  serialized_end=286,
+  serialized_start=491,
+  serialized_end=547,
 )
 
 
 _CREATESOURCERESPONSE = _descriptor.Descriptor(
   name='CreateSourceResponse',
-  full_name='hilo_rpc.stub.proto.CreateSourceResponse',
+  full_name='hilo_rpc.proto.CreateSourceResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='hilo_rpc.stub.proto.CreateSourceResponse.id', index=0,
+      name='id', full_name='hilo_rpc.proto.CreateSourceResponse.id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -149,20 +286,20 @@ _CREATESOURCERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=288,
-  serialized_end=322,
+  serialized_start=549,
+  serialized_end=583,
 )
 
 
 _DELETESOURCEREQUEST = _descriptor.Descriptor(
   name='DeleteSourceRequest',
-  full_name='hilo_rpc.stub.proto.DeleteSourceRequest',
+  full_name='hilo_rpc.proto.DeleteSourceRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='hilo_rpc.stub.proto.DeleteSourceRequest.id', index=0,
+      name='id', full_name='hilo_rpc.proto.DeleteSourceRequest.id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -180,14 +317,14 @@ _DELETESOURCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=324,
-  serialized_end=357,
+  serialized_start=585,
+  serialized_end=618,
 )
 
 
 _DELETESOURCERESPONSE = _descriptor.Descriptor(
   name='DeleteSourceResponse',
-  full_name='hilo_rpc.stub.proto.DeleteSourceResponse',
+  full_name='hilo_rpc.proto.DeleteSourceResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
@@ -204,20 +341,20 @@ _DELETESOURCERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=359,
-  serialized_end=381,
+  serialized_start=620,
+  serialized_end=642,
 )
 
 
 _GETSOURCEREQUEST = _descriptor.Descriptor(
   name='GetSourceRequest',
-  full_name='hilo_rpc.stub.proto.GetSourceRequest',
+  full_name='hilo_rpc.proto.GetSourceRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='hilo_rpc.stub.proto.GetSourceRequest.id', index=0,
+      name='id', full_name='hilo_rpc.proto.GetSourceRequest.id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -235,20 +372,20 @@ _GETSOURCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=383,
-  serialized_end=413,
+  serialized_start=644,
+  serialized_end=674,
 )
 
 
 _GETSOURCERESPONSE = _descriptor.Descriptor(
   name='GetSourceResponse',
-  full_name='hilo_rpc.stub.proto.GetSourceResponse',
+  full_name='hilo_rpc.proto.GetSourceResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='source', full_name='hilo_rpc.stub.proto.GetSourceResponse.source', index=0,
+      name='source', full_name='hilo_rpc.proto.GetSourceResponse.source', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -266,13 +403,26 @@ _GETSOURCERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=415,
-  serialized_end=479,
+  serialized_start=676,
+  serialized_end=735,
 )
 
+_PARSERCONFIG.fields_by_name['tsv'].message_type = _TSVPARSERCONFIG
+_PARSERCONFIG.oneofs_by_name['parser'].fields.append(
+  _PARSERCONFIG.fields_by_name['tsv'])
+_PARSERCONFIG.fields_by_name['tsv'].containing_oneof = _PARSERCONFIG.oneofs_by_name['parser']
+_LOCALFILECONFIG.fields_by_name['parser'].message_type = _PARSERCONFIG
+_SOURCECONFIG.fields_by_name['file'].message_type = _LOCALFILECONFIG
+_SOURCECONFIG.oneofs_by_name['config'].fields.append(
+  _SOURCECONFIG.fields_by_name['file'])
+_SOURCECONFIG.fields_by_name['file'].containing_oneof = _SOURCECONFIG.oneofs_by_name['config']
 _SOURCE.fields_by_name['created_at'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _SOURCE.fields_by_name['updated_at'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _GETSOURCERESPONSE.fields_by_name['source'].message_type = _SOURCE
+DESCRIPTOR.message_types_by_name['TsvParserConfig'] = _TSVPARSERCONFIG
+DESCRIPTOR.message_types_by_name['ParserConfig'] = _PARSERCONFIG
+DESCRIPTOR.message_types_by_name['LocalFileConfig'] = _LOCALFILECONFIG
+DESCRIPTOR.message_types_by_name['SourceConfig'] = _SOURCECONFIG
 DESCRIPTOR.message_types_by_name['Source'] = _SOURCE
 DESCRIPTOR.message_types_by_name['CreateSourceRequest'] = _CREATESOURCEREQUEST
 DESCRIPTOR.message_types_by_name['CreateSourceResponse'] = _CREATESOURCERESPONSE
@@ -282,52 +432,80 @@ DESCRIPTOR.message_types_by_name['GetSourceRequest'] = _GETSOURCEREQUEST
 DESCRIPTOR.message_types_by_name['GetSourceResponse'] = _GETSOURCERESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
+TsvParserConfig = _reflection.GeneratedProtocolMessageType('TsvParserConfig', (_message.Message,), {
+  'DESCRIPTOR' : _TSVPARSERCONFIG,
+  '__module__' : 'proto.source_pb2'
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.TsvParserConfig)
+  })
+_sym_db.RegisterMessage(TsvParserConfig)
+
+ParserConfig = _reflection.GeneratedProtocolMessageType('ParserConfig', (_message.Message,), {
+  'DESCRIPTOR' : _PARSERCONFIG,
+  '__module__' : 'proto.source_pb2'
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.ParserConfig)
+  })
+_sym_db.RegisterMessage(ParserConfig)
+
+LocalFileConfig = _reflection.GeneratedProtocolMessageType('LocalFileConfig', (_message.Message,), {
+  'DESCRIPTOR' : _LOCALFILECONFIG,
+  '__module__' : 'proto.source_pb2'
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.LocalFileConfig)
+  })
+_sym_db.RegisterMessage(LocalFileConfig)
+
+SourceConfig = _reflection.GeneratedProtocolMessageType('SourceConfig', (_message.Message,), {
+  'DESCRIPTOR' : _SOURCECONFIG,
+  '__module__' : 'proto.source_pb2'
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SourceConfig)
+  })
+_sym_db.RegisterMessage(SourceConfig)
+
 Source = _reflection.GeneratedProtocolMessageType('Source', (_message.Message,), {
   'DESCRIPTOR' : _SOURCE,
   '__module__' : 'proto.source_pb2'
-  # @@protoc_insertion_point(class_scope:hilo_rpc.stub.proto.Source)
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.Source)
   })
 _sym_db.RegisterMessage(Source)
 
 CreateSourceRequest = _reflection.GeneratedProtocolMessageType('CreateSourceRequest', (_message.Message,), {
   'DESCRIPTOR' : _CREATESOURCEREQUEST,
   '__module__' : 'proto.source_pb2'
-  # @@protoc_insertion_point(class_scope:hilo_rpc.stub.proto.CreateSourceRequest)
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CreateSourceRequest)
   })
 _sym_db.RegisterMessage(CreateSourceRequest)
 
 CreateSourceResponse = _reflection.GeneratedProtocolMessageType('CreateSourceResponse', (_message.Message,), {
   'DESCRIPTOR' : _CREATESOURCERESPONSE,
   '__module__' : 'proto.source_pb2'
-  # @@protoc_insertion_point(class_scope:hilo_rpc.stub.proto.CreateSourceResponse)
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CreateSourceResponse)
   })
 _sym_db.RegisterMessage(CreateSourceResponse)
 
 DeleteSourceRequest = _reflection.GeneratedProtocolMessageType('DeleteSourceRequest', (_message.Message,), {
   'DESCRIPTOR' : _DELETESOURCEREQUEST,
   '__module__' : 'proto.source_pb2'
-  # @@protoc_insertion_point(class_scope:hilo_rpc.stub.proto.DeleteSourceRequest)
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.DeleteSourceRequest)
   })
 _sym_db.RegisterMessage(DeleteSourceRequest)
 
 DeleteSourceResponse = _reflection.GeneratedProtocolMessageType('DeleteSourceResponse', (_message.Message,), {
   'DESCRIPTOR' : _DELETESOURCERESPONSE,
   '__module__' : 'proto.source_pb2'
-  # @@protoc_insertion_point(class_scope:hilo_rpc.stub.proto.DeleteSourceResponse)
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.DeleteSourceResponse)
   })
 _sym_db.RegisterMessage(DeleteSourceResponse)
 
 GetSourceRequest = _reflection.GeneratedProtocolMessageType('GetSourceRequest', (_message.Message,), {
   'DESCRIPTOR' : _GETSOURCEREQUEST,
   '__module__' : 'proto.source_pb2'
-  # @@protoc_insertion_point(class_scope:hilo_rpc.stub.proto.GetSourceRequest)
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.GetSourceRequest)
   })
 _sym_db.RegisterMessage(GetSourceRequest)
 
 GetSourceResponse = _reflection.GeneratedProtocolMessageType('GetSourceResponse', (_message.Message,), {
   'DESCRIPTOR' : _GETSOURCERESPONSE,
   '__module__' : 'proto.source_pb2'
-  # @@protoc_insertion_point(class_scope:hilo_rpc.stub.proto.GetSourceResponse)
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.GetSourceResponse)
   })
 _sym_db.RegisterMessage(GetSourceResponse)
 
@@ -335,16 +513,16 @@ _sym_db.RegisterMessage(GetSourceResponse)
 
 _SOURCEAPI = _descriptor.ServiceDescriptor(
   name='SourceApi',
-  full_name='hilo_rpc.stub.proto.SourceApi',
+  full_name='hilo_rpc.proto.SourceApi',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=482,
-  serialized_end=787,
+  serialized_start=738,
+  serialized_end=1013,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateSource',
-    full_name='hilo_rpc.stub.proto.SourceApi.CreateSource',
+    full_name='hilo_rpc.proto.SourceApi.CreateSource',
     index=0,
     containing_service=None,
     input_type=_CREATESOURCEREQUEST,
@@ -353,7 +531,7 @@ _SOURCEAPI = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='DeleteSource',
-    full_name='hilo_rpc.stub.proto.SourceApi.DeleteSource',
+    full_name='hilo_rpc.proto.SourceApi.DeleteSource',
     index=1,
     containing_service=None,
     input_type=_DELETESOURCEREQUEST,
@@ -362,7 +540,7 @@ _SOURCEAPI = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetSource',
-    full_name='hilo_rpc.stub.proto.SourceApi.GetSource',
+    full_name='hilo_rpc.proto.SourceApi.GetSource',
     index=2,
     containing_service=None,
     input_type=_GETSOURCEREQUEST,

@@ -15,17 +15,17 @@ class SourceApiStub(object):
       channel: A grpc.Channel.
     """
     self.CreateSource = channel.unary_unary(
-        '/hilo_rpc.stub.proto.SourceApi/CreateSource',
+        '/hilo_rpc.proto.SourceApi/CreateSource',
         request_serializer=proto_dot_source__pb2.CreateSourceRequest.SerializeToString,
         response_deserializer=proto_dot_source__pb2.CreateSourceResponse.FromString,
         )
     self.DeleteSource = channel.unary_unary(
-        '/hilo_rpc.stub.proto.SourceApi/DeleteSource',
+        '/hilo_rpc.proto.SourceApi/DeleteSource',
         request_serializer=proto_dot_source__pb2.DeleteSourceRequest.SerializeToString,
         response_deserializer=proto_dot_source__pb2.DeleteSourceResponse.FromString,
         )
     self.GetSource = channel.unary_unary(
-        '/hilo_rpc.stub.proto.SourceApi/GetSource',
+        '/hilo_rpc.proto.SourceApi/GetSource',
         request_serializer=proto_dot_source__pb2.GetSourceRequest.SerializeToString,
         response_deserializer=proto_dot_source__pb2.GetSourceResponse.FromString,
         )
@@ -76,5 +76,5 @@ def add_SourceApiServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'hilo_rpc.stub.proto.SourceApi', rpc_method_handlers)
+      'hilo_rpc.proto.SourceApi', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))
