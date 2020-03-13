@@ -37,15 +37,11 @@ make to your virtual Python environment should not have effects on your system.
 
 ## How to build
 Once you have set up the environment, you can build all the packages with make.
-As a reminder, you may want to activate the virtual environment to isolate the
-project from the rest of the system
 
 ```sh
+# you may want to activate the virtual environment to isolate
+# the rest of the system from the package installation
 $ source .venv/bin/activate
-```
-
-
-```sh
 $ make && make install
 ```
 
@@ -60,3 +56,49 @@ the job, and add a directive to the Makefile to call that tool. In practice,
 this means that GNU make should remain an optional dependency of the project; if
 there is not GNU make on the system, it should still be possible to build all
 the projects with a simple for loop calling one python command.
+
+## How to test
+To verify that the code follows the code standards set for the project, `mypy` and
+`flake8` are used. `mypy` is a type checker that verifies the correct use of the
+types when writing python code, and `flake8` is a standard linting tool. Running
+
+```sh
+$ make check
+```
+
+Each module within the project has a `tests/` folder that contains tests. In order
+to run all the tests in the project, it can be done with
+
+```sh
+$ make test
+```
+
+## How to structure
+The project is structured as a multi-module repository, sometimes called monorepo.
+The idea behind is to have all the relevant code in the project in one repository.
+We do not intend to discuss the benefits or drawbacks of a monorepo, there's a lot
+of discussions out there about this. 
+
+What is relevant is that there is a Makefile at the root folder, and ach module
+within the project has its own Makefile. So, for example
+
+```sh
+make test
+```
+
+run in the root folder, runs all the tests for all the modules.
+
+```sh
+make -C hilo test
+```
+
+Only runs the tests in the hilo module. This applies for all directives in the root
+Makefile.
+
+Also, the Makefiles do not do any magic, they are just a thin wrapper around python
+standard tools.
+
+If there are python tools that can provide the same functionality to work with multiple
+Python modules which are worked on independently, this is a tool that we would seriously
+consider adopting. Nevertheless, a thin layer of Makefiles on top of the already existing
+Python tools have proved to work very well.
