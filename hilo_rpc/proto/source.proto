@@ -1,8 +1,29 @@
 syntax = "proto3";
 
-package hilo_rpc.stub.proto;
+package hilo_rpc.proto;
 
 import "google/protobuf/timestamp.proto";
+
+message TsvParserConfig {
+  string separator = 1;
+}
+
+message ParserConfig {
+  oneof parser {
+    TsvParserConfig tsv = 1;
+  }
+}
+
+message LocalFileConfig {
+  string path = 1;
+  ParserConfig parser = 2;
+}
+
+message SourceConfig {
+  oneof config {
+    LocalFileConfig file = 1;
+  }
+}
 
 message Source {
   string id = 1;

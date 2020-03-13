@@ -23,11 +23,11 @@ jobs:
     - name: Check lint
       run: source .venv/bin/activate && make check
 
-    - name: Run tests
-      run: source .venv/bin/activate && make test
-
     - name: Install
       run: source .venv/bin/activate && make install
+
+    - name: Run tests
+      run: source .venv/bin/activate && make test
 
     - name: Check command installation
       run: source .venv/bin/activate && hilo_tool -h

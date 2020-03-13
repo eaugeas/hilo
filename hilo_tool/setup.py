@@ -7,7 +7,7 @@ setup(
     author='eaugeas',
     author_email='eaugeas@gmail.com',
     packages=['hilo_tool_src'],
-    install_requires=[],
+    install_requires=['hilo_argparse'],
     dependency_links=[],
     scripts=['hilo_tool']
 )
