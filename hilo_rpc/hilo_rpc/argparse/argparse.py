@@ -34,11 +34,12 @@ def _add_props_to_parser(
         prop_filter=no_filter):
 
     for field in descriptor.fields:
+        field_namespace = _augment_namespace(namespace, field.name)
         if field.type == 9:
-            name = _augment_namespace(namespace, field.name)
-            parser.add_argument('-{0}'.format(name), type=str)
+            parser.add_argument('-{0}'.format(field_namespace), type=str)
+        elif field.type == 8:
+            parser.add_argument('-{0}'.format(field_namespace), type=bool)
         elif field.type == 11:
-            field_namespace = _augment_namespace(namespace, field.name)
             _add_props_to_parser(
                 field_namespace,
                 field.message_type,
@@ -67,23 +68,17 @@ def _fill_in_properties_from_args(
         message: Type[Message],
         symbol_database: SymbolDatabase) -> Message:
     descriptor = message.DESCRIPTOR
-    name = camel_case_to_snake_case(descriptor.name)
     props: Dict[str, Union[Message, Any]] = {}
     for field in descriptor.fields:
         field_namespace = _augment_namespace(namespace, field.name)
-        if field.type == 9:
-            if field_namespace in args:
-                props[field.name] = args[field_namespace]
-        elif field.type == 11:
+        if field.type == 11:
             field_message = symbol_database.GetSymbol(
                 field.message_type.full_name)
             props[field.name] = _fill_in_properties_from_args(
                 field_namespace, args, field_message, symbol_database)
         else:
-            raise AssertionError(
-                'Unknown message type {0} for '
-                'attribute {1} in message {2}'.format(
-                    field.type, field.name, name))
+            if field_namespace in args:
+                props[field.name] = args[field_namespace]
 
     return message(**props)
 

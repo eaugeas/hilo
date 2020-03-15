@@ -3,5 +3,8 @@
 from hilo_tool_src import hilo_tool
 
 if __name__ == '__main__':
+    import logging
     import sys
+
+    logging.basicConfig(level=logging.INFO)
     hilo_tool.main(sys.argv)
