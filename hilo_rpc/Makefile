@@ -6,7 +6,8 @@ FLAKE8=flake8
 GRPCC=python -m grpc_tools.protoc
 PROTOS=proto/*.proto
 AUTOGEN=hilo_rpc/proto/source_pb2.py \
-	hilo_rpc/proto/source_pb2_grpc.py
+	hilo_rpc/proto/source_pb2_grpc.py \
+	hilo_rpc/proto/pipeline_pb2.py
 
 SRC=hilo_rpc
 TESTS=tests
