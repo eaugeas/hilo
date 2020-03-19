@@ -5,7 +5,10 @@ from abc import ABC
 import apache_beam as beam
 import numpy as np
 import six
-from tfx_bsl.coders.csv_decoder import ColumnInfo, ColumnName, ColumnType
+from tfx_bsl.coders.csv_decoder import (
+    ColumnInfo as ValueInfo,
+    ColumnName as ValueName,
+    ColumnType as ValueType)
 
 JsonValue = Union[Text, int, float]
 JsonCell = Tuple[Text, JsonValue]
@@ -37,22 +40,22 @@ class ParseJsonLine(beam.DoFn, ABC):
 
 
 @beam.typehints.with_input_types(beam.typehints.List[JsonCellSerialized])
-@beam.typehints.with_output_types(beam.typehints.List[ColumnInfo])
-class ColumnTypeInferrer(beam.CombineFn, ABC):
+@beam.typehints.with_output_types(beam.typehints.List[ValueInfo])
+class ValueTypeInferrer(beam.CombineFn, ABC):
     """A beam.CombineFn to infer Json key types."""
 
     def __init__(self):
         pass
 
-    def create_accumulator(self) -> Dict[ColumnName, ColumnType]:
+    def create_accumulator(self) -> Dict[ValueName, ValueType]:
         """Creates an empty accumulator to keep track of the feature types."""
         return {}
 
     def add_input(
             self,
-            accumulator: Dict[ColumnName, ColumnType],
+            accumulator: Dict[ValueName, ValueType],
             serialized_cells: List[JsonCellSerialized]
-    ) -> Dict[ColumnName, ColumnType]:
+    ) -> Dict[ValueName, ValueType]:
         """Updates the feature types in the accumulator using
         the values provided in the cells.
         """
@@ -71,8 +74,8 @@ class ColumnTypeInferrer(beam.CombineFn, ABC):
                 accumulator[prop_name] = current_type
         return accumulator
 
-    def merge_accumulators(self, accumulators) -> Dict[ColumnName, ColumnType]:
-        result: Dict[ColumnName, ColumnType] = {}
+    def merge_accumulators(self, accumulators) -> Dict[ValueName, ValueType]:
+        result: Dict[ValueName, ValueType] = {}
         for shard_types in accumulators:
             # Merge the types inferred in each partition using
             # the type hierarchy. Specifically, whenever we observe
@@ -85,12 +88,12 @@ class ColumnTypeInferrer(beam.CombineFn, ABC):
 
     def extract_output(
             self,
-            accumulator: Dict[ColumnName, ColumnType],
-    ) -> List[ColumnInfo]:
+            accumulator: Dict[ValueName, ValueType],
+    ) -> List[ValueInfo]:
         """Return a list of tuples containing the column info."""
         return [
-            ColumnInfo(prop_name, accumulator.get(
-                prop_name, ColumnType.UNKNOWN))
+            ValueInfo(prop_name, accumulator.get(
+                prop_name, ValueType.UNKNOWN))
             for prop_name in accumulator
         ]
 
@@ -99,17 +102,17 @@ _INT64_MIN = np.iinfo(np.int64).min
 _INT64_MAX = np.iinfo(np.int64).max
 
 
-def _infer_value_type(value: JsonValue) -> ColumnType:
+def _infer_value_type(value: JsonValue) -> ValueType:
     """Infer column type from the input value."""
     if not value:
-        return ColumnType.UNKNOWN
+        return ValueType.UNKNOWN
 
     # Check if the value is of type INT.
     try:
         if _INT64_MIN <= int(value) <= _INT64_MAX:
-            return ColumnType.INT
+            return ValueType.INT
         # We infer STRING type when we have long integer values.
-        return ColumnType.STRING
+        return ValueType.STRING
     except ValueError:
         # If the type is not INT, we next check for FLOAT type (according
         # to our type hierarchy). If we can convert the string to a
@@ -118,5 +121,5 @@ def _infer_value_type(value: JsonValue) -> ColumnType:
         try:
             float(value)
         except ValueError:
-            return ColumnType.STRING
-        return ColumnType.FLOAT
+            return ValueType.STRING
+        return ValueType.FLOAT

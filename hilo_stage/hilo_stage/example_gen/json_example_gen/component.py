@@ -4,10 +4,10 @@ from tfx.components.example_gen import component
 from tfx.proto.example_gen_pb2 import Input, Output
 from tfx.types import Channel
 
-from hilo_stage.parser_gen.json_parser_gen.executor import Executor
+from hilo_stage.example_gen.json_example_gen.executor import Executor
 
 
-class JsonParserGen(component.FileBasedExampleGen):
+class JsonExampleGen(component.FileBasedExampleGen):
     EXECUTOR_SPEC = executor_spec.ExecutorClassSpec(Executor)
 
     def __init__(
@@ -18,7 +18,7 @@ class JsonParserGen(component.FileBasedExampleGen):
             example_artifacts: Optional[Channel] = None,
             instance_name: Optional[Text] = None,
     ):
-        super(JsonParserGen, self).__init__(
+        super(JsonExampleGen, self).__init__(
             input=input,
             input_config=input_config,
             output_config=output_config,
