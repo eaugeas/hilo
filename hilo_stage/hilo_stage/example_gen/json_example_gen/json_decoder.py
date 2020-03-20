@@ -28,15 +28,51 @@ def deserialize_json_cell(s: Text) -> JsonCell:
 @beam.typehints.with_output_types(beam.typehints.List[JsonCellSerialized])
 class ParseJsonLine(beam.DoFn, ABC):
     """A beam.DoFn to parse JSONLines into List[JsonCell]"""
+
     def __init__(self):
-        pass
+        super(ParseJsonLine, self).__init__()
 
     def setup(self):
         pass
 
     def process(self, line: JsonLine):
         record = json.loads(line)
-        yield [serialize_json_cell((field, record[field])) for field in record]
+        normalized_record = ParseJsonLine.normalize(record)
+        yield [
+            serialize_json_cell((field, normalized_record[field]))
+            for field in normalized_record]
+
+    @staticmethod
+    def prop_name(namespace, prop):
+        if len(namespace) == 0:
+            return prop
+        else:
+            return '{0}.{1}'.format(namespace, prop)
+
+    @staticmethod
+    def normalize_record(namespace, record, result):
+        for prop in record:
+            normalized_name = ParseJsonLine.prop_name(namespace, prop)
+            if (isinstance(record[prop], int)
+                    or isinstance(record[prop], float)
+                    or isinstance(record[prop], str)
+                    or record[prop] is None):
+                result[normalized_name] = record[prop]
+            elif isinstance(record[prop], list):
+                result[normalized_name] = json.dumps(record[prop])
+            elif isinstance(record[prop], dict):
+                ParseJsonLine.normalize_record(
+                    normalized_name, record[prop], result)
+            else:
+                raise ValueError(
+                    'unexpected instance type in'
+                    ' record {0} for property {1}'.format(record, prop))
+
+    @staticmethod
+    def normalize(record):
+        normalized = {}
+        ParseJsonLine.normalize_record('', record, normalized)
+        return normalized
 
 
 @beam.typehints.with_input_types(beam.typehints.List[JsonCellSerialized])
@@ -45,7 +81,7 @@ class ValueTypeInferrer(beam.CombineFn, ABC):
     """A beam.CombineFn to infer Json key types."""
 
     def __init__(self):
-        pass
+        super(ValueTypeInferrer, self).__init__()
 
     def create_accumulator(self) -> Dict[ValueName, ValueType]:
         """Creates an empty accumulator to keep track of the feature types."""
@@ -82,7 +118,7 @@ class ValueTypeInferrer(beam.CombineFn, ABC):
             # a type higher in the type hierarchy we update the type.
             for feature_name, feature_type in six.iteritems(shard_types):
                 if (feature_name not in result
-                    or feature_type > result[feature_name]):  # noqa: E129
+                        or feature_type > result[feature_name]):  # noqa: E129
                     result[feature_name] = feature_type
         return result
 
