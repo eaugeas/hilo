@@ -108,13 +108,13 @@ def _JsonToExample(
             | 'ReadFromText' >> beam.io.ReadFromText(file_pattern=json_pattern)
             | 'ParseJSONLine' >> beam.ParDo(ParseJsonLine()))
 
-    column_infos = beam.pvalue.AsSingleton(
+    value_infos = beam.pvalue.AsSingleton(
         parsed_json_lines
         | 'InferColumnTypes' >> beam.CombineGlobally(ValueTypeInferrer()))
 
     return (parsed_json_lines
             | 'ToTFExample' >> beam.ParDo(
-                _ParsedJsonToTfExample(), column_infos))
+                _ParsedJsonToTfExample(), value_infos))
 
 
 class Executor(BaseExampleGenExecutor):
