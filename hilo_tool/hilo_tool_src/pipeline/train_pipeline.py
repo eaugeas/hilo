@@ -3,14 +3,13 @@ from tfx.orchestration import metadata, pipeline
 from tfx.utils.dsl_utils import external_input
 
 from hilo_tool_src.pipeline.pipeline_builder import PipelineBuilder
-from hilo_stage.parser_gen.json_parser_gen.component import JsonParserGen
+from hilo_stage.example_gen.json_example_gen.component import JsonExampleGen
 
 
-class IngestPipelineBuilder(PipelineBuilder):
+class TrainPipelineBuilder(PipelineBuilder):
     """
-    IngestPipelineBuilder creates a new Pipeline that ingests different
-    data formats and outputs them in a format and to a store supported
-    by the other pipelines.
+    TrainPipelineBuilder creates a new Pipeline that trains models
+    based on the input data.
     """
     def __init__(
             self,
@@ -29,7 +28,7 @@ class IngestPipelineBuilder(PipelineBuilder):
 
     def build(self) -> pipeline.Pipeline:
         samples = external_input(self._data_root)
-        samples_gen = JsonParserGen(input=samples)
+        samples_gen = JsonExampleGen(input=samples)
 
         mcc = metadata.sqlite_metadata_connection_config(
             self._metadata_path)

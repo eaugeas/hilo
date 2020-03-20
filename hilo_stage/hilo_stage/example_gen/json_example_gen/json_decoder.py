@@ -5,7 +5,10 @@ from abc import ABC
 import apache_beam as beam
 import numpy as np
 import six
-from tfx_bsl.coders.csv_decoder import ColumnInfo, ColumnName, ColumnType
+from tfx_bsl.coders.csv_decoder import (
+    ColumnInfo as ValueInfo,
+    ColumnName as ValueName,
+    ColumnType as ValueType)
 
 JsonValue = Union[Text, int, float]
 JsonCell = Tuple[Text, JsonValue]
@@ -25,34 +28,70 @@ def deserialize_json_cell(s: Text) -> JsonCell:
 @beam.typehints.with_output_types(beam.typehints.List[JsonCellSerialized])
 class ParseJsonLine(beam.DoFn, ABC):
     """A beam.DoFn to parse JSONLines into List[JsonCell]"""
+
     def __init__(self):
-        pass
+        super(ParseJsonLine, self).__init__()
 
     def setup(self):
         pass
 
     def process(self, line: JsonLine):
         record = json.loads(line)
-        yield [serialize_json_cell((field, record[field])) for field in record]
+        normalized_record = ParseJsonLine.normalize(record)
+        yield [
+            serialize_json_cell((field, normalized_record[field]))
+            for field in normalized_record]
+
+    @staticmethod
+    def prop_name(namespace, prop):
+        if len(namespace) == 0:
+            return prop
+        else:
+            return '{0}.{1}'.format(namespace, prop)
+
+    @staticmethod
+    def normalize_record(namespace, record, result):
+        for prop in record:
+            normalized_name = ParseJsonLine.prop_name(namespace, prop)
+            if (isinstance(record[prop], int)
+                    or isinstance(record[prop], float)
+                    or isinstance(record[prop], str)
+                    or record[prop] is None):
+                result[normalized_name] = record[prop]
+            elif isinstance(record[prop], list):
+                result[normalized_name] = json.dumps(record[prop])
+            elif isinstance(record[prop], dict):
+                ParseJsonLine.normalize_record(
+                    normalized_name, record[prop], result)
+            else:
+                raise ValueError(
+                    'unexpected instance type in'
+                    ' record {0} for property {1}'.format(record, prop))
+
+    @staticmethod
+    def normalize(record):
+        normalized = {}
+        ParseJsonLine.normalize_record('', record, normalized)
+        return normalized
 
 
 @beam.typehints.with_input_types(beam.typehints.List[JsonCellSerialized])
-@beam.typehints.with_output_types(beam.typehints.List[ColumnInfo])
-class ColumnTypeInferrer(beam.CombineFn, ABC):
+@beam.typehints.with_output_types(beam.typehints.List[ValueInfo])
+class ValueTypeInferrer(beam.CombineFn, ABC):
     """A beam.CombineFn to infer Json key types."""
 
     def __init__(self):
-        pass
+        super(ValueTypeInferrer, self).__init__()
 
-    def create_accumulator(self) -> Dict[ColumnName, ColumnType]:
+    def create_accumulator(self) -> Dict[ValueName, ValueType]:
         """Creates an empty accumulator to keep track of the feature types."""
         return {}
 
     def add_input(
             self,
-            accumulator: Dict[ColumnName, ColumnType],
+            accumulator: Dict[ValueName, ValueType],
             serialized_cells: List[JsonCellSerialized]
-    ) -> Dict[ColumnName, ColumnType]:
+    ) -> Dict[ValueName, ValueType]:
         """Updates the feature types in the accumulator using
         the values provided in the cells.
         """
@@ -71,26 +110,26 @@ class ColumnTypeInferrer(beam.CombineFn, ABC):
                 accumulator[prop_name] = current_type
         return accumulator
 
-    def merge_accumulators(self, accumulators) -> Dict[ColumnName, ColumnType]:
-        result: Dict[ColumnName, ColumnType] = {}
+    def merge_accumulators(self, accumulators) -> Dict[ValueName, ValueType]:
+        result: Dict[ValueName, ValueType] = {}
         for shard_types in accumulators:
             # Merge the types inferred in each partition using
             # the type hierarchy. Specifically, whenever we observe
             # a type higher in the type hierarchy we update the type.
             for feature_name, feature_type in six.iteritems(shard_types):
                 if (feature_name not in result
-                    or feature_type > result[feature_name]):  # noqa: E129
+                        or feature_type > result[feature_name]):  # noqa: E129
                     result[feature_name] = feature_type
         return result
 
     def extract_output(
             self,
-            accumulator: Dict[ColumnName, ColumnType],
-    ) -> List[ColumnInfo]:
+            accumulator: Dict[ValueName, ValueType],
+    ) -> List[ValueInfo]:
         """Return a list of tuples containing the column info."""
         return [
-            ColumnInfo(prop_name, accumulator.get(
-                prop_name, ColumnType.UNKNOWN))
+            ValueInfo(prop_name, accumulator.get(
+                prop_name, ValueType.UNKNOWN))
             for prop_name in accumulator
         ]
 
@@ -99,17 +138,17 @@ _INT64_MIN = np.iinfo(np.int64).min
 _INT64_MAX = np.iinfo(np.int64).max
 
 
-def _infer_value_type(value: JsonValue) -> ColumnType:
+def _infer_value_type(value: JsonValue) -> ValueType:
     """Infer column type from the input value."""
     if not value:
-        return ColumnType.UNKNOWN
+        return ValueType.UNKNOWN
 
     # Check if the value is of type INT.
     try:
         if _INT64_MIN <= int(value) <= _INT64_MAX:
-            return ColumnType.INT
+            return ValueType.INT
         # We infer STRING type when we have long integer values.
-        return ColumnType.STRING
+        return ValueType.STRING
     except ValueError:
         # If the type is not INT, we next check for FLOAT type (according
         # to our type hierarchy). If we can convert the string to a
@@ -118,5 +157,5 @@ def _infer_value_type(value: JsonValue) -> ColumnType:
         try:
             float(value)
         except ValueError:
-            return ColumnType.STRING
-        return ColumnType.FLOAT
+            return ValueType.STRING
+        return ValueType.FLOAT

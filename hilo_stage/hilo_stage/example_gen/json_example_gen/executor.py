@@ -11,15 +11,15 @@ from tfx.components.example_gen.base_example_gen_executor import INPUT_KEY
 from tfx_bsl.coders import csv_decoder
 from tfx.types import Artifact, artifact_utils
 
-from hilo_stage.parser_gen.json_parser_gen.json_decoder import (
+from hilo_stage.example_gen.json_example_gen.json_decoder import (
     JsonValue, JsonCellSerialized, ParseJsonLine,
-    ColumnTypeInferrer, ColumnInfo, deserialize_json_cell)
+    ValueTypeInferrer, ValueInfo, deserialize_json_cell)
 
 TypeHandler = Callable[[JsonValue], tf.train.Feature]
 
 
 @beam.typehints.with_input_types(List[JsonCellSerialized],
-                                 List[ColumnInfo])
+                                 List[ValueInfo])
 @beam.typehints.with_output_types(tf.train.Example)
 class _ParsedJsonToTfExample(beam.DoFn, ABC):
     """A beam.DoFn to convert a parsed CSV line to a tf.Example."""
@@ -29,7 +29,7 @@ class _ParsedJsonToTfExample(beam.DoFn, ABC):
 
     def _initialize_prop_infos(
             self,
-            prop_infos: List[ColumnInfo],
+            prop_infos: List[ValueInfo],
     ) -> Dict[Text, TypeHandler]:
         prop_handlers = {}
         for prop_info in prop_infos:
@@ -54,7 +54,7 @@ class _ParsedJsonToTfExample(beam.DoFn, ABC):
     def process(
             self,
             json_cells_serialized: List[JsonCellSerialized],
-            prop_infos: List[ColumnInfo],
+            prop_infos: List[ValueInfo],
     ) -> Iterable[tf.train.Example]:
         prop_handlers: Dict[Text, TypeHandler] = (
                 self._prop_handlers or
@@ -110,7 +110,7 @@ def _JsonToExample(
 
     column_infos = beam.pvalue.AsSingleton(
         parsed_json_lines
-        | 'InferColumnTypes' >> beam.CombineGlobally(ColumnTypeInferrer()))
+        | 'InferColumnTypes' >> beam.CombineGlobally(ValueTypeInferrer()))
 
     return (parsed_json_lines
             | 'ToTFExample' >> beam.ParDo(

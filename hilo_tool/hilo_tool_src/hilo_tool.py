@@ -5,18 +5,18 @@ from hilo_rpc.argparse import (
     fill_in_properties_from_args)
 
 from hilo_tool_src.pipeline.pipeline_builder import PipelineBuilder
-from hilo_tool_src.pipeline.ingest_pipeline import IngestPipelineBuilder
+from hilo_tool_src.pipeline.train_pipeline import TrainPipelineBuilder
 from tfx.orchestration.beam.beam_dag_runner import BeamDagRunner
 
 
 def get_pipeline_builder(pipeline_config: PipelineConfig) -> PipelineBuilder:
-    if pipeline_config.WhichOneof('pipeline') == 'ingest':
-        return IngestPipelineBuilder(
-            data_root=pipeline_config.ingest.data_root,
-            metadata_path=pipeline_config.ingest.metadata_path,
-            pipeline_name=pipeline_config.ingest.pipeline_name,
-            pipeline_root=pipeline_config.ingest.pipeline_root,
-            enable_cache=pipeline_config.ingest.enable_cache)
+    if pipeline_config.WhichOneof('pipeline') == 'train':
+        return TrainPipelineBuilder(
+            data_root=pipeline_config.train.data_root,
+            metadata_path=pipeline_config.train.metadata_path,
+            pipeline_name=pipeline_config.train.pipeline_name,
+            pipeline_root=pipeline_config.train.pipeline_root,
+            enable_cache=pipeline_config.train.enable_cache)
     elif pipeline_config.WhichOneof('pipeline') is None:
         raise ValueError('no pipeline set in configuration')
     else:
