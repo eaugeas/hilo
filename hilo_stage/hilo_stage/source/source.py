@@ -10,7 +10,6 @@ class Source(object):
     """
     def __init__(self, descriptor: SourceDescriptor):
         self._descriptor = descriptor
-        print ('source config: ', self._descriptor.config.WhichOneof('config'))
         self._input = input_from_config(self._descriptor.config)
 
     @property

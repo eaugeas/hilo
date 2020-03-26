@@ -140,9 +140,10 @@ def _fill_in_properties_from_args(
                         args[field.name], field_message, symbol_database)
                 else:
                     raise TypeError(
-                        'Protobuf fields of type 11 can only be serialized as'
-                        ' lists or dicts. Received {0}.'.format(args[field.name]))
-        elif field.type == 9 or field.type == 3 or field.type == 5 or field.type == 8:
+                        'Protobuf fields of type 11 can only be '
+                        'serialized as lists or dicts. Received '
+                        '{0}.'.format(args[field.name]))
+        elif 9 >= field.type >= 1:
             if field.name in args:
                 props[field.name] = args[field.name]
         else:
@@ -150,7 +151,9 @@ def _fill_in_properties_from_args(
     return message(**props)
 
 
-def _get_symbol_database(symbol_database_opt: Optional[SymbolDatabase]) -> SymbolDatabase:
+def _get_symbol_database(
+        symbol_database_opt: Optional[SymbolDatabase],
+) -> SymbolDatabase:
     if symbol_database_opt:
         symbol_database: SymbolDatabase = symbol_database_opt
     else:
@@ -197,7 +200,7 @@ def _break_into_dicts(args: Namespace) -> Dict[str, Any]:
         split = flattened_key.split('.')
         it_result = result
         for key in split[:len(split) - 1]:
-            if not key in it_result:
+            if key not in it_result:
                 it_result[key] = {}
             it_result = it_result[key]
         it_result[split[len(split)-1]] = d[flattened_key]

@@ -7,9 +7,8 @@ from hilo_stage.storage.local_file import LocalFile
 def input_from_config(config: InputConfig) -> Input:
     """input_from_config creates a new instance of an Input
     from the provided configuration"""
-    print ('input config: ', config.WhichOneof('config'))
     if config.WhichOneof('config') == 'empty':
-        return Empty(bool=True)
+        return Empty(config.empty)
     elif config.WhichOneof('config') == 'local_file':
         return LocalFile.from_config(config.local_file)
     else:

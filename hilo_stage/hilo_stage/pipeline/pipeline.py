@@ -19,7 +19,8 @@ class Pipeline(object):
 
     def _get_enable_cache(self) -> bool:
         if 'enable_cache' in self._descriptor.config.params:
-            if isinstance(self._descriptor.config.params['enable_cache'], bool):
+            if isinstance(self._descriptor.config.params['enable_cache'],
+                          bool):
                 return self._descriptor.config.params['enable_cache']
         return False
 
@@ -34,9 +35,9 @@ class Pipeline(object):
         levels = input.split('.')
 
         for level in levels:
-            print ('check level: ', level)
             if level not in values:
-                raise ValueError('invalid input {0} provided for stage'.format(input))
+                raise ValueError(
+                    'invalid input {0} provided for stage'.format(input))
             values = values[level]
 
         return values
@@ -48,7 +49,8 @@ class Pipeline(object):
 
         for stage_descriptor in self._descriptor.config.stages:
             if stage_descriptor.id in context:
-                raise KeyError('stage with id {0} already exists'.format(stage_descriptor.id))
+                raise KeyError('stage with id {0} already exists'.format(
+                    stage_descriptor.id))
 
             inputs = {}
             for input in stage_descriptor.config.inputs:
@@ -59,7 +61,8 @@ class Pipeline(object):
             stage = stage_builder.build(**inputs)
             context[stage_descriptor.id] = {'outputs': {}}
             for output in stage_descriptor.config.outputs:
-                context[stage_descriptor.id]['outputs'][output] = stage.outputs[output]
+                context[stage_descriptor.id]['outputs'][output] = (
+                    stage.outputs[output])
             stages.append(stage)
 
         metadata_store = metadata_store_from_config(
