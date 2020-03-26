@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package hilo_rpc.proto;
+
+message LocalFileConfig {
+  string path = 1;
+}
+
+message SqliteConfig {
+  string path = 1;
+}
+
+message EmptyConfig {
+  bool empty = 1;
+}
+
+message InputConfig {
+    oneof config {
+        EmptyConfig empty = 1;
+        LocalFileConfig local_file = 2;
+  }
+}

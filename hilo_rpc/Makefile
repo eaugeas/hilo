@@ -7,7 +7,13 @@ GRPCC=python -m grpc_tools.protoc
 PROTOS=proto/*.proto
 AUTOGEN=hilo_rpc/proto/source_pb2.py \
 	hilo_rpc/proto/source_pb2_grpc.py \
-	hilo_rpc/proto/pipeline_pb2.py
+	hilo_rpc/proto/sink_pb2.py \
+	hilo_rpc/proto/sink_pb2_grpc.py \
+	hilo_rpc/proto/pipeline_pb2.py \
+	hilo_rpc/proto/stage_pb2.py \
+	hilo_rpc/proto/storage_pb2.py \
+	hilo_rpc/proto/metadata_pb2.py \
+	hilo_rpc/proto/logging_pb2.py
 
 SRC=hilo_rpc
 TESTS=tests
@@ -24,15 +30,15 @@ install:
 
 proto: $(AUTOGEN)
 
-hilo_rpc/proto/%_pb2_grpc.py: hilo_rpc
+hilo_rpc/proto/%_pb2_grpc.py: hilo_rpc/proto/%_pb2.py
 	@echo "GENERATING file from PROTOBUF "$@
 
-hilo_rpc/proto/%_pb2.py: proto/%.proto
+hilo_rpc/proto/%_pb2.py: proto/hilo_rpc/proto/%.proto
 	@echo "GENERATING file from PROTOBUF "$@
 	@ $(GRPCC) \
-		--proto_path . \
-		--grpc_python_out hilo_rpc/ \
-		--python_out hilo_rpc/ \
+		--proto_path proto \
+		--grpc_python_out . \
+		--python_out . \
 		$<
 
 clean:

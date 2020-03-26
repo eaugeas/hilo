@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package hilo_rpc.proto;
+
+import "hilo_rpc/proto/metadata.proto";
+import "hilo_rpc/proto/sink.proto";
+import "hilo_rpc/proto/source.proto";
+import "hilo_rpc/proto/stage.proto";
+
+message PipelineConfig {
+    string root_dir = 1;
+    map<string, string> params = 2;
+    Source source = 3;
+    Sink sink = 4;
+    MetadataStoreConfig metadata = 5;
+    repeated Stage stages = 6;
+}
+
+message Pipeline {
+    string id = 1;
+    string name = 2;
+    PipelineConfig config = 3;
+}
