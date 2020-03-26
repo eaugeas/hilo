@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package hilo_rpc.proto;
+
+import "hilo_rpc/proto/storage.proto";
+
+message MetadataStoreConfig {
+    oneof config {
+        SqliteConfig sqlite = 1;
+    }
+}

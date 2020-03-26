@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package hilo_rpc.proto;
+
+import "google/protobuf/timestamp.proto";
+import "hilo_rpc/proto/storage.proto";
+
+message SinkConfig {
+  oneof config {
+    EmptyConfig empty = 1;
+    LocalFileConfig file = 2;
+  }
+}
+
+message Sink {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  SinkConfig config = 6;
+}
+
+message CreateSinkRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateSinkResponse {
+  string id = 1;
+}
+
+message DeleteSinkRequest {
+  string id = 1;
+}
+
+message DeleteSinkResponse {}
+
+message GetSinkRequest {
+  string id = 1;
+}
+
+message GetSinkResponse {
+  Sink Sink = 1;
+}
+
+service SinkApi {
+  rpc CreateSink(CreateSinkRequest) returns (CreateSinkResponse);
+  rpc DeleteSink(DeleteSinkRequest) returns (DeleteSinkResponse);
+  rpc GetSink(GetSinkRequest) returns (GetSinkResponse);
+}
