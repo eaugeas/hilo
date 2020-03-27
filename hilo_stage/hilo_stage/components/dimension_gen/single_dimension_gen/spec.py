@@ -1,16 +1,22 @@
-from typing import Any, Dict
+from typing import Any, Dict, List, Text
 
+from tfx.types.artifact import Artifact
 from tfx.types import standard_artifacts
+from tfx.types.component_spec import ExecutionParameter
 from tfx.types.component_spec import ChannelParameter
 from tfx.types.component_spec import ComponentSpec
 
-from hilo_stage.dimension_gen.entity.artifact import ExampleDimensions
+
+class Datasets(Artifact):
+    TYPE_NAME = 'Datasets'
 
 
 class SingleDimensionGenSpec(ComponentSpec):
     """SingleDimensionGenSpec component spec."""
 
-    PARAMETERS: Dict[Any, Any] = {}
+    PARAMETERS: Dict[Any, Any] = {
+        'split_names': ExecutionParameter(type=List[Text]),
+    }
     INPUTS = {
         'examples': ChannelParameter(
             type=standard_artifacts.Examples),
@@ -22,5 +28,5 @@ class SingleDimensionGenSpec(ComponentSpec):
             optional=True),
     }
     OUTPUTS = {
-        'dimensions': ChannelParameter(type=ExampleDimensions),
+        'datasets': ChannelParameter(type=Datasets)
     }

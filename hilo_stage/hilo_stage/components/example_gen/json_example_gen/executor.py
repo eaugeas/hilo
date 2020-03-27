@@ -11,7 +11,7 @@ from tfx.components.example_gen.base_example_gen_executor import INPUT_KEY
 from tfx_bsl.coders import csv_decoder
 from tfx.types import Artifact, artifact_utils
 
-from hilo_stage.example_gen.json_example_gen.json_decoder import (
+from hilo_stage.components.example_gen.json_example_gen.json_decoder import (
     JsonValue, JsonCellSerialized, ParseJsonLine,
     ValueTypeInferrer, ValueInfo, deserialize_json_cell)
 

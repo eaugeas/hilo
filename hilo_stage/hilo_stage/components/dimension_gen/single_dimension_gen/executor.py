@@ -13,10 +13,10 @@ from tfx.utils import io_utils
 STATISTICS_KEY = 'statistics'
 
 # Keys for output_dict
-DIMENSIONS_KEY = 'dimensions'
+DATASETS_KEY = 'datasets'
 
 # Default file name for dimensions generated.
-_DEFAULT_FILE_NAME = 'dim_tfrecord'
+_DEFAULT_FILE_NAME = 'datasets.pbtxt'
 
 
 def infer_dimensions(
@@ -64,10 +64,10 @@ class Executor(BaseExecutor):
         stats_uri = io_utils.get_only_uri_in_dir(
             artifact_utils.get_split_uri(input_dict[STATISTICS_KEY], 'train'))
         output_uri = os.path.join(
-            artifact_utils.get_single_uri(output_dict[DIMENSIONS_KEY]),
+            artifact_utils.get_single_uri(output_dict[DATASETS_KEY]),
             _DEFAULT_FILE_NAME)
+
         stats = tfdv.load_statistics(stats_uri)
         dimension_sets = infer_dimensions(stats)
-        logging.info("DIMENSIONS SETS: ", dimension_sets)
         io_utils.write_pbtxt_file(output_uri, dimension_sets)
         logging.info('Dimension sets written to %s.' % output_uri)
