@@ -1,7 +1,8 @@
-from tfx.components import SchemaGen, StatisticsGen
+from tfx.components import SchemaGen
 from tfx.components.base.base_component import BaseComponent
 
-from hilo_stage.component import JsonExampleGen, SingleDimensionGen
+from hilo_stage.components import (
+    JsonExampleGen, SingleDimensionGen, StatisticsGen)
 from hilo_rpc.proto.stage_pb2 import Stage as StageDescriptor
 
 

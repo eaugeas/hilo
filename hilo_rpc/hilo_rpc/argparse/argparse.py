@@ -5,8 +5,8 @@ import yaml
 
 from google.protobuf.message import Message
 from google.protobuf.descriptor import Descriptor
-from google.protobuf import symbol_database as symbol_database_module
-from google.protobuf.symbol_database import SymbolDatabase
+
+from hilo_rpc.argparse.symbol_loader import ProtobufSymbolLoader
 
 
 def camel_case_to_snake_case(s: Text) -> Text:
@@ -99,23 +99,23 @@ def _is_proto_map(message: Type[Message]) -> bool:
 def _fill_in_properties_for_struct(
         args: Dict[str, Any],
         message: Type[Message],
-        symbol_database: SymbolDatabase,
+        loader: ProtobufSymbolLoader
 ) -> Message:
     if _is_proto_map(message):
         return _fill_in_keys_from_args(args, message)
     else:
         return _fill_in_properties_from_args(
-            args, message, symbol_database)
+            args, message, loader)
 
 
 def _fill_in_properties_for_list(
         args: Dict[str, Any],
         message: Type[Message],
-        symbol_database: SymbolDatabase,
+        loader: ProtobufSymbolLoader
 ) -> List[Message]:
     result = []
     for el in args:
-        record = _fill_in_properties_from_args(el, message, symbol_database)
+        record = _fill_in_properties_from_args(el, message, loader)
         result.append(record)
     return result
 
@@ -123,69 +123,80 @@ def _fill_in_properties_for_list(
 def _fill_in_properties_from_args(
         args: Dict[str, Any],
         message: Type[Message],
-        symbol_database: SymbolDatabase,
+        loader: ProtobufSymbolLoader
 ) -> Message:
     descriptor = message.DESCRIPTOR
     props: Dict[str, Union[Message, Any]] = {}
     for field in descriptor.fields:
         if field.type == 11:
-            field_message = symbol_database.GetSymbol(
+            field_message = loader.load(
                 field.message_type.full_name)
             if field.name in args:
                 if isinstance(args[field.name], dict):
                     props[field.name] = _fill_in_properties_for_struct(
-                        args[field.name], field_message, symbol_database)
+                        args[field.name], field_message, loader)
                 elif isinstance(args[field.name], list):
                     props[field.name] = _fill_in_properties_for_list(
-                        args[field.name], field_message, symbol_database)
+                        args[field.name], field_message, loader)
                 else:
                     raise TypeError(
                         'Protobuf fields of type 11 can only be '
                         'serialized as lists or dicts. Received '
                         '{0}.'.format(args[field.name]))
-        elif 9 >= field.type >= 1:
+        elif 10 >= field.type >= 1 or field.type == 13:
             if field.name in args:
                 props[field.name] = args[field.name]
         else:
+            print('field: ', field, field.name)
             raise TypeError('Unknown field type {0}'.format(field.type))
     return message(**props)
 
 
-def _get_symbol_database(
-        symbol_database_opt: Optional[SymbolDatabase],
-) -> SymbolDatabase:
-    if symbol_database_opt:
-        symbol_database: SymbolDatabase = symbol_database_opt
+def _get_symbol_loader(
+        loader_opt: Optional[ProtobufSymbolLoader] = None
+) -> ProtobufSymbolLoader:
+    if loader_opt:
+        loader: ProtobufSymbolLoader = loader_opt
+        return loader
     else:
-        symbol_database = symbol_database_module.Default()
-    return symbol_database
+        return ProtobufSymbolLoader()
 
 
 def fill_in_properties_from_yaml(
         filepath: Text,
         message: Type[Message],
-        symbol_database_opt: Optional[SymbolDatabase] = None,
+        loader_opt: Optional[ProtobufSymbolLoader] = None
 ) -> Message:
     """Fills the properties in the provided message with the values
     found in a yaml file
     """
     with open(filepath) as f:
-        args = yaml.load(f)
+        args = yaml.load(f, Loader=yaml.SafeLoader)
 
-    return fill_in_properties_from_dict(args, message, symbol_database_opt)
+    return fill_in_properties_from_dict(args, message, loader_opt)
+
+
+def create_object_from_dict(
+        args: Dict[str, Any],
+        url: Text,
+        loader_opt: Optional[ProtobufSymbolLoader] = None
+) -> Message:
+    loader = _get_symbol_loader(loader_opt)
+    message = loader.load(url)
+    return fill_in_properties_from_dict(args, message, loader)
 
 
 def fill_in_properties_from_dict(
         args: Dict[str, Any],
         message: Type[Message],
-        symbol_database_opt: Optional[SymbolDatabase] = None
+        loader_opt: Optional[ProtobufSymbolLoader] = None
 ) -> Message:
     """Fills the properties in the provided message with the values
     found in a dict
     """
-    symbol_database = _get_symbol_database(symbol_database_opt)
+    loader = _get_symbol_loader(loader_opt)
     return _fill_in_properties_from_args(
-        args, message, symbol_database)
+        args, message, loader)
 
 
 def _break_into_dicts(args: Namespace) -> Dict[str, Any]:
@@ -210,7 +221,7 @@ def _break_into_dicts(args: Namespace) -> Dict[str, Any]:
 def fill_in_properties_from_args(
         args: Namespace,
         message: Type[Message],
-        symbol_database_opt: Optional[SymbolDatabase] = None,
+        loader_opt: Optional[ProtobufSymbolLoader] = None,
 ) -> Message:
     """Fills the properties in the provided message with the values
     found in args
@@ -228,4 +239,4 @@ def fill_in_properties_from_args(
         d: Dict[str, Any] = {}
 
     return fill_in_properties_from_dict(
-        d, message, symbol_database_opt)
+        d, message, loader_opt)

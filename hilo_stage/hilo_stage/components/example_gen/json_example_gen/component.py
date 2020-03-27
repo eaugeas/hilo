@@ -4,7 +4,8 @@ from tfx.components.example_gen import component
 from tfx.proto.example_gen_pb2 import Input, Output
 from tfx.types import Channel
 
-from hilo_stage.example_gen.json_example_gen.executor import Executor
+from hilo_stage.components.example_gen.json_example_gen.executor import (
+    Executor)
 
 
 class JsonExampleGen(component.FileBasedExampleGen):

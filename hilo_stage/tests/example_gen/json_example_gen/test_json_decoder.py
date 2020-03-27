@@ -2,9 +2,8 @@ import unittest
 
 import json
 
-from hilo_stage.example_gen.json_example_gen.json_decoder import (
-    ParseJsonLine
-)
+from hilo_stage.components.example_gen.json_example_gen.json_decoder import (
+    ParseJsonLine)
 
 
 class ParseJsonLineTest(unittest.TestCase):
