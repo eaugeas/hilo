@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-from hilo_rpc.proto.source_pb2 import Source
-
-
 if __name__ == '__main__':
-    source = Source(id='1')
-    print('Hello, World', source)
+    import sys
+    from hilo_src import hilo
+    hilo.main(sys.argv[1:])

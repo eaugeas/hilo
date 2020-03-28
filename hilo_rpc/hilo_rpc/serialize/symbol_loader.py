@@ -1,12 +1,17 @@
-from typing import List, Optional, Text
+from typing import Dict, List, Optional, Text
 
 from google.protobuf.message import Message
 from google.protobuf.symbol_database import SymbolDatabase
 from google.protobuf import symbol_database as symbol_database_module
 
+from hilo_rpc.proto import ensure_protobuf_loaded
+
 
 class SymbolLoader(object):
     def load(self, url: Text) -> Message:
+        raise NotImplementedError()
+
+    def load_all(self, url: Text) -> Dict[Text, Message]:
         raise NotImplementedError()
 
 
@@ -33,9 +38,22 @@ class ProtobufSymbolLoader(SymbolLoader):
                 'Cannot start ProtobufSymbolLoader, no'
                 ' instances of SymbolDatabase found')
 
+        ensure_protobuf_loaded()
+
     def load(self, url: Text) -> Message:
         for symbol_database in self._symbol_databases:
             return symbol_database.GetSymbol(url)
+
+    def load_all(self, url: Text) -> Dict[Text, Message]:
+        messages: Dict[Message] = {}
+        for symbol_database in self._symbol_databases:
+            try:
+                symbol_database_messages = symbol_database.GetMessages(url)
+                for message in symbol_database_messages:
+                    messages[message] = symbol_database_messages[message]
+            except KeyError:
+                pass
+        return messages
 
     @staticmethod
     def _load_default() -> List[SymbolDatabase]:

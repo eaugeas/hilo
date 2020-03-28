@@ -101,22 +101,111 @@ def unflatten(d: Dict[str, Any], namespace: Text = '') -> Dict[str, Any]:
 
 def serialize(
         message: Union[Type[Message], Message],
+        symbol_loader: Optional[SymbolLoader] = None,
+        with_types: bool = False,
 ) -> Dict[str, Any]:
     """serialize_to_dict serializes the message type
     into a dictionary."""
-    if isinstance(message, Message):
-        record = message
-    else:
-        record = message()
+    if not symbol_loader:
+        symbol_loader: SymbolLoader = ProtobufSymbolLoader()
 
     result = {}
-    descriptor = message.DESCRIPTOR
-    for field in descriptor.fields:
-        field_value = getattr(record, field.name)
-        if field.type == 11:
-            result[field.name] = serialize(field_value)
+
+    def _get_value_from_simple_type(
+            value: Any,
+    ):
+        if with_types:
+            if isinstance(value, bool):
+                return 'bool'
+            elif isinstance(value, int):
+                return 'int'
+            elif isinstance(value, float):
+                return 'float'
+            elif isinstance(value, str):
+                return 'Text'
+        return value
+
+    def _get_value_from_repeated(
+            descriptor: Optional[Descriptor],
+            value: Union[RepeatedScalarContainer, RepeatedCompositeContainer]
+    ) -> List[Any]:
+        repeated: List[Any] = []
+
+        if len(value) == 0 and with_types:
+            if isinstance(value, RepeatedCompositeContainer):
+                repeated.append(serialize(
+                    symbol_loader.load(descriptor.full_name),
+                    with_types=with_types,
+                    symbol_loader=symbol_loader))
+            else:
+                try:
+                    value.append(True)
+                    return ['bool']
+                except TypeError:
+                    pass
+                try:
+                    value.append(1)
+                    return ['int']
+                except TypeError:
+                    pass
+                try:
+                    value.append(1.1)
+                    return ['float']
+                except TypeError:
+                    pass
+                try:
+                    value.append('str')
+                    return ['str']
+                except TypeError:
+                    pass
         else:
-            result[field.name] = field_value
+            for el in value:
+                repeated.append(serialize(
+                    el, with_types=with_types, symbol_loader=symbol_loader))
+        return repeated
+
+    def _get_value_from_map(
+            descriptor: Optional[Descriptor],
+            value: Union[ScalarMapContainer, MessageMapContainer]
+    ) -> Dict[str, Any]:
+        map = {}
+
+        if len(value) == 0 and with_types:
+            # TODO(): implement for maps
+            pass
+        else:
+            for el in value:
+                map[el.key] = serialize(
+                    el.value,
+                    with_types=with_types,
+                    symbol_loader=symbol_loader)
+        return map
+
+    if _is_protobuf_message_type(message):
+        record: Message = message()
+    elif _is_protobuf_message(message):
+        record: Message = message
+    else:
+        raise ValueError(
+            'serialize expects a Union[Type[Message], Message]. '
+            'Received {0}'.format(message))
+
+    descriptor = record.DESCRIPTOR
+
+    for field in descriptor.fields:
+        value = getattr(record, field.name)
+        if _is_protobuf_map(value):
+            result[field.name] = _get_value_from_map(
+                field.message_type, value)
+        elif _is_protobuf_repeated(value):
+            result[field.name] = _get_value_from_repeated(
+                field.message_type, value)
+        elif _is_protobuf_message(value):
+            result[field.name] = serialize(
+                value, with_types=with_types, symbol_loader=symbol_loader)
+        else:
+            result[field.name] = _get_value_from_simple_type(value)
+
     return result
 
 
@@ -128,6 +217,10 @@ def _is_protobuf_map(o: Any) -> bool:
 def _is_protobuf_repeated(o: Any) -> bool:
     return (isinstance(o, RepeatedScalarContainer) or
             isinstance(o, RepeatedCompositeContainer))
+
+
+def _is_protobuf_message_type(o: Any) -> bool:
+    return isinstance(o, Type) and _is_protobuf_message(o())
 
 
 def _is_protobuf_message(o: Any) -> bool:
