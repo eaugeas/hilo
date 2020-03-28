@@ -132,7 +132,6 @@ class Pipeline(object):
             stage_builder = Stage(stage_descriptor)
             params = Pipeline._get_stage_params(stage_descriptor.config.params)
             inputs = Pipeline._merge_dicts(inputs, params)
-            print('inputs for stage: ', inputs)
             stage = stage_builder.build(**inputs)
             context[stage_descriptor.id] = {'outputs': {}}
             for output in stage_descriptor.config.outputs:

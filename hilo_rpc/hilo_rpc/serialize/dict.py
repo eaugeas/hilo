@@ -3,7 +3,9 @@ from typing import Any, Dict, List, Optional, Text, Type, Union
 
 from google.protobuf.message import Message
 from google.protobuf.descriptor import Descriptor
-from google.protobuf.pyext._message import ScalarMapContainer
+from google.protobuf.pyext._message import (
+    ScalarMapContainer, MessageMapContainer,
+    RepeatedScalarContainer, RepeatedCompositeContainer)
 
 from hilo_rpc.serialize.symbol_loader import (
     SymbolLoader, ProtobufSymbolLoader)
@@ -119,7 +121,17 @@ def serialize(
 
 
 def _is_protobuf_map(o: Any) -> bool:
-    return isinstance(o, ScalarMapContainer)
+    return (isinstance(o, ScalarMapContainer) or
+            isinstance(o, MessageMapContainer))
+
+
+def _is_protobuf_repeated(o: Any) -> bool:
+    return (isinstance(o, RepeatedScalarContainer) or
+            isinstance(o, RepeatedCompositeContainer))
+
+
+def _is_protobuf_message(o: Any) -> bool:
+    return isinstance(o, Message)
 
 
 def _deserialize_protobuf_map_from_dict_rec(
@@ -137,40 +149,32 @@ def _deserialize_protobuf_map_from_dict_rec(
     return result
 
 
-def _deserialize_key_values_from_dict_rec(
-        d: Dict[Text, Any],
-        descriptor: Descriptor,
-        record: Union[Message, ScalarMapContainer],
-        symbol_loader: SymbolLoader
-) -> Message:
-    if _is_protobuf_map(record):
-        return _deserialize_protobuf_map_from_dict_rec(
-            d, descriptor, symbol_loader, result=record)
-    else:
-        return _deserialize_from_dict_rec(d, record, symbol_loader)
-
-
 def _deserialize_from_dict_rec(
         d: Dict[Text, Any],
         record: Message,
         symbol_loader: SymbolLoader
 ) -> Message:
+    print('deserialize: ', d)
     descriptor = record.DESCRIPTOR
     for field in descriptor.fields:
         if field.name not in d:
             continue
 
-        if field.type == 11:
-            if isinstance(d[field.name], dict):
-                _deserialize_key_values_from_dict_rec(
-                    d[field.name], field.message_type,
-                    getattr(record, field.name), symbol_loader)
-            elif isinstance(d[field.name], list):
-                _deserialize_list_from_dict_rec(
-                    d[field.name],
-                    field.message_type,
-                    symbol_loader,
-                    result=getattr(record, field.name))
+        print('field type: ', field.type)
+        field_value = getattr(record, field.name)
+        if _is_protobuf_map(field_value):
+            _deserialize_protobuf_map_from_dict_rec(
+                d, descriptor, symbol_loader, result=field_value)
+        elif _is_protobuf_repeated(field_value):
+            print('deserialize list: ', field.name, d[field.name], field_value)
+            _deserialize_list_from_dict_rec(
+                d[field.name],
+                field.message_type,
+                symbol_loader,
+                result=getattr(record, field.name))
+        elif _is_protobuf_message(field_value):
+            _deserialize_from_dict_rec(
+                d[field.name], field_value, symbol_loader)
         else:
             setattr(record, field.name, d[field.name])
     return record
@@ -218,19 +222,27 @@ def _deserialize_list_from_dict_rec(
         descriptor: Descriptor,
         symbol_loader: SymbolLoader,
         result: Optional[List[Message]] = None
-) -> List[Message]:
+) -> List[Any]:
     if result is None:
-        result: List[Message] = result or []
+        result: List[Any] = result or []
 
     for el in elements:
-        if not isinstance(el, dict):
+        if (isinstance(el, str) or
+                isinstance(el, int) or
+                isinstance(el, float)):
+            result.append(el)
+
+        elif isinstance(el, list):
+            # TODO(): implement sublist deserialization
             raise ValueError(
-                'Attempt to deserialize list whose elements should be '
-                'dictionaries. Received {0}'.format(el))
-        message = symbol_loader.load(descriptor.full_name)
-        result.append(
-            _deserialize_from_dict_rec(el, message(), symbol_loader)
-        )
+                'Attempt to deserialize list whose elements should not be '
+                'lists. Received {0}'.format(el))
+        else:
+            message = symbol_loader.load(descriptor.full_name)
+            result.append(
+                _deserialize_from_dict_rec(el, message(), symbol_loader)
+            )
+
     return result
 
 

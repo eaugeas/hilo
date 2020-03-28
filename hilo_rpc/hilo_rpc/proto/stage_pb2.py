@@ -19,31 +19,733 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1ahilo_rpc/proto/stage.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"7\n\x03Url\x12\x14\n\nclass_name\x18\x01 \x01(\tH\x00\x12\x13\n\tfull_path\x18\x02 \x01(\tH\x00\x42\x05\n\x03url\"\xea\x02\n\x0bStageConfig\x12 \n\x03url\x18\x01 \x01(\x0b\x32\x13.hilo_rpc.proto.Url\x12\x37\n\x06inputs\x18\x02 \x03(\x0b\x32\'.hilo_rpc.proto.StageConfig.InputsEntry\x12\x39\n\x07outputs\x18\x03 \x03(\x0b\x32(.hilo_rpc.proto.StageConfig.OutputsEntry\x12\x37\n\x06params\x18\x04 \x03(\x0b\x32\'.hilo_rpc.proto.StageConfig.ParamsEntry\x1a-\n\x0bInputsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a.\n\x0cOutputsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a-\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xc3\x01\n\x05Stage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1b.hilo_rpc.proto.StageConfigb\x06proto3'
+  serialized_pb=b'\n\x1ahilo_rpc/proto/stage.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x02\n\x18SingleDimensionGenConfig\x12?\n\x06params\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Params\x12?\n\x06inputs\x18\x02 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Inputs\x12\x41\n\x07outputs\x18\x03 \x01(\x0b\x32\x30.hilo_rpc.proto.SingleDimensionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a.\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x12\n\nstatistics\x18\x02 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x64\x61tasets\x18\x01 \x01(\t\"\x9b\x02\n\x0fSchemaGenConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.SchemaGenConfig.Outputs\x1a%\n\x06Params\x12\x1b\n\x13infer_feature_shape\x18\x01 \x01(\x08\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x19\n\x07Outputs\x12\x0e\n\x06schema\x18\x01 \x01(\t\"\xa5\x02\n\x13StatisticsGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.StatisticsGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1a\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\"\xa4\x05\n\x14JsonExampleGenConfig\x12;\n\x06params\x18\x01 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Params\x12;\n\x06inputs\x18\x02 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Inputs\x12=\n\x07outputs\x18\x03 \x01(\x0b\x32,.hilo_rpc.proto.JsonExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aN\n\x0bInputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.JsonExampleGenConfig.InputSplit\x1aP\n\x0cOutputConfig\x12@\n\x06splits\x18\x01 \x03(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.OutputSplit\x1a\x9a\x01\n\x06Params\x12\x46\n\x0cinput_config\x18\x01 \x01(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.InputConfig\x12H\n\routput_config\x18\x02 \x01(\x0b\x32\x31.hilo_rpc.proto.JsonExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\x99\x02\n\x0bStageConfig\x12@\n\x10json_example_gen\x18\x01 \x01(\x0b\x32$.hilo_rpc.proto.JsonExampleGenConfigH\x00\x12=\n\x0estatistics_gen\x18\x02 \x01(\x0b\x32#.hilo_rpc.proto.StatisticsGenConfigH\x00\x12\x35\n\nschema_gen\x18\x03 \x01(\x0b\x32\x1f.hilo_rpc.proto.SchemaGenConfigH\x00\x12H\n\x14single_dimension_gen\x18\x04 \x01(\x0b\x32(.hilo_rpc.proto.SingleDimensionGenConfigH\x00\x42\x08\n\x06\x63onfig\"\xc3\x01\n\x05Stage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1b.hilo_rpc.proto.StageConfigb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
 
 
 
-_URL = _descriptor.Descriptor(
-  name='Url',
-  full_name='hilo_rpc.proto.Url',
+_SINGLEDIMENSIONGENCONFIG_PARAMS = _descriptor.Descriptor(
+  name='Params',
+  full_name='hilo_rpc.proto.SingleDimensionGenConfig.Params',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='class_name', full_name='hilo_rpc.proto.Url.class_name', index=0,
+      name='split_names', full_name='hilo_rpc.proto.SingleDimensionGenConfig.Params.split_names', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=305,
+  serialized_end=334,
+)
+
+_SINGLEDIMENSIONGENCONFIG_INPUTS = _descriptor.Descriptor(
+  name='Inputs',
+  full_name='hilo_rpc.proto.SingleDimensionGenConfig.Inputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='examples', full_name='hilo_rpc.proto.SingleDimensionGenConfig.Inputs.examples', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='full_path', full_name='hilo_rpc.proto.Url.full_path', index=1,
+      name='statistics', full_name='hilo_rpc.proto.SingleDimensionGenConfig.Inputs.statistics', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=336,
+  serialized_end=382,
+)
+
+_SINGLEDIMENSIONGENCONFIG_OUTPUTS = _descriptor.Descriptor(
+  name='Outputs',
+  full_name='hilo_rpc.proto.SingleDimensionGenConfig.Outputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='datasets', full_name='hilo_rpc.proto.SingleDimensionGenConfig.Outputs.datasets', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=384,
+  serialized_end=411,
+)
+
+_SINGLEDIMENSIONGENCONFIG = _descriptor.Descriptor(
+  name='SingleDimensionGenConfig',
+  full_name='hilo_rpc.proto.SingleDimensionGenConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='params', full_name='hilo_rpc.proto.SingleDimensionGenConfig.params', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='inputs', full_name='hilo_rpc.proto.SingleDimensionGenConfig.inputs', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='outputs', full_name='hilo_rpc.proto.SingleDimensionGenConfig.outputs', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_SINGLEDIMENSIONGENCONFIG_PARAMS, _SINGLEDIMENSIONGENCONFIG_INPUTS, _SINGLEDIMENSIONGENCONFIG_OUTPUTS, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=80,
+  serialized_end=411,
+)
+
+
+_SCHEMAGENCONFIG_PARAMS = _descriptor.Descriptor(
+  name='Params',
+  full_name='hilo_rpc.proto.SchemaGenConfig.Params',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='infer_feature_shape', full_name='hilo_rpc.proto.SchemaGenConfig.Params.infer_feature_shape', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=603,
+  serialized_end=640,
+)
+
+_SCHEMAGENCONFIG_INPUTS = _descriptor.Descriptor(
+  name='Inputs',
+  full_name='hilo_rpc.proto.SchemaGenConfig.Inputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='statistics', full_name='hilo_rpc.proto.SchemaGenConfig.Inputs.statistics', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=642,
+  serialized_end=670,
+)
+
+_SCHEMAGENCONFIG_OUTPUTS = _descriptor.Descriptor(
+  name='Outputs',
+  full_name='hilo_rpc.proto.SchemaGenConfig.Outputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='schema', full_name='hilo_rpc.proto.SchemaGenConfig.Outputs.schema', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=672,
+  serialized_end=697,
+)
+
+_SCHEMAGENCONFIG = _descriptor.Descriptor(
+  name='SchemaGenConfig',
+  full_name='hilo_rpc.proto.SchemaGenConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='params', full_name='hilo_rpc.proto.SchemaGenConfig.params', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='inputs', full_name='hilo_rpc.proto.SchemaGenConfig.inputs', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='outputs', full_name='hilo_rpc.proto.SchemaGenConfig.outputs', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_SCHEMAGENCONFIG_PARAMS, _SCHEMAGENCONFIG_INPUTS, _SCHEMAGENCONFIG_OUTPUTS, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=414,
+  serialized_end=697,
+)
+
+
+_STATISTICSGENCONFIG_PARAMS = _descriptor.Descriptor(
+  name='Params',
+  full_name='hilo_rpc.proto.StatisticsGenConfig.Params',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='split_names', full_name='hilo_rpc.proto.StatisticsGenConfig.Params.split_names', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=305,
+  serialized_end=334,
+)
+
+_STATISTICSGENCONFIG_INPUTS = _descriptor.Descriptor(
+  name='Inputs',
+  full_name='hilo_rpc.proto.StatisticsGenConfig.Inputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='examples', full_name='hilo_rpc.proto.StatisticsGenConfig.Inputs.examples', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=336,
+  serialized_end=362,
+)
+
+_STATISTICSGENCONFIG_OUTPUTS = _descriptor.Descriptor(
+  name='Outputs',
+  full_name='hilo_rpc.proto.StatisticsGenConfig.Outputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='statistics', full_name='hilo_rpc.proto.StatisticsGenConfig.Outputs.statistics', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=964,
+  serialized_end=993,
+)
+
+_STATISTICSGENCONFIG = _descriptor.Descriptor(
+  name='StatisticsGenConfig',
+  full_name='hilo_rpc.proto.StatisticsGenConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='params', full_name='hilo_rpc.proto.StatisticsGenConfig.params', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='inputs', full_name='hilo_rpc.proto.StatisticsGenConfig.inputs', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='outputs', full_name='hilo_rpc.proto.StatisticsGenConfig.outputs', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_STATISTICSGENCONFIG_PARAMS, _STATISTICSGENCONFIG_INPUTS, _STATISTICSGENCONFIG_OUTPUTS, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=700,
+  serialized_end=993,
+)
+
+
+_JSONEXAMPLEGENCONFIG_INPUTSPLIT = _descriptor.Descriptor(
+  name='InputSplit',
+  full_name='hilo_rpc.proto.JsonExampleGenConfig.InputSplit',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='hilo_rpc.proto.JsonExampleGenConfig.InputSplit.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pattern', full_name='hilo_rpc.proto.JsonExampleGenConfig.InputSplit.pattern', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1205,
+  serialized_end=1248,
+)
+
+_JSONEXAMPLEGENCONFIG_OUTPUTSPLIT = _descriptor.Descriptor(
+  name='OutputSplit',
+  full_name='hilo_rpc.proto.JsonExampleGenConfig.OutputSplit',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='hilo_rpc.proto.JsonExampleGenConfig.OutputSplit.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hash_buckets', full_name='hilo_rpc.proto.JsonExampleGenConfig.OutputSplit.hash_buckets', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1250,
+  serialized_end=1299,
+)
+
+_JSONEXAMPLEGENCONFIG_INPUTCONFIG = _descriptor.Descriptor(
+  name='InputConfig',
+  full_name='hilo_rpc.proto.JsonExampleGenConfig.InputConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='splits', full_name='hilo_rpc.proto.JsonExampleGenConfig.InputConfig.splits', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1301,
+  serialized_end=1379,
+)
+
+_JSONEXAMPLEGENCONFIG_OUTPUTCONFIG = _descriptor.Descriptor(
+  name='OutputConfig',
+  full_name='hilo_rpc.proto.JsonExampleGenConfig.OutputConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='splits', full_name='hilo_rpc.proto.JsonExampleGenConfig.OutputConfig.splits', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1381,
+  serialized_end=1461,
+)
+
+_JSONEXAMPLEGENCONFIG_PARAMS = _descriptor.Descriptor(
+  name='Params',
+  full_name='hilo_rpc.proto.JsonExampleGenConfig.Params',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='input_config', full_name='hilo_rpc.proto.JsonExampleGenConfig.Params.input_config', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='output_config', full_name='hilo_rpc.proto.JsonExampleGenConfig.Params.output_config', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1464,
+  serialized_end=1618,
+)
+
+_JSONEXAMPLEGENCONFIG_INPUTS = _descriptor.Descriptor(
+  name='Inputs',
+  full_name='hilo_rpc.proto.JsonExampleGenConfig.Inputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='input', full_name='hilo_rpc.proto.JsonExampleGenConfig.Inputs.input', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1620,
+  serialized_end=1643,
+)
+
+_JSONEXAMPLEGENCONFIG_OUTPUTS = _descriptor.Descriptor(
+  name='Outputs',
+  full_name='hilo_rpc.proto.JsonExampleGenConfig.Outputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='examples', full_name='hilo_rpc.proto.JsonExampleGenConfig.Outputs.examples', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1645,
+  serialized_end=1672,
+)
+
+_JSONEXAMPLEGENCONFIG = _descriptor.Descriptor(
+  name='JsonExampleGenConfig',
+  full_name='hilo_rpc.proto.JsonExampleGenConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='params', full_name='hilo_rpc.proto.JsonExampleGenConfig.params', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='inputs', full_name='hilo_rpc.proto.JsonExampleGenConfig.inputs', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='outputs', full_name='hilo_rpc.proto.JsonExampleGenConfig.outputs', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_JSONEXAMPLEGENCONFIG_INPUTSPLIT, _JSONEXAMPLEGENCONFIG_OUTPUTSPLIT, _JSONEXAMPLEGENCONFIG_INPUTCONFIG, _JSONEXAMPLEGENCONFIG_OUTPUTCONFIG, _JSONEXAMPLEGENCONFIG_PARAMS, _JSONEXAMPLEGENCONFIG_INPUTS, _JSONEXAMPLEGENCONFIG_OUTPUTS, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=996,
+  serialized_end=1672,
+)
+
+
+_STAGECONFIG = _descriptor.Descriptor(
+  name='StageConfig',
+  full_name='hilo_rpc.proto.StageConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='json_example_gen', full_name='hilo_rpc.proto.StageConfig.json_example_gen', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='statistics_gen', full_name='hilo_rpc.proto.StageConfig.statistics_gen', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='schema_gen', full_name='hilo_rpc.proto.StageConfig.schema_gen', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='single_dimension_gen', full_name='hilo_rpc.proto.StageConfig.single_dimension_gen', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -59,174 +761,11 @@ _URL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='url', full_name='hilo_rpc.proto.Url.url',
+      name='config', full_name='hilo_rpc.proto.StageConfig.config',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=79,
-  serialized_end=134,
-)
-
-
-_STAGECONFIG_INPUTSENTRY = _descriptor.Descriptor(
-  name='InputsEntry',
-  full_name='hilo_rpc.proto.StageConfig.InputsEntry',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='key', full_name='hilo_rpc.proto.StageConfig.InputsEntry.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='hilo_rpc.proto.StageConfig.InputsEntry.value', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=b'8\001',
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=359,
-  serialized_end=404,
-)
-
-_STAGECONFIG_OUTPUTSENTRY = _descriptor.Descriptor(
-  name='OutputsEntry',
-  full_name='hilo_rpc.proto.StageConfig.OutputsEntry',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='key', full_name='hilo_rpc.proto.StageConfig.OutputsEntry.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='hilo_rpc.proto.StageConfig.OutputsEntry.value', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=b'8\001',
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=406,
-  serialized_end=452,
-)
-
-_STAGECONFIG_PARAMSENTRY = _descriptor.Descriptor(
-  name='ParamsEntry',
-  full_name='hilo_rpc.proto.StageConfig.ParamsEntry',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='key', full_name='hilo_rpc.proto.StageConfig.ParamsEntry.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='hilo_rpc.proto.StageConfig.ParamsEntry.value', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=b'8\001',
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=454,
-  serialized_end=499,
-)
-
-_STAGECONFIG = _descriptor.Descriptor(
-  name='StageConfig',
-  full_name='hilo_rpc.proto.StageConfig',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='url', full_name='hilo_rpc.proto.StageConfig.url', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='inputs', full_name='hilo_rpc.proto.StageConfig.inputs', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='outputs', full_name='hilo_rpc.proto.StageConfig.outputs', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='params', full_name='hilo_rpc.proto.StageConfig.params', index=3,
-      number=4, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[_STAGECONFIG_INPUTSENTRY, _STAGECONFIG_OUTPUTSENTRY, _STAGECONFIG_PARAMSENTRY, ],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=137,
-  serialized_end=499,
+  serialized_start=1675,
+  serialized_end=1956,
 )
 
 
@@ -291,68 +830,231 @@ _STAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=502,
-  serialized_end=697,
+  serialized_start=1959,
+  serialized_end=2154,
 )
 
-_URL.oneofs_by_name['url'].fields.append(
-  _URL.fields_by_name['class_name'])
-_URL.fields_by_name['class_name'].containing_oneof = _URL.oneofs_by_name['url']
-_URL.oneofs_by_name['url'].fields.append(
-  _URL.fields_by_name['full_path'])
-_URL.fields_by_name['full_path'].containing_oneof = _URL.oneofs_by_name['url']
-_STAGECONFIG_INPUTSENTRY.containing_type = _STAGECONFIG
-_STAGECONFIG_OUTPUTSENTRY.containing_type = _STAGECONFIG
-_STAGECONFIG_PARAMSENTRY.containing_type = _STAGECONFIG
-_STAGECONFIG.fields_by_name['url'].message_type = _URL
-_STAGECONFIG.fields_by_name['inputs'].message_type = _STAGECONFIG_INPUTSENTRY
-_STAGECONFIG.fields_by_name['outputs'].message_type = _STAGECONFIG_OUTPUTSENTRY
-_STAGECONFIG.fields_by_name['params'].message_type = _STAGECONFIG_PARAMSENTRY
+_SINGLEDIMENSIONGENCONFIG_PARAMS.containing_type = _SINGLEDIMENSIONGENCONFIG
+_SINGLEDIMENSIONGENCONFIG_INPUTS.containing_type = _SINGLEDIMENSIONGENCONFIG
+_SINGLEDIMENSIONGENCONFIG_OUTPUTS.containing_type = _SINGLEDIMENSIONGENCONFIG
+_SINGLEDIMENSIONGENCONFIG.fields_by_name['params'].message_type = _SINGLEDIMENSIONGENCONFIG_PARAMS
+_SINGLEDIMENSIONGENCONFIG.fields_by_name['inputs'].message_type = _SINGLEDIMENSIONGENCONFIG_INPUTS
+_SINGLEDIMENSIONGENCONFIG.fields_by_name['outputs'].message_type = _SINGLEDIMENSIONGENCONFIG_OUTPUTS
+_SCHEMAGENCONFIG_PARAMS.containing_type = _SCHEMAGENCONFIG
+_SCHEMAGENCONFIG_INPUTS.containing_type = _SCHEMAGENCONFIG
+_SCHEMAGENCONFIG_OUTPUTS.containing_type = _SCHEMAGENCONFIG
+_SCHEMAGENCONFIG.fields_by_name['params'].message_type = _SCHEMAGENCONFIG_PARAMS
+_SCHEMAGENCONFIG.fields_by_name['inputs'].message_type = _SCHEMAGENCONFIG_INPUTS
+_SCHEMAGENCONFIG.fields_by_name['outputs'].message_type = _SCHEMAGENCONFIG_OUTPUTS
+_STATISTICSGENCONFIG_PARAMS.containing_type = _STATISTICSGENCONFIG
+_STATISTICSGENCONFIG_INPUTS.containing_type = _STATISTICSGENCONFIG
+_STATISTICSGENCONFIG_OUTPUTS.containing_type = _STATISTICSGENCONFIG
+_STATISTICSGENCONFIG.fields_by_name['params'].message_type = _STATISTICSGENCONFIG_PARAMS
+_STATISTICSGENCONFIG.fields_by_name['inputs'].message_type = _STATISTICSGENCONFIG_INPUTS
+_STATISTICSGENCONFIG.fields_by_name['outputs'].message_type = _STATISTICSGENCONFIG_OUTPUTS
+_JSONEXAMPLEGENCONFIG_INPUTSPLIT.containing_type = _JSONEXAMPLEGENCONFIG
+_JSONEXAMPLEGENCONFIG_OUTPUTSPLIT.containing_type = _JSONEXAMPLEGENCONFIG
+_JSONEXAMPLEGENCONFIG_INPUTCONFIG.fields_by_name['splits'].message_type = _JSONEXAMPLEGENCONFIG_INPUTSPLIT
+_JSONEXAMPLEGENCONFIG_INPUTCONFIG.containing_type = _JSONEXAMPLEGENCONFIG
+_JSONEXAMPLEGENCONFIG_OUTPUTCONFIG.fields_by_name['splits'].message_type = _JSONEXAMPLEGENCONFIG_OUTPUTSPLIT
+_JSONEXAMPLEGENCONFIG_OUTPUTCONFIG.containing_type = _JSONEXAMPLEGENCONFIG
+_JSONEXAMPLEGENCONFIG_PARAMS.fields_by_name['input_config'].message_type = _JSONEXAMPLEGENCONFIG_INPUTCONFIG
+_JSONEXAMPLEGENCONFIG_PARAMS.fields_by_name['output_config'].message_type = _JSONEXAMPLEGENCONFIG_OUTPUTCONFIG
+_JSONEXAMPLEGENCONFIG_PARAMS.containing_type = _JSONEXAMPLEGENCONFIG
+_JSONEXAMPLEGENCONFIG_INPUTS.containing_type = _JSONEXAMPLEGENCONFIG
+_JSONEXAMPLEGENCONFIG_OUTPUTS.containing_type = _JSONEXAMPLEGENCONFIG
+_JSONEXAMPLEGENCONFIG.fields_by_name['params'].message_type = _JSONEXAMPLEGENCONFIG_PARAMS
+_JSONEXAMPLEGENCONFIG.fields_by_name['inputs'].message_type = _JSONEXAMPLEGENCONFIG_INPUTS
+_JSONEXAMPLEGENCONFIG.fields_by_name['outputs'].message_type = _JSONEXAMPLEGENCONFIG_OUTPUTS
+_STAGECONFIG.fields_by_name['json_example_gen'].message_type = _JSONEXAMPLEGENCONFIG
+_STAGECONFIG.fields_by_name['statistics_gen'].message_type = _STATISTICSGENCONFIG
+_STAGECONFIG.fields_by_name['schema_gen'].message_type = _SCHEMAGENCONFIG
+_STAGECONFIG.fields_by_name['single_dimension_gen'].message_type = _SINGLEDIMENSIONGENCONFIG
+_STAGECONFIG.oneofs_by_name['config'].fields.append(
+  _STAGECONFIG.fields_by_name['json_example_gen'])
+_STAGECONFIG.fields_by_name['json_example_gen'].containing_oneof = _STAGECONFIG.oneofs_by_name['config']
+_STAGECONFIG.oneofs_by_name['config'].fields.append(
+  _STAGECONFIG.fields_by_name['statistics_gen'])
+_STAGECONFIG.fields_by_name['statistics_gen'].containing_oneof = _STAGECONFIG.oneofs_by_name['config']
+_STAGECONFIG.oneofs_by_name['config'].fields.append(
+  _STAGECONFIG.fields_by_name['schema_gen'])
+_STAGECONFIG.fields_by_name['schema_gen'].containing_oneof = _STAGECONFIG.oneofs_by_name['config']
+_STAGECONFIG.oneofs_by_name['config'].fields.append(
+  _STAGECONFIG.fields_by_name['single_dimension_gen'])
+_STAGECONFIG.fields_by_name['single_dimension_gen'].containing_oneof = _STAGECONFIG.oneofs_by_name['config']
 _STAGE.fields_by_name['created_at'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _STAGE.fields_by_name['updated_at'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _STAGE.fields_by_name['config'].message_type = _STAGECONFIG
-DESCRIPTOR.message_types_by_name['Url'] = _URL
+DESCRIPTOR.message_types_by_name['SingleDimensionGenConfig'] = _SINGLEDIMENSIONGENCONFIG
+DESCRIPTOR.message_types_by_name['SchemaGenConfig'] = _SCHEMAGENCONFIG
+DESCRIPTOR.message_types_by_name['StatisticsGenConfig'] = _STATISTICSGENCONFIG
+DESCRIPTOR.message_types_by_name['JsonExampleGenConfig'] = _JSONEXAMPLEGENCONFIG
 DESCRIPTOR.message_types_by_name['StageConfig'] = _STAGECONFIG
 DESCRIPTOR.message_types_by_name['Stage'] = _STAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Url = _reflection.GeneratedProtocolMessageType('Url', (_message.Message,), {
-  'DESCRIPTOR' : _URL,
+SingleDimensionGenConfig = _reflection.GeneratedProtocolMessageType('SingleDimensionGenConfig', (_message.Message,), {
+
+  'Params' : _reflection.GeneratedProtocolMessageType('Params', (_message.Message,), {
+    'DESCRIPTOR' : _SINGLEDIMENSIONGENCONFIG_PARAMS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SingleDimensionGenConfig.Params)
+    })
+  ,
+
+  'Inputs' : _reflection.GeneratedProtocolMessageType('Inputs', (_message.Message,), {
+    'DESCRIPTOR' : _SINGLEDIMENSIONGENCONFIG_INPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SingleDimensionGenConfig.Inputs)
+    })
+  ,
+
+  'Outputs' : _reflection.GeneratedProtocolMessageType('Outputs', (_message.Message,), {
+    'DESCRIPTOR' : _SINGLEDIMENSIONGENCONFIG_OUTPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SingleDimensionGenConfig.Outputs)
+    })
+  ,
+  'DESCRIPTOR' : _SINGLEDIMENSIONGENCONFIG,
   '__module__' : 'hilo_rpc.proto.stage_pb2'
-  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.Url)
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SingleDimensionGenConfig)
   })
-_sym_db.RegisterMessage(Url)
+_sym_db.RegisterMessage(SingleDimensionGenConfig)
+_sym_db.RegisterMessage(SingleDimensionGenConfig.Params)
+_sym_db.RegisterMessage(SingleDimensionGenConfig.Inputs)
+_sym_db.RegisterMessage(SingleDimensionGenConfig.Outputs)
+
+SchemaGenConfig = _reflection.GeneratedProtocolMessageType('SchemaGenConfig', (_message.Message,), {
+
+  'Params' : _reflection.GeneratedProtocolMessageType('Params', (_message.Message,), {
+    'DESCRIPTOR' : _SCHEMAGENCONFIG_PARAMS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SchemaGenConfig.Params)
+    })
+  ,
+
+  'Inputs' : _reflection.GeneratedProtocolMessageType('Inputs', (_message.Message,), {
+    'DESCRIPTOR' : _SCHEMAGENCONFIG_INPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SchemaGenConfig.Inputs)
+    })
+  ,
+
+  'Outputs' : _reflection.GeneratedProtocolMessageType('Outputs', (_message.Message,), {
+    'DESCRIPTOR' : _SCHEMAGENCONFIG_OUTPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SchemaGenConfig.Outputs)
+    })
+  ,
+  'DESCRIPTOR' : _SCHEMAGENCONFIG,
+  '__module__' : 'hilo_rpc.proto.stage_pb2'
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SchemaGenConfig)
+  })
+_sym_db.RegisterMessage(SchemaGenConfig)
+_sym_db.RegisterMessage(SchemaGenConfig.Params)
+_sym_db.RegisterMessage(SchemaGenConfig.Inputs)
+_sym_db.RegisterMessage(SchemaGenConfig.Outputs)
+
+StatisticsGenConfig = _reflection.GeneratedProtocolMessageType('StatisticsGenConfig', (_message.Message,), {
+
+  'Params' : _reflection.GeneratedProtocolMessageType('Params', (_message.Message,), {
+    'DESCRIPTOR' : _STATISTICSGENCONFIG_PARAMS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.StatisticsGenConfig.Params)
+    })
+  ,
+
+  'Inputs' : _reflection.GeneratedProtocolMessageType('Inputs', (_message.Message,), {
+    'DESCRIPTOR' : _STATISTICSGENCONFIG_INPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.StatisticsGenConfig.Inputs)
+    })
+  ,
+
+  'Outputs' : _reflection.GeneratedProtocolMessageType('Outputs', (_message.Message,), {
+    'DESCRIPTOR' : _STATISTICSGENCONFIG_OUTPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.StatisticsGenConfig.Outputs)
+    })
+  ,
+  'DESCRIPTOR' : _STATISTICSGENCONFIG,
+  '__module__' : 'hilo_rpc.proto.stage_pb2'
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.StatisticsGenConfig)
+  })
+_sym_db.RegisterMessage(StatisticsGenConfig)
+_sym_db.RegisterMessage(StatisticsGenConfig.Params)
+_sym_db.RegisterMessage(StatisticsGenConfig.Inputs)
+_sym_db.RegisterMessage(StatisticsGenConfig.Outputs)
+
+JsonExampleGenConfig = _reflection.GeneratedProtocolMessageType('JsonExampleGenConfig', (_message.Message,), {
+
+  'InputSplit' : _reflection.GeneratedProtocolMessageType('InputSplit', (_message.Message,), {
+    'DESCRIPTOR' : _JSONEXAMPLEGENCONFIG_INPUTSPLIT,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.JsonExampleGenConfig.InputSplit)
+    })
+  ,
+
+  'OutputSplit' : _reflection.GeneratedProtocolMessageType('OutputSplit', (_message.Message,), {
+    'DESCRIPTOR' : _JSONEXAMPLEGENCONFIG_OUTPUTSPLIT,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.JsonExampleGenConfig.OutputSplit)
+    })
+  ,
+
+  'InputConfig' : _reflection.GeneratedProtocolMessageType('InputConfig', (_message.Message,), {
+    'DESCRIPTOR' : _JSONEXAMPLEGENCONFIG_INPUTCONFIG,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.JsonExampleGenConfig.InputConfig)
+    })
+  ,
+
+  'OutputConfig' : _reflection.GeneratedProtocolMessageType('OutputConfig', (_message.Message,), {
+    'DESCRIPTOR' : _JSONEXAMPLEGENCONFIG_OUTPUTCONFIG,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.JsonExampleGenConfig.OutputConfig)
+    })
+  ,
+
+  'Params' : _reflection.GeneratedProtocolMessageType('Params', (_message.Message,), {
+    'DESCRIPTOR' : _JSONEXAMPLEGENCONFIG_PARAMS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.JsonExampleGenConfig.Params)
+    })
+  ,
+
+  'Inputs' : _reflection.GeneratedProtocolMessageType('Inputs', (_message.Message,), {
+    'DESCRIPTOR' : _JSONEXAMPLEGENCONFIG_INPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.JsonExampleGenConfig.Inputs)
+    })
+  ,
+
+  'Outputs' : _reflection.GeneratedProtocolMessageType('Outputs', (_message.Message,), {
+    'DESCRIPTOR' : _JSONEXAMPLEGENCONFIG_OUTPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.JsonExampleGenConfig.Outputs)
+    })
+  ,
+  'DESCRIPTOR' : _JSONEXAMPLEGENCONFIG,
+  '__module__' : 'hilo_rpc.proto.stage_pb2'
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.JsonExampleGenConfig)
+  })
+_sym_db.RegisterMessage(JsonExampleGenConfig)
+_sym_db.RegisterMessage(JsonExampleGenConfig.InputSplit)
+_sym_db.RegisterMessage(JsonExampleGenConfig.OutputSplit)
+_sym_db.RegisterMessage(JsonExampleGenConfig.InputConfig)
+_sym_db.RegisterMessage(JsonExampleGenConfig.OutputConfig)
+_sym_db.RegisterMessage(JsonExampleGenConfig.Params)
+_sym_db.RegisterMessage(JsonExampleGenConfig.Inputs)
+_sym_db.RegisterMessage(JsonExampleGenConfig.Outputs)
 
 StageConfig = _reflection.GeneratedProtocolMessageType('StageConfig', (_message.Message,), {
-
-  'InputsEntry' : _reflection.GeneratedProtocolMessageType('InputsEntry', (_message.Message,), {
-    'DESCRIPTOR' : _STAGECONFIG_INPUTSENTRY,
-    '__module__' : 'hilo_rpc.proto.stage_pb2'
-    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.StageConfig.InputsEntry)
-    })
-  ,
-
-  'OutputsEntry' : _reflection.GeneratedProtocolMessageType('OutputsEntry', (_message.Message,), {
-    'DESCRIPTOR' : _STAGECONFIG_OUTPUTSENTRY,
-    '__module__' : 'hilo_rpc.proto.stage_pb2'
-    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.StageConfig.OutputsEntry)
-    })
-  ,
-
-  'ParamsEntry' : _reflection.GeneratedProtocolMessageType('ParamsEntry', (_message.Message,), {
-    'DESCRIPTOR' : _STAGECONFIG_PARAMSENTRY,
-    '__module__' : 'hilo_rpc.proto.stage_pb2'
-    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.StageConfig.ParamsEntry)
-    })
-  ,
   'DESCRIPTOR' : _STAGECONFIG,
   '__module__' : 'hilo_rpc.proto.stage_pb2'
   # @@protoc_insertion_point(class_scope:hilo_rpc.proto.StageConfig)
   })
 _sym_db.RegisterMessage(StageConfig)
-_sym_db.RegisterMessage(StageConfig.InputsEntry)
-_sym_db.RegisterMessage(StageConfig.OutputsEntry)
-_sym_db.RegisterMessage(StageConfig.ParamsEntry)
 
 Stage = _reflection.GeneratedProtocolMessageType('Stage', (_message.Message,), {
   'DESCRIPTOR' : _STAGE,
@@ -362,7 +1064,4 @@ Stage = _reflection.GeneratedProtocolMessageType('Stage', (_message.Message,), {
 _sym_db.RegisterMessage(Stage)
 
 
-_STAGECONFIG_INPUTSENTRY._options = None
-_STAGECONFIG_OUTPUTSENTRY._options = None
-_STAGECONFIG_PARAMSENTRY._options = None
 # @@protoc_insertion_point(module_scope)
