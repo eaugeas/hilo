@@ -5,13 +5,19 @@ from google.protobuf.symbol_database import SymbolDatabase
 from google.protobuf import symbol_database as symbol_database_module
 
 
-class ProtobufSymbolLoader:
+class SymbolLoader(object):
+    def load(self, url: Text) -> Message:
+        raise NotImplementedError()
+
+
+class ProtobufSymbolLoader(SymbolLoader):
     """ProtobufSymbolLoader loads protobuf messages from the provided
     databases."""
     def __init__(
             self,
             symbol_databases: Optional[List[SymbolDatabase]] = None,
     ):
+        super().__init__()
         self._symbol_databases: List[SymbolDatabase] = []
         if symbol_databases:
             for symbol_database in symbol_databases:
@@ -27,9 +33,9 @@ class ProtobufSymbolLoader:
                 'Cannot start ProtobufSymbolLoader, no'
                 ' instances of SymbolDatabase found')
 
-    def load(self, full_path: Text) -> Message:
+    def load(self, url: Text) -> Message:
         for symbol_database in self._symbol_databases:
-            return symbol_database.GetSymbol(full_path)
+            return symbol_database.GetSymbol(url)
 
     @staticmethod
     def _load_default() -> List[SymbolDatabase]:
