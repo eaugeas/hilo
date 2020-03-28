@@ -8,7 +8,7 @@ from hilo_rpc.serialize.yaml import deserialize_from_file
 
 from hilo_tool_src.logging.config import (
     LoggingConfig, basic_config as config_logging)
-from hilo_stage.pipeline.pipeline import Pipeline, PipelineDescriptor
+from hilo_stage.pipeline.builder import Builder, Pipeline
 
 
 def main(argv):
@@ -25,8 +25,9 @@ def main(argv):
         args, LoggingConfig)
     config_logging(logging_config)
 
-    pipeline_descriptor = deserialize_from_file(
-        args.path, PipelineDescriptor)
+    pipeline = deserialize_from_file(
+        args.path, Pipeline)
 
-    pipeline = Pipeline(pipeline_descriptor)
-    BeamDagRunner().run(pipeline.build())
+    BeamDagRunner().run(
+        Builder(pipeline).build()
+    )

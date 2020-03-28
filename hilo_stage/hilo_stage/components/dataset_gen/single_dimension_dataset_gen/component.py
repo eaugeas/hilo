@@ -5,9 +5,9 @@ from tfx.components.base.base_component import BaseComponent
 from tfx.types import Channel
 from tfx.types import artifact
 
-from hilo_stage.components.dimension_gen.single_dimension_gen.executor import (
+from hilo_stage.components.dataset_gen.single_dimension_dataset_gen.executor import (  # noqa: E501
     Executor)
-from hilo_stage.components.dimension_gen.single_dimension_gen.spec import (
+from hilo_stage.components.dataset_gen.single_dimension_dataset_gen.spec import (  # noqa: E501
     SingleDimensionGenSpec, Datasets)
 
 

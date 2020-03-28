@@ -5,7 +5,7 @@ from tensorflow_metadata.proto.v0.statistics_pb2 import (
     DatasetFeatureStatistics, FeatureNameStatistics,
     NumericStatistics)
 
-from hilo_stage.components.dimension_gen.single_dimension_gen.executor import (
+from hilo_stage.components.dataset_gen.single_dimension_dataset_gen.executor import (  # noqa: E501
     infer_dimensions)
 
 
