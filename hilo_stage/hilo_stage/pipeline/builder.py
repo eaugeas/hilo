@@ -19,7 +19,7 @@ class Builder(object):
         context = Context('pipeline')
         context.put_self('source.channel', source_channel)
 
-        for stage in self._pipeline.config.stages[:1]:
+        for stage in self._pipeline.config.stages:
             stage_context = context.for_stage(stage.id)
             stages.append(
                 StageBuilder(stage.config).build(stage_context))

@@ -135,19 +135,16 @@ class JsonExampleGenBuilder(ComponentBuilder):
 
         output_splits = []
         for split in self._config.params.output_config.splits:
-            output_splits.append({
-                'name': split.name,
-                'hash_buckets': split.hash_buckets
-            })
+            output_splits.append(
+                SplitConfig.Split(
+                    name=split.name,
+                    hash_buckets=split.hash_buckets))
 
         component = JsonExampleGen(
-            input=context.get(
-                self._config.inputs.input),
+            input=context.get(self._config.inputs.input),
             input_config=Input(splits=input_splits),
             output_config=Output(
-                split_config=SplitConfig(splits=output_splits)),
-        )
-        print('JsonExampleGen: ', component)
+                split_config=SplitConfig(splits=output_splits)))
         context.put_outputs(self._config.outputs, component)
         return component
 

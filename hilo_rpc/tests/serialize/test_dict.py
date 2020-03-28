@@ -100,7 +100,7 @@ class SerializeTest(unittest.TestCase):
         deserialized = deserialize({
             'name': 'pipeline',
             'config': {
-                'params': {'enable_cache': 'true'},
+                'params': {'enable_cache': True},
                 'stages': [{'id': '0'}, {'id': '1'}, {'id': '2'}]
             }
         }, Pipeline)
@@ -108,7 +108,7 @@ class SerializeTest(unittest.TestCase):
         self.assertEqual(deserialized, Pipeline(
             name='pipeline',
             config=PipelineConfig(
-                params={'enable_cache': 'true'},
+                params={'enable_cache': True},
                 stages=[Stage(id='0'), Stage(id='1'), Stage(id='2')])))
 
 

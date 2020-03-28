@@ -154,19 +154,16 @@ def _deserialize_from_dict_rec(
         record: Message,
         symbol_loader: SymbolLoader
 ) -> Message:
-    print('deserialize: ', d)
     descriptor = record.DESCRIPTOR
     for field in descriptor.fields:
         if field.name not in d:
             continue
 
-        print('field type: ', field.type)
         field_value = getattr(record, field.name)
         if _is_protobuf_map(field_value):
             _deserialize_protobuf_map_from_dict_rec(
                 d, descriptor, symbol_loader, result=field_value)
         elif _is_protobuf_repeated(field_value):
-            print('deserialize list: ', field.name, d[field.name], field_value)
             _deserialize_list_from_dict_rec(
                 d[field.name],
                 field.message_type,
@@ -244,14 +241,3 @@ def _deserialize_list_from_dict_rec(
             )
 
     return result
-
-
-def create_object(
-        args: Dict[str, Any],
-        url: Text,
-        loader_opt: Optional[SymbolLoader] = None
-) -> Message:
-    # TODO(): remove create_object
-    symbol_loader = _get_symbol_loader(loader_opt)
-    message = symbol_loader.load(url)
-    return deserialize(args, message, symbol_loader=symbol_loader)
