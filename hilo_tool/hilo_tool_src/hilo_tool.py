@@ -1,10 +1,10 @@
 from tfx.orchestration.beam.beam_dag_runner import BeamDagRunner
 
-from hilo_rpc.argparse import (
-    add_props_to_parser,
-    fill_in_properties_from_args,
-    fill_in_properties_from_yaml
+from hilo_rpc.serialize.argparse import (
+    add_to_parser,
+    deserialize_from_namespace,
 )
+from hilo_rpc.serialize.yaml import deserialize_from_file
 
 from hilo_tool_src.logging.config import (
     LoggingConfig, basic_config as config_logging)
@@ -19,13 +19,13 @@ def main(argv):
     parser.add_argument(
         '-path', default=None, type=str,
         help='path to a yaml file that defines a pipeline')
-    add_props_to_parser(LoggingConfig, parser)
+    add_to_parser(parser, LoggingConfig)
     args = parser.parse_args(argv[1:])
-    logging_config = fill_in_properties_from_args(
+    logging_config = deserialize_from_namespace(
         args, LoggingConfig)
     config_logging(logging_config)
 
-    pipeline_descriptor = fill_in_properties_from_yaml(
+    pipeline_descriptor = deserialize_from_file(
         args.path, PipelineDescriptor)
 
     pipeline = Pipeline(pipeline_descriptor)

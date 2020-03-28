@@ -7,7 +7,7 @@ from hilo_stage.metadata.build import metadata_store_from_config
 from hilo_stage.source.source import Source
 from hilo_stage.stage.stage import Stage
 from hilo_rpc.proto.pipeline_pb2 import Pipeline as PipelineDescriptor
-from hilo_rpc.argparse.argparse import create_object_from_dict
+from hilo_rpc.serialize.dict import create_object
 
 
 class Pipeline(object):
@@ -50,7 +50,7 @@ class Pipeline(object):
                 'Objects to be deserialized to protobuf messages '
                 ' must have a single property. Received {0}'.format(o))
         for key in o:
-            return create_object_from_dict(o[key], key)
+            return create_object(o[key], key)
 
     @staticmethod
     def _load_list_param(l: List[Any]) -> List[Any]:
