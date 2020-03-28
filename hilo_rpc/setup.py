@@ -6,7 +6,7 @@ setup(
     description='hilo rpc interface definitions',
     author='eaugeas',
     author_email='eaugeas@gmail.com',
-    packages=['hilo_rpc/proto'],
+    packages=['hilo_rpc'],
     install_requires=['grpcio==1.27.1', 'grpcio-tools==1.27.1', 'protobuf==3.11.3', 'PyYAML'],
     scripts=[]
 )

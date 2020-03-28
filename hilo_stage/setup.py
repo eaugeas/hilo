@@ -8,6 +8,9 @@ setup(
     author_email='eaugeas@gmail.com',
     packages=['hilo_stage'],
     install_requires=[
+        # internal dependencies
+        'hilo_rpc',
+
         # external dependencies
         'tfx==0.21.2',
 

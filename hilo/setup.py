@@ -9,5 +9,4 @@ setup(
     packages=['hilo_src'],
     install_requires=['hilo_rpc'],
     scripts=['hilo'],
-    dependency_links=[]
 )
