@@ -10,7 +10,7 @@ def ensure_protobuf_loaded():
     import hilo_rpc.proto.sink_pb2  # noqa: F401
     import hilo_rpc.proto.source_pb2  # noqa: F401
     import hilo_rpc.proto.stage_pb2  # noqa: F401
-    import hilo_rpc.proto.storage_pb2  # noqa: F401
+    import hilo_rpc.proto.connector_pb2  # noqa: F401
 
 
 def filenames() -> List[Text]:
@@ -23,5 +23,5 @@ def filenames() -> List[Text]:
         'hilo_rpc/proto/sink.proto',
         'hilo_rpc/proto/source.proto',
         'hilo_rpc/proto/stage.proto',
-        'hilo_rpc/proto/storage.proto',
+        'hilo_rpc/proto/connector.proto',
     ]

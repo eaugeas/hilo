@@ -11,7 +11,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from hilo_rpc.proto import storage_pb2 as hilo__rpc_dot_proto_dot_storage__pb2
+from hilo_rpc.proto import connector_pb2 as hilo__rpc_dot_proto_dot_connector__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -19,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1dhilo_rpc/proto/metadata.proto\x12\x0ehilo_rpc.proto\x1a\x1chilo_rpc/proto/storage.proto\"O\n\x13MetadataStoreConfig\x12.\n\x06sqlite\x18\x01 \x01(\x0b\x32\x1c.hilo_rpc.proto.SqliteConfigH\x00\x42\x08\n\x06\x63onfigb\x06proto3'
+  serialized_pb=b'\n\x1dhilo_rpc/proto/metadata.proto\x12\x0ehilo_rpc.proto\x1a\x1ehilo_rpc/proto/connector.proto\"O\n\x13MetadataStoreConfig\x12.\n\x06sqlite\x18\x01 \x01(\x0b\x32\x1c.hilo_rpc.proto.SqliteConfigH\x00\x42\x08\n\x06\x63onfigb\x06proto3'
   ,
-  dependencies=[hilo__rpc_dot_proto_dot_storage__pb2.DESCRIPTOR,])
+  dependencies=[hilo__rpc_dot_proto_dot_connector__pb2.DESCRIPTOR,])
 
 
 
@@ -55,11 +55,11 @@ _METADATASTORECONFIG = _descriptor.Descriptor(
       name='config', full_name='hilo_rpc.proto.MetadataStoreConfig.config',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=79,
-  serialized_end=158,
+  serialized_start=81,
+  serialized_end=160,
 )
 
-_METADATASTORECONFIG.fields_by_name['sqlite'].message_type = hilo__rpc_dot_proto_dot_storage__pb2._SQLITECONFIG
+_METADATASTORECONFIG.fields_by_name['sqlite'].message_type = hilo__rpc_dot_proto_dot_connector__pb2._SQLITECONFIG
 _METADATASTORECONFIG.oneofs_by_name['config'].fields.append(
   _METADATASTORECONFIG.fields_by_name['sqlite'])
 _METADATASTORECONFIG.fields_by_name['sqlite'].containing_oneof = _METADATASTORECONFIG.oneofs_by_name['config']

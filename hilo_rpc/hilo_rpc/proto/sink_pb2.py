@@ -12,7 +12,7 @@ _sym_db = _symbol_database.Default()
 
 
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
-from hilo_rpc.proto import storage_pb2 as hilo__rpc_dot_proto_dot_storage__pb2
+from hilo_rpc.proto import connector_pb2 as hilo__rpc_dot_proto_dot_connector__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,9 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x19hilo_rpc/proto/sink.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1chilo_rpc/proto/storage.proto\"u\n\nSinkConfig\x12,\n\x05\x65mpty\x18\x01 \x01(\x0b\x32\x1b.hilo_rpc.proto.EmptyConfigH\x00\x12/\n\x04\x66ile\x18\x02 \x01(\x0b\x32\x1f.hilo_rpc.proto.LocalFileConfigH\x00\x42\x08\n\x06\x63onfig\"\xc1\x01\n\x04Sink\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12*\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1a.hilo_rpc.proto.SinkConfig\"6\n\x11\x43reateSinkRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\" \n\x12\x43reateSinkResponse\x12\n\n\x02id\x18\x01 \x01(\t\"\x1f\n\x11\x44\x65leteSinkRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x14\n\x12\x44\x65leteSinkResponse\"\x1c\n\x0eGetSinkRequest\x12\n\n\x02id\x18\x01 \x01(\t\"5\n\x0fGetSinkResponse\x12\"\n\x04Sink\x18\x01 \x01(\x0b\x32\x14.hilo_rpc.proto.Sink2\xff\x01\n\x07SinkApi\x12S\n\nCreateSink\x12!.hilo_rpc.proto.CreateSinkRequest\x1a\".hilo_rpc.proto.CreateSinkResponse\x12S\n\nDeleteSink\x12!.hilo_rpc.proto.DeleteSinkRequest\x1a\".hilo_rpc.proto.DeleteSinkResponse\x12J\n\x07GetSink\x12\x1e.hilo_rpc.proto.GetSinkRequest\x1a\x1f.hilo_rpc.proto.GetSinkResponseb\x06proto3'
+  serialized_pb=b'\n\x19hilo_rpc/proto/sink.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1ehilo_rpc/proto/connector.proto\"u\n\nSinkConfig\x12,\n\x05\x65mpty\x18\x01 \x01(\x0b\x32\x1b.hilo_rpc.proto.EmptyConfigH\x00\x12/\n\x04\x66ile\x18\x02 \x01(\x0b\x32\x1f.hilo_rpc.proto.LocalFileConfigH\x00\x42\x08\n\x06\x63onfig\"\xc1\x01\n\x04Sink\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12*\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1a.hilo_rpc.proto.SinkConfig\"6\n\x11\x43reateSinkRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\" \n\x12\x43reateSinkResponse\x12\n\n\x02id\x18\x01 \x01(\t\"\x1f\n\x11\x44\x65leteSinkRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x14\n\x12\x44\x65leteSinkResponse\"\x1c\n\x0eGetSinkRequest\x12\n\n\x02id\x18\x01 \x01(\t\"5\n\x0fGetSinkResponse\x12\"\n\x04Sink\x18\x01 \x01(\x0b\x32\x14.hilo_rpc.proto.Sink2\xff\x01\n\x07SinkApi\x12S\n\nCreateSink\x12!.hilo_rpc.proto.CreateSinkRequest\x1a\".hilo_rpc.proto.CreateSinkResponse\x12S\n\nDeleteSink\x12!.hilo_rpc.proto.DeleteSinkRequest\x1a\".hilo_rpc.proto.DeleteSinkResponse\x12J\n\x07GetSink\x12\x1e.hilo_rpc.proto.GetSinkRequest\x1a\x1f.hilo_rpc.proto.GetSinkResponseb\x06proto3'
   ,
-  dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,hilo__rpc_dot_proto_dot_storage__pb2.DESCRIPTOR,])
+  dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,hilo__rpc_dot_proto_dot_connector__pb2.DESCRIPTOR,])
 
 
 
@@ -63,8 +63,8 @@ _SINKCONFIG = _descriptor.Descriptor(
       name='config', full_name='hilo_rpc.proto.SinkConfig.config',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=108,
-  serialized_end=225,
+  serialized_start=110,
+  serialized_end=227,
 )
 
 
@@ -129,8 +129,8 @@ _SINK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=228,
-  serialized_end=421,
+  serialized_start=230,
+  serialized_end=423,
 )
 
 
@@ -167,8 +167,8 @@ _CREATESINKREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=423,
-  serialized_end=477,
+  serialized_start=425,
+  serialized_end=479,
 )
 
 
@@ -198,8 +198,8 @@ _CREATESINKRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=479,
-  serialized_end=511,
+  serialized_start=481,
+  serialized_end=513,
 )
 
 
@@ -229,8 +229,8 @@ _DELETESINKREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=513,
-  serialized_end=544,
+  serialized_start=515,
+  serialized_end=546,
 )
 
 
@@ -253,8 +253,8 @@ _DELETESINKRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=546,
-  serialized_end=566,
+  serialized_start=548,
+  serialized_end=568,
 )
 
 
@@ -284,8 +284,8 @@ _GETSINKREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=568,
-  serialized_end=596,
+  serialized_start=570,
+  serialized_end=598,
 )
 
 
@@ -315,12 +315,12 @@ _GETSINKRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=598,
-  serialized_end=651,
+  serialized_start=600,
+  serialized_end=653,
 )
 
-_SINKCONFIG.fields_by_name['empty'].message_type = hilo__rpc_dot_proto_dot_storage__pb2._EMPTYCONFIG
-_SINKCONFIG.fields_by_name['file'].message_type = hilo__rpc_dot_proto_dot_storage__pb2._LOCALFILECONFIG
+_SINKCONFIG.fields_by_name['empty'].message_type = hilo__rpc_dot_proto_dot_connector__pb2._EMPTYCONFIG
+_SINKCONFIG.fields_by_name['file'].message_type = hilo__rpc_dot_proto_dot_connector__pb2._LOCALFILECONFIG
 _SINKCONFIG.oneofs_by_name['config'].fields.append(
   _SINKCONFIG.fields_by_name['empty'])
 _SINKCONFIG.fields_by_name['empty'].containing_oneof = _SINKCONFIG.oneofs_by_name['config']
@@ -405,8 +405,8 @@ _SINKAPI = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=654,
-  serialized_end=909,
+  serialized_start=656,
+  serialized_end=911,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateSink',
