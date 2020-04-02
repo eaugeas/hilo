@@ -14,9 +14,9 @@ message EmptyConfig {
   bool empty = 1;
 }
 
-message InputConfig {
-    oneof config {
-        EmptyConfig empty = 1;
-        LocalFileConfig local_file = 2;
+message ConnectorConfig {
+  oneof config {
+    EmptyConfig empty = 1;
+    LocalFileConfig local_file = 2;
   }
 }

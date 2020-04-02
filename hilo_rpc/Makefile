@@ -11,9 +11,10 @@ AUTOGEN=hilo_rpc/proto/source_pb2.py \
 	hilo_rpc/proto/sink_pb2_grpc.py \
 	hilo_rpc/proto/pipeline_pb2.py \
 	hilo_rpc/proto/stage_pb2.py \
-	hilo_rpc/proto/storage_pb2.py \
+	hilo_rpc/proto/connector_pb2.py \
 	hilo_rpc/proto/metadata_pb2.py \
-	hilo_rpc/proto/logging_pb2.py
+	hilo_rpc/proto/logging_pb2.py \
+	hilo_rpc/proto/tests_pb2.py
 
 SRC=hilo_rpc
 TESTS=tests

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package hilo_rpc.proto;
+
+message TestMessage {
+    message Params {
+        bool bool_param = 1;
+        int32 int32_param = 2;
+        string string_param = 3;
+    }
+
+    message Enum {
+        oneof enum {
+            bool bool_enum = 1;
+            int32 int32_enum = 2;
+            string string_enum = 3;
+        }
+    }
+
+    Enum enum = 1;
+    Params params = 2;
+    map<string, string> mapping = 3;
+    repeated string string_repeated = 4;
+}

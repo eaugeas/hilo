@@ -3,7 +3,14 @@ syntax = "proto3";
 package hilo_rpc.proto;
 
 import "google/protobuf/timestamp.proto";
-import "hilo_rpc/proto/storage.proto";
+import "hilo_rpc/proto/connector.proto";
+
+message SourceConfig {
+  oneof config {
+    EmptyConfig empty = 1;
+    LocalFileConfig local_file = 2;
+  }
+}
 
 message Source {
   string id = 1;
@@ -11,7 +18,7 @@ message Source {
   string description = 3;
   google.protobuf.Timestamp created_at = 4;
   google.protobuf.Timestamp updated_at = 5;
-  InputConfig config = 6;
+  SourceConfig config = 6;
 }
 
 message CreateSourceRequest {

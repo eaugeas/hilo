@@ -3,14 +3,14 @@ from typing import List, Optional
 from tfx.orchestration import pipeline as tfx_pipeline
 from tfx.components.base.base_component import BaseComponent
 
-from hilo_stage.metadata.build import metadata_store_from_config
+from hilo_stage.metadata.builder import MetadataStoreBuilder
 from hilo_rpc.proto.pipeline_pb2 import Pipeline
 from hilo_stage.source.builder import Builder as SourceBuilder
 from hilo_stage.stage.builder import Context, Builder as StageBuilder
 
 
 class Builder(object):
-    def __init__(self, pipeline: Optional[Pipeline]):
+    def __init__(self, pipeline: Optional[Pipeline] = None):
         self._pipeline = pipeline or Pipeline()
 
     def build(self) -> tfx_pipeline.Pipeline:
@@ -24,13 +24,13 @@ class Builder(object):
             stages.append(
                 StageBuilder(stage.config).build(stage_context))
 
-        metadata_store = metadata_store_from_config(
-            self._pipeline.config.metadata)
+        metadata_store_config = MetadataStoreBuilder(
+            self._pipeline.config.metadata).build()
 
         return tfx_pipeline.Pipeline(
             pipeline_name=self._pipeline.name,
             pipeline_root=self._pipeline.config.root_dir,
-            metadata_connection_config=metadata_store.connection_config(),
+            metadata_connection_config=metadata_store_config,
             enable_cache=self._pipeline.config.params.enable_cache,
             components=stages
         )

@@ -22,7 +22,7 @@ def add_to_parser(
     serialized = serialize(message)
     flattened = flatten(serialized, namespace=namespace)
     for key in flattened:
-        parser.add_argument('-{0}'.format(key))
+        parser.add_argument('-{0}'.format(key), required=False)
 
 
 def deserialize_from_namespace(

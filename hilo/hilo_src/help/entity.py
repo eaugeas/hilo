@@ -15,11 +15,13 @@ def find(name: Optional[Text]) -> List[Message]:
     if name and name in messages:
         return [messages[name]]
 
-    result: List[Message] = []
-    for item in filter(
-            lambda el: name is None or el[0].startswith(name),
-            messages.items()):
-        result.append(item[1])
+    result: List[Message] = list(map(
+        lambda item: item[1],  # type: ignore
+        filter(
+            lambda el: name is None or el[0].find(name) != -1,
+            messages.items()
+        )
+    ))
     return result
 
 

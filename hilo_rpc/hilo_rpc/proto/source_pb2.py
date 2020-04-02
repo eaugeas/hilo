@@ -12,7 +12,7 @@ _sym_db = _symbol_database.Default()
 
 
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
-from hilo_rpc.proto import storage_pb2 as hilo__rpc_dot_proto_dot_storage__pb2
+from hilo_rpc.proto import connector_pb2 as hilo__rpc_dot_proto_dot_connector__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,11 +20,52 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1bhilo_rpc/proto/source.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1chilo_rpc/proto/storage.proto\"\xc4\x01\n\x06Source\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1b.hilo_rpc.proto.InputConfig\"8\n\x13\x43reateSourceRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\"\"\n\x14\x43reateSourceResponse\x12\n\n\x02id\x18\x01 \x01(\t\"!\n\x13\x44\x65leteSourceRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x16\n\x14\x44\x65leteSourceResponse\"\x1e\n\x10GetSourceRequest\x12\n\n\x02id\x18\x01 \x01(\t\";\n\x11GetSourceResponse\x12&\n\x06source\x18\x01 \x01(\x0b\x32\x16.hilo_rpc.proto.Source2\x93\x02\n\tSourceApi\x12Y\n\x0c\x43reateSource\x12#.hilo_rpc.proto.CreateSourceRequest\x1a$.hilo_rpc.proto.CreateSourceResponse\x12Y\n\x0c\x44\x65leteSource\x12#.hilo_rpc.proto.DeleteSourceRequest\x1a$.hilo_rpc.proto.DeleteSourceResponse\x12P\n\tGetSource\x12 .hilo_rpc.proto.GetSourceRequest\x1a!.hilo_rpc.proto.GetSourceResponseb\x06proto3'
+  serialized_pb=b'\n\x1bhilo_rpc/proto/source.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1ehilo_rpc/proto/connector.proto\"}\n\x0cSourceConfig\x12,\n\x05\x65mpty\x18\x01 \x01(\x0b\x32\x1b.hilo_rpc.proto.EmptyConfigH\x00\x12\x35\n\nlocal_file\x18\x02 \x01(\x0b\x32\x1f.hilo_rpc.proto.LocalFileConfigH\x00\x42\x08\n\x06\x63onfig\"\xc5\x01\n\x06Source\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12,\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1c.hilo_rpc.proto.SourceConfig\"8\n\x13\x43reateSourceRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\"\"\n\x14\x43reateSourceResponse\x12\n\n\x02id\x18\x01 \x01(\t\"!\n\x13\x44\x65leteSourceRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x16\n\x14\x44\x65leteSourceResponse\"\x1e\n\x10GetSourceRequest\x12\n\n\x02id\x18\x01 \x01(\t\";\n\x11GetSourceResponse\x12&\n\x06source\x18\x01 \x01(\x0b\x32\x16.hilo_rpc.proto.Source2\x93\x02\n\tSourceApi\x12Y\n\x0c\x43reateSource\x12#.hilo_rpc.proto.CreateSourceRequest\x1a$.hilo_rpc.proto.CreateSourceResponse\x12Y\n\x0c\x44\x65leteSource\x12#.hilo_rpc.proto.DeleteSourceRequest\x1a$.hilo_rpc.proto.DeleteSourceResponse\x12P\n\tGetSource\x12 .hilo_rpc.proto.GetSourceRequest\x1a!.hilo_rpc.proto.GetSourceResponseb\x06proto3'
   ,
-  dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,hilo__rpc_dot_proto_dot_storage__pb2.DESCRIPTOR,])
+  dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,hilo__rpc_dot_proto_dot_connector__pb2.DESCRIPTOR,])
 
 
+
+
+_SOURCECONFIG = _descriptor.Descriptor(
+  name='SourceConfig',
+  full_name='hilo_rpc.proto.SourceConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='empty', full_name='hilo_rpc.proto.SourceConfig.empty', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='local_file', full_name='hilo_rpc.proto.SourceConfig.local_file', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='config', full_name='hilo_rpc.proto.SourceConfig.config',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=112,
+  serialized_end=237,
+)
 
 
 _SOURCE = _descriptor.Descriptor(
@@ -88,8 +129,8 @@ _SOURCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=111,
-  serialized_end=307,
+  serialized_start=240,
+  serialized_end=437,
 )
 
 
@@ -126,8 +167,8 @@ _CREATESOURCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=309,
-  serialized_end=365,
+  serialized_start=439,
+  serialized_end=495,
 )
 
 
@@ -157,8 +198,8 @@ _CREATESOURCERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=367,
-  serialized_end=401,
+  serialized_start=497,
+  serialized_end=531,
 )
 
 
@@ -188,8 +229,8 @@ _DELETESOURCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=403,
-  serialized_end=436,
+  serialized_start=533,
+  serialized_end=566,
 )
 
 
@@ -212,8 +253,8 @@ _DELETESOURCERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=438,
-  serialized_end=460,
+  serialized_start=568,
+  serialized_end=590,
 )
 
 
@@ -243,8 +284,8 @@ _GETSOURCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=462,
-  serialized_end=492,
+  serialized_start=592,
+  serialized_end=622,
 )
 
 
@@ -274,14 +315,23 @@ _GETSOURCERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=494,
-  serialized_end=553,
+  serialized_start=624,
+  serialized_end=683,
 )
 
+_SOURCECONFIG.fields_by_name['empty'].message_type = hilo__rpc_dot_proto_dot_connector__pb2._EMPTYCONFIG
+_SOURCECONFIG.fields_by_name['local_file'].message_type = hilo__rpc_dot_proto_dot_connector__pb2._LOCALFILECONFIG
+_SOURCECONFIG.oneofs_by_name['config'].fields.append(
+  _SOURCECONFIG.fields_by_name['empty'])
+_SOURCECONFIG.fields_by_name['empty'].containing_oneof = _SOURCECONFIG.oneofs_by_name['config']
+_SOURCECONFIG.oneofs_by_name['config'].fields.append(
+  _SOURCECONFIG.fields_by_name['local_file'])
+_SOURCECONFIG.fields_by_name['local_file'].containing_oneof = _SOURCECONFIG.oneofs_by_name['config']
 _SOURCE.fields_by_name['created_at'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _SOURCE.fields_by_name['updated_at'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
-_SOURCE.fields_by_name['config'].message_type = hilo__rpc_dot_proto_dot_storage__pb2._INPUTCONFIG
+_SOURCE.fields_by_name['config'].message_type = _SOURCECONFIG
 _GETSOURCERESPONSE.fields_by_name['source'].message_type = _SOURCE
+DESCRIPTOR.message_types_by_name['SourceConfig'] = _SOURCECONFIG
 DESCRIPTOR.message_types_by_name['Source'] = _SOURCE
 DESCRIPTOR.message_types_by_name['CreateSourceRequest'] = _CREATESOURCEREQUEST
 DESCRIPTOR.message_types_by_name['CreateSourceResponse'] = _CREATESOURCERESPONSE
@@ -290,6 +340,13 @@ DESCRIPTOR.message_types_by_name['DeleteSourceResponse'] = _DELETESOURCERESPONSE
 DESCRIPTOR.message_types_by_name['GetSourceRequest'] = _GETSOURCEREQUEST
 DESCRIPTOR.message_types_by_name['GetSourceResponse'] = _GETSOURCERESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+SourceConfig = _reflection.GeneratedProtocolMessageType('SourceConfig', (_message.Message,), {
+  'DESCRIPTOR' : _SOURCECONFIG,
+  '__module__' : 'hilo_rpc.proto.source_pb2'
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SourceConfig)
+  })
+_sym_db.RegisterMessage(SourceConfig)
 
 Source = _reflection.GeneratedProtocolMessageType('Source', (_message.Message,), {
   'DESCRIPTOR' : _SOURCE,
@@ -348,8 +405,8 @@ _SOURCEAPI = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=556,
-  serialized_end=831,
+  serialized_start=686,
+  serialized_end=961,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateSource',

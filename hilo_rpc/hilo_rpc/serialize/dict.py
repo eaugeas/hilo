@@ -81,8 +81,8 @@ def unflatten(d: Dict[str, Any], namespace: Text = '') -> Dict[str, Any]:
 
     for key in d:
         newkey = key
-        if namespace:
-            newkey = key.lstrip('{0}.'.format(namespace))
+        if namespace and key.startswith(namespace + '.'):
+            newkey = key.lstrip(namespace)[1:]
 
         if isinstance(d[key], dict):
             raise ValueError(
@@ -93,7 +93,7 @@ def unflatten(d: Dict[str, Any], namespace: Text = '') -> Dict[str, Any]:
         for level in split[:-1]:
             if level not in it_result:
                 it_result[level] = {}
-                it_result = it_result[level]
+            it_result = it_result[level]
         it_result[split[-1]] = d[key]
 
     return result
@@ -125,61 +125,84 @@ def serialize(
                 return 'Text'
         return value
 
-    def _get_value_from_repeated(
+    def _get_value_from_scalar_repeated(
             descriptor: Optional[Descriptor],
-            value: Union[RepeatedScalarContainer, RepeatedCompositeContainer]
+            value: RepeatedScalarContainer,
     ) -> List[Any]:
         repeated: List[Any] = []
 
         if len(value) == 0 and with_types:
-            if isinstance(value, RepeatedCompositeContainer):
-                repeated.append(serialize(
-                    symbol_loader.load(descriptor.full_name),
-                    with_types=with_types,
-                    symbol_loader=symbol_loader))
-            else:
-                try:
-                    value.append(True)
-                    return ['bool']
-                except TypeError:
-                    pass
-                try:
-                    value.append(1)
-                    return ['int']
-                except TypeError:
-                    pass
-                try:
-                    value.append(1.1)
-                    return ['float']
-                except TypeError:
-                    pass
-                try:
-                    value.append('str')
-                    return ['str']
-                except TypeError:
-                    pass
+            try:
+                value.append(True)
+                return ['bool']
+            except TypeError:
+                pass
+            try:
+                value.append(1)
+                return ['int']
+            except TypeError:
+                pass
+            try:
+                value.append(1.1)
+                return ['float']
+            except TypeError:
+                pass
+            try:
+                value.append('str')
+                return ['str']
+            except TypeError:
+                pass
+        else:
+            for el in value:
+                repeated.append(el)
+        return repeated
+
+    def _get_value_from_composite_repeated(
+            descriptor: Optional[Descriptor],
+            value: RepeatedCompositeContainer
+    ) -> List[Any]:
+        repeated: List[Any] = []
+
+        if len(value) == 0 and with_types:
+            repeated.append(serialize(
+                symbol_loader.load(descriptor.full_name),
+                with_types=with_types,
+                symbol_loader=symbol_loader))
         else:
             for el in value:
                 repeated.append(serialize(
                     el, with_types=with_types, symbol_loader=symbol_loader))
         return repeated
 
-    def _get_value_from_map(
+    def _get_value_from_scalar_map(
             descriptor: Optional[Descriptor],
-            value: Union[ScalarMapContainer, MessageMapContainer]
+            container: ScalarMapContainer
     ) -> Dict[str, Any]:
-        map = {}
+        map_result = {}
+
+        if len(container) == 0 and with_types:
+            pass
+        else:
+            for el in container:
+                map_result[el] = container[el]
+        return map_result
+
+    def _get_value_from_message_map(
+            descriptor: Optional[Descriptor],
+            value: MessageMapContainer
+    ) -> Dict[str, Any]:
+        map_result = {}
 
         if len(value) == 0 and with_types:
             # TODO(): implement for maps
             pass
         else:
             for el in value:
-                map[el.key] = serialize(
+                map_result[el.key] = serialize(
                     el.value,
                     with_types=with_types,
                     symbol_loader=symbol_loader)
-        return map
+        return map_result
 
     if _is_protobuf_message_type(message):
         record: Message = message()
@@ -194,11 +217,17 @@ def serialize(
 
     for field in descriptor.fields:
         value = getattr(record, field.name)
-        if _is_protobuf_map(value):
-            result[field.name] = _get_value_from_map(
+        if _is_protobuf_scalar_map(value):
+            result[field.name] = _get_value_from_scalar_map(
                 field.message_type, value)
-        elif _is_protobuf_repeated(value):
-            result[field.name] = _get_value_from_repeated(
+        elif _is_protobuf_message_map(value):
+            result[field.name] = _get_value_from_message_map(
+                field.message_type, value)
+        elif _is_protobuf_scalar_repeated(value):
+            result[field.name] = _get_value_from_scalar_repeated(
+                field.message_type, value)
+        elif _is_protobuf_composite_repeated(value):
+            result[field.name] = _get_value_from_composite_repeated(
                 field.message_type, value)
         elif _is_protobuf_message(value):
             result[field.name] = serialize(
@@ -210,13 +239,29 @@ def serialize(
 
 
 def _is_protobuf_map(o: Any) -> bool:
-    return (isinstance(o, ScalarMapContainer) or
-            isinstance(o, MessageMapContainer))
+    return (_is_protobuf_scalar_map(o) or
+            _is_protobuf_message_map(o))
+
+
+def _is_protobuf_scalar_map(o: Any) -> bool:
+    return isinstance(o, ScalarMapContainer)
+
+
+def _is_protobuf_message_map(o: Any) -> bool:
+    return isinstance(o, MessageMapContainer)
 
 
 def _is_protobuf_repeated(o: Any) -> bool:
-    return (isinstance(o, RepeatedScalarContainer) or
-            isinstance(o, RepeatedCompositeContainer))
+    return (_is_protobuf_scalar_repeated(o) or
+            _is_protobuf_composite_repeated(o))
+
+
+def _is_protobuf_scalar_repeated(o: Any) -> bool:
+    return isinstance(o, RepeatedScalarContainer)
+
+
+def _is_protobuf_composite_repeated(o: Any) -> bool:
+    return isinstance(o, RepeatedCompositeContainer)
 
 
 def _is_protobuf_message_type(o: Any) -> bool:
@@ -236,9 +281,24 @@ def _deserialize_protobuf_map_from_dict_rec(
     if result is None:
         result: Dict[str, Any] = {}
     for key in d:
-        # TODO(): check result type so that d[key] is converted to the
-        # correct type
-        result[key] = str(d[key])
+        try:
+            result[key] = bool(d[key])
+        except (TypeError, ValueError):
+            pass
+        try:
+            result[key] = int(d[key])
+        except (TypeError, ValueError):
+            pass
+        try:
+            result[key] = float(d[key])
+        except (TypeError, ValueError):
+            pass
+        try:
+            result[key] = str(d[key])
+        except (TypeError, ValueError):
+            pass
+        result[key] = d[key]
+
     return result
 
 
@@ -253,9 +313,12 @@ def _deserialize_from_dict_rec(
             continue
 
         field_value = getattr(record, field.name)
-        if _is_protobuf_map(field_value):
+        if _is_protobuf_scalar_map(field_value):
             _deserialize_protobuf_map_from_dict_rec(
-                d, descriptor, symbol_loader, result=field_value)
+                d[field.name], descriptor, symbol_loader, result=field_value)
+        elif _is_protobuf_message_map(field_value):
+            _deserialize_protobuf_map_from_dict_rec(
+                d[field.name], descriptor, symbol_loader, result=field_value)
         elif _is_protobuf_repeated(field_value):
             _deserialize_list_from_dict_rec(
                 d[field.name],
@@ -266,7 +329,14 @@ def _deserialize_from_dict_rec(
             _deserialize_from_dict_rec(
                 d[field.name], field_value, symbol_loader)
         else:
-            setattr(record, field.name, d[field.name])
+            if isinstance(getattr(record, field.name), bool):
+                setattr(record, field.name, bool(d[field.name]))
+            elif isinstance(getattr(record, field.name), int):
+                setattr(record, field.name, int(d[field.name]))
+            elif isinstance(getattr(record, field.name), float):
+                setattr(record, field.name, float(d[field.name]))
+            else:
+                setattr(record, field.name, d[field.name])
     return record
 
 
