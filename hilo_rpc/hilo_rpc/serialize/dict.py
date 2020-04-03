@@ -335,7 +335,7 @@ def _deserialize_from_dict_rec(
                 setattr(record, field.name, int(d[field.name]))
             elif isinstance(getattr(record, field.name), float):
                 setattr(record, field.name, float(d[field.name]))
-            else:
+            elif d[field.name] is not None:
                 setattr(record, field.name, d[field.name])
     return record
 

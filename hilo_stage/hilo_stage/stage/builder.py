@@ -1,11 +1,12 @@
-from typing import Any, Dict, List, Optional, Text, Type
+from typing import Any, Dict, Optional, Text, Type
 
 from google.protobuf.message import Message
-from tfx.types import Channel, artifact, standard_artifacts, artifact_utils
+from tfx.types import Channel, standard_artifacts, artifact_utils
 from tfx.components.base.base_component import BaseComponent
 
+from hilo_stage.components.utils.splits import splits_or_example_defaults
 from hilo_rpc.proto.stage_pb2 import (
-    StageConfig,
+    StageConfig, PartitionGenConfig,
     JsonExampleGenConfig, SingleDimensionGenConfig,
     StatisticsGenConfig, SchemaGenConfig)
 
@@ -73,22 +74,14 @@ class StatisticsGenBuilder(ComponentBuilder):
     def build(self, context: Context) -> BaseComponent:
         from tfx.components import StatisticsGen
 
-        splits: List[Text] = []
-        if self._config.params.split_names:
-            splits = self._config.params.split_names
-        else:
-            for el in artifact.DEFAULT_EXAMPLE_SPLITS:
-                splits.append(el)
-
         statistics_artifact = standard_artifacts.ExampleStatistics()
         statistics_artifact.split_names = artifact_utils.encode_split_names(
-            splits)
+            splits_or_example_defaults(self._config.params.split_names))
 
         output = Channel(
             type=standard_artifacts.ExampleStatistics,
             artifacts=[statistics_artifact])
 
-        print('context: ', context._context)
         examples = context.get(self._config.inputs.examples)
         component = StatisticsGen(
             examples=examples,
@@ -107,13 +100,43 @@ class SingleDimensionGenBuilder(ComponentBuilder):
 
     def build(self, context: Context) -> BaseComponent:
         from hilo_stage.components import SingleDimensionGen
+        split_names = splits_or_example_defaults(
+            self._config.params.split_names)
 
         statistics = context.get(self._config.inputs.statistics)
         examples = context.get(self._config.inputs.examples)
         component = SingleDimensionGen(
             statistics=statistics,
-            examples=examples)
+            examples=examples,
+            split_names=split_names)
 
+        context.put_outputs(self._config.outputs, component)
+        return component
+
+
+class PartitionGenBuilder(ComponentBuilder):
+    def __init__(self, config: Optional[PartitionGenConfig]):
+        self._config = config or PartitionGenConfig()
+
+    def build(self, context: Context) -> BaseComponent:
+        from hilo_stage.components import PartitionGen
+
+        split_names = splits_or_example_defaults(
+            self._config.params.split_names)
+
+        partition_artifact = standard_artifacts.Examples()
+        partition_artifact.split_names = artifact_utils.encode_split_names(
+            splits_or_example_defaults(self._config.params.split_names))
+
+        partitions = Channel(
+            type=standard_artifacts.Examples,
+            artifacts=[partition_artifact])
+
+        component = PartitionGen(
+            examples=context.get(self._config.inputs.examples),
+            datasets=context.get(self._config.inputs.datasets),
+            partitions=partitions,
+            split_names=split_names)
         context.put_outputs(self._config.outputs, component)
         return component
 
@@ -158,7 +181,8 @@ class Builder:
             'json_example_gen': JsonExampleGenBuilder,
             'statistics_gen': StatisticsGenBuilder,
             'schema_gen': SchemaGenBuilder,
-            'single_dimension_gen': SingleDimensionGenBuilder
+            'single_dimension_gen': SingleDimensionGenBuilder,
+            'partition_gen': PartitionGenBuilder
         }
 
     def build(self, context: Context) -> BaseComponent:

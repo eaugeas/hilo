@@ -79,7 +79,7 @@ The idea behind is to have all the relevant code in the project in one repositor
 We do not intend to discuss the benefits or drawbacks of a monorepo, there's a lot
 of discussions out there about this. 
 
-What is relevant is that there is a Makefile at the root folder, and ach module
+What is relevant is that there is a Makefile at the root folder, and each module
 within the project has its own Makefile. So, for example
 
 ```sh

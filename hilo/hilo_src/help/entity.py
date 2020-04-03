@@ -4,6 +4,7 @@ from google.protobuf.message import Message
 
 from hilo_rpc.proto import filenames as proto_filenames
 from hilo_rpc.serialize.dict import serialize
+from hilo_rpc.serialize.text import serialize as serialize_text
 from hilo_rpc.serialize.symbol_loader import ProtobufSymbolLoader
 
 
@@ -36,10 +37,16 @@ def describe(
     import json
     import yaml
 
-    serialized = serialize(message, with_types=True)
     if formatter == 'json':
+        serialized = serialize(message, with_types=True)
         return json.dumps(serialized, indent='  ')
+    elif formatter == 'text':
+        s = io.StringIO()
+        serialize_text(s, message)
+        s.seek(0)
+        return s.read(-1)
     elif formatter is None or formatter == 'yaml':
+        serialized = serialize(message, with_types=True)
         s = io.StringIO()
         yaml.dump(serialized, s)
         s.seek(0)
