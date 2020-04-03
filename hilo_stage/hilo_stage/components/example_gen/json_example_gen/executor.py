@@ -1,8 +1,8 @@
 from abc import ABC
-from typing import Any, Dict, Iterable, List, Optional, Text, Callable
+import logging
 import os
+from typing import Any, Dict, Iterable, List, Optional, Text, Callable
 
-import absl
 import apache_beam as beam
 import tensorflow as tf
 from tfx.components.example_gen.base_example_gen_executor import (
@@ -24,7 +24,8 @@ TypeHandler = Callable[[JsonValue], tf.train.Feature]
 class _ParsedJsonToTfExample(beam.DoFn, ABC):
     """A beam.DoFn to convert a parsed CSV line to a tf.Example."""
 
-    def __init__(self):
+    def __init__(self, *unused_args, **unused_kwargs):
+        super().__init__(*unused_args, **unused_kwargs)
         self._prop_handlers: Optional[Dict[Text, TypeHandler]] = None
 
     def _initialize_prop_infos(
@@ -55,6 +56,7 @@ class _ParsedJsonToTfExample(beam.DoFn, ABC):
             self,
             json_cells_serialized: List[JsonCellSerialized],
             prop_infos: List[ValueInfo],
+            **kwargs,
     ) -> Iterable[tf.train.Example]:
         prop_handlers: Dict[Text, TypeHandler] = (
                 self._prop_handlers or
@@ -96,7 +98,7 @@ def _JsonToExample(
     input_base_uri = artifact_utils.get_single_uri(input_dict[INPUT_KEY])
     json_pattern = os.path.join(input_base_uri, split_pattern)
 
-    absl.logging.info(
+    logging.info(
         'Processing input json data {} to TFExample.'.format(json_pattern))
     json_files = tf.io.gfile.glob(json_pattern)
     if not json_files:

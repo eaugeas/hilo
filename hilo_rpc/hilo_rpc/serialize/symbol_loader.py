@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Text
+from typing import Dict, List, Optional, Text, Type
 
 from google.protobuf.message import Message
 from google.protobuf.symbol_database import SymbolDatabase
@@ -8,7 +8,7 @@ from hilo_rpc.proto import ensure_protobuf_loaded
 
 
 class SymbolLoader(object):
-    def load(self, url: Text) -> Message:
+    def load(self, url: Text) -> Type[Message]:
         raise NotImplementedError()
 
     def load_all(self, url: Text) -> Dict[Text, Message]:
@@ -40,12 +40,12 @@ class ProtobufSymbolLoader(SymbolLoader):
 
         ensure_protobuf_loaded()
 
-    def load(self, url: Text) -> Message:
+    def load(self, url: Text) -> Type[Message]:
         for symbol_database in self._symbol_databases:
             return symbol_database.GetSymbol(url)
 
     def load_all(self, url: Text) -> Dict[Text, Message]:
-        messages: Dict[Message] = {}
+        messages: Dict[str, Message] = {}
         for symbol_database in self._symbol_databases:
             try:
                 symbol_database_messages = symbol_database.GetMessages(url)

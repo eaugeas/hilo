@@ -8,7 +8,8 @@ from hilo_stage.components.utils.splits import splits_or_example_defaults
 from hilo_rpc.proto.stage_pb2 import (
     StageConfig, PartitionGenConfig,
     JsonExampleGenConfig, SingleDimensionGenConfig,
-    StatisticsGenConfig, SchemaGenConfig)
+    StatisticsGenConfig, SchemaGenConfig,
+    CsvExampleGenConfig)
 
 
 class Context:
@@ -46,12 +47,16 @@ class Context:
 
 
 class ComponentBuilder(object):
+    def __init__(self, config: Optional[Any] = None):
+        pass
+
     def build(self, context: Context) -> BaseComponent:
         raise NotImplementedError()
 
 
 class SchemaGenBuilder(ComponentBuilder):
     def __init__(self, config: Optional[SchemaGenConfig] = None):
+        super().__init__(config)
         self._config = config or SchemaGenConfig()
 
     def build(self, context: Context) -> BaseComponent:
@@ -69,6 +74,7 @@ class SchemaGenBuilder(ComponentBuilder):
 
 class StatisticsGenBuilder(ComponentBuilder):
     def __init__(self, config: Optional[StatisticsGenConfig] = None):
+        super().__init__(config)
         self._config = config or StatisticsGenConfig()
 
     def build(self, context: Context) -> BaseComponent:
@@ -96,6 +102,7 @@ class StatisticsGenBuilder(ComponentBuilder):
 
 class SingleDimensionGenBuilder(ComponentBuilder):
     def __init__(self, config: Optional[SingleDimensionGenConfig] = None):
+        super().__init__(config)
         self._config = config or SingleDimensionGenConfig()
 
     def build(self, context: Context) -> BaseComponent:
@@ -116,6 +123,7 @@ class SingleDimensionGenBuilder(ComponentBuilder):
 
 class PartitionGenBuilder(ComponentBuilder):
     def __init__(self, config: Optional[PartitionGenConfig]):
+        super().__init__(config)
         self._config = config or PartitionGenConfig()
 
     def build(self, context: Context) -> BaseComponent:
@@ -141,8 +149,41 @@ class PartitionGenBuilder(ComponentBuilder):
         return component
 
 
+class CsvExampleGenBuilder(ComponentBuilder):
+    def __init__(self, config: Optional[CsvExampleGenConfig] = None):
+        super().__init__(config)
+        self._config = config or CsvExampleGenConfig()
+
+    def build(self, context: Context) -> BaseComponent:
+        from tfx.components import CsvExampleGen
+        from tfx.proto.example_gen_pb2 import Input, Output, SplitConfig
+
+        input_splits = []
+        for split in self._config.params.input_config.splits:
+            input_splits.append({
+                'name': split.name,
+                'pattern': split.pattern,
+            })
+
+        output_splits = []
+        for split in self._config.params.output_config.splits:
+            output_splits.append(
+                SplitConfig.Split(
+                    name=split.name,
+                    hash_buckets=split.hash_buckets))
+
+        component = CsvExampleGen(
+            input=context.get(self._config.inputs.input),
+            input_config=Input(splits=input_splits),
+            output_config=Output(
+                split_config=SplitConfig(splits=output_splits)))
+        context.put_outputs(self._config.outputs, component)
+        return component
+
+
 class JsonExampleGenBuilder(ComponentBuilder):
     def __init__(self, config: Optional[JsonExampleGenConfig] = None):
+        super().__init__(config)
         self._config = config or JsonExampleGenConfig()
 
     def build(self, context: Context) -> BaseComponent:
@@ -173,7 +214,6 @@ class JsonExampleGenBuilder(ComponentBuilder):
 
 
 class Builder:
-
     def __init__(self, config: Optional[StageConfig] = None):
         self._config = config or StageConfig()
 
@@ -182,7 +222,8 @@ class Builder:
             'statistics_gen': StatisticsGenBuilder,
             'schema_gen': SchemaGenBuilder,
             'single_dimension_gen': SingleDimensionGenBuilder,
-            'partition_gen': PartitionGenBuilder
+            'partition_gen': PartitionGenBuilder,
+            'csv_example_gen': CsvExampleGenBuilder,
         }
 
     def build(self, context: Context) -> BaseComponent:
@@ -190,7 +231,7 @@ class Builder:
         if stage_name in self._stage_builders:
             builder_constructor = self._stage_builders[stage_name]
             args = getattr(self._config, stage_name)
-            builder = builder_constructor(args)  # type: ignore
+            builder = builder_constructor(args)
             return builder.build(context)
         else:
             raise ValueError('Unknown stage name {0}'.format(stage_name))

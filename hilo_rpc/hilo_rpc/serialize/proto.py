@@ -1,4 +1,4 @@
-from io import IOBase
+import io
 from typing import Text, Type, Union
 
 from google.protobuf.message import Message
@@ -15,26 +15,28 @@ def serialize_to_file(
 
 
 def serialize(
-        stream: IOBase,
+        stream: io.RawIOBase,
         message: Message
 ):
     stream.write(message.SerializeToString())
 
 
 def deserialize(
-        stream: IOBase,
+        stream: io.RawIOBase,
         message: Union[Type[Message], Message],
         max_size: int = MB,
 ) -> Message:
-    if isinstance(message, Type):
-        message: Message = message()
+    if isinstance(message, Message):
+        record: Message = message
+    else:
+        record = message()
 
     contents = stream.read(max_size + 1)
     if len(contents) > max_size:
         raise BufferError(
             'Message content length is greater than max_size')
-    message.ParseFromString(contents)
-    return message
+    record.ParseFromString(contents)
+    return record
 
 
 def deserialize_from_file(

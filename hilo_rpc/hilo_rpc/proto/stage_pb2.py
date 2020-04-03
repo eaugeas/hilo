@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1ahilo_rpc/proto/stage.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb3\x02\n\x12PartitionGenConfig\x12\x39\n\x06params\x18\x01 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Params\x12\x39\n\x06inputs\x18\x02 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Inputs\x12;\n\x07outputs\x18\x03 \x01(\x0b\x32*.hilo_rpc.proto.PartitionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a,\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x10\n\x08\x64\x61tasets\x18\x02 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\npartitions\x18\x01 \x01(\t\"\xcb\x02\n\x18SingleDimensionGenConfig\x12?\n\x06params\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Params\x12?\n\x06inputs\x18\x02 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Inputs\x12\x41\n\x07outputs\x18\x03 \x01(\x0b\x32\x30.hilo_rpc.proto.SingleDimensionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a.\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x12\n\nstatistics\x18\x02 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x64\x61tasets\x18\x01 \x01(\t\"\x9b\x02\n\x0fSchemaGenConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.SchemaGenConfig.Outputs\x1a%\n\x06Params\x12\x1b\n\x13infer_feature_shape\x18\x01 \x01(\x08\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x19\n\x07Outputs\x12\x0e\n\x06schema\x18\x01 \x01(\t\"\xa5\x02\n\x13StatisticsGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.StatisticsGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1a\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\"\xa4\x05\n\x14JsonExampleGenConfig\x12;\n\x06params\x18\x01 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Params\x12;\n\x06inputs\x18\x02 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Inputs\x12=\n\x07outputs\x18\x03 \x01(\x0b\x32,.hilo_rpc.proto.JsonExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aN\n\x0bInputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.JsonExampleGenConfig.InputSplit\x1aP\n\x0cOutputConfig\x12@\n\x06splits\x18\x01 \x03(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.OutputSplit\x1a\x9a\x01\n\x06Params\x12\x46\n\x0cinput_config\x18\x01 \x01(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.InputConfig\x12H\n\routput_config\x18\x02 \x01(\x0b\x32\x31.hilo_rpc.proto.JsonExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\xd6\x02\n\x0bStageConfig\x12@\n\x10json_example_gen\x18\x01 \x01(\x0b\x32$.hilo_rpc.proto.JsonExampleGenConfigH\x00\x12=\n\x0estatistics_gen\x18\x02 \x01(\x0b\x32#.hilo_rpc.proto.StatisticsGenConfigH\x00\x12\x35\n\nschema_gen\x18\x03 \x01(\x0b\x32\x1f.hilo_rpc.proto.SchemaGenConfigH\x00\x12H\n\x14single_dimension_gen\x18\x04 \x01(\x0b\x32(.hilo_rpc.proto.SingleDimensionGenConfigH\x00\x12;\n\rpartition_gen\x18\x05 \x01(\x0b\x32\".hilo_rpc.proto.PartitionGenConfigH\x00\x42\x08\n\x06\x63onfig\"\xc3\x01\n\x05Stage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1b.hilo_rpc.proto.StageConfigb\x06proto3'
+  serialized_pb=b'\n\x1ahilo_rpc/proto/stage.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb3\x02\n\x12PartitionGenConfig\x12\x39\n\x06params\x18\x01 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Params\x12\x39\n\x06inputs\x18\x02 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Inputs\x12;\n\x07outputs\x18\x03 \x01(\x0b\x32*.hilo_rpc.proto.PartitionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a,\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x10\n\x08\x64\x61tasets\x18\x02 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\npartitions\x18\x01 \x01(\t\"\xcb\x02\n\x18SingleDimensionGenConfig\x12?\n\x06params\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Params\x12?\n\x06inputs\x18\x02 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Inputs\x12\x41\n\x07outputs\x18\x03 \x01(\x0b\x32\x30.hilo_rpc.proto.SingleDimensionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a.\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x12\n\nstatistics\x18\x02 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x64\x61tasets\x18\x01 \x01(\t\"\x9b\x02\n\x0fSchemaGenConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.SchemaGenConfig.Outputs\x1a%\n\x06Params\x12\x1b\n\x13infer_feature_shape\x18\x01 \x01(\x08\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x19\n\x07Outputs\x12\x0e\n\x06schema\x18\x01 \x01(\t\"\xa5\x02\n\x13StatisticsGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.StatisticsGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1a\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\"\xa4\x05\n\x14JsonExampleGenConfig\x12;\n\x06params\x18\x01 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Params\x12;\n\x06inputs\x18\x02 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Inputs\x12=\n\x07outputs\x18\x03 \x01(\x0b\x32,.hilo_rpc.proto.JsonExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aN\n\x0bInputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.JsonExampleGenConfig.InputSplit\x1aP\n\x0cOutputConfig\x12@\n\x06splits\x18\x01 \x03(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.OutputSplit\x1a\x9a\x01\n\x06Params\x12\x46\n\x0cinput_config\x18\x01 \x01(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.InputConfig\x12H\n\routput_config\x18\x02 \x01(\x0b\x32\x31.hilo_rpc.proto.JsonExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\x9c\x05\n\x13\x43svExampleGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.CsvExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aM\n\x0bInputConfig\x12>\n\x06splits\x18\x01 \x03(\x0b\x32..hilo_rpc.proto.CsvExampleGenConfig.InputSplit\x1aO\n\x0cOutputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.OutputSplit\x1a\x98\x01\n\x06Params\x12\x45\n\x0cinput_config\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.InputConfig\x12G\n\routput_config\x18\x02 \x01(\x0b\x32\x30.hilo_rpc.proto.CsvExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\x96\x03\n\x0bStageConfig\x12>\n\x0f\x63sv_example_gen\x18\x01 \x01(\x0b\x32#.hilo_rpc.proto.CsvExampleGenConfigH\x00\x12@\n\x10json_example_gen\x18\x02 \x01(\x0b\x32$.hilo_rpc.proto.JsonExampleGenConfigH\x00\x12=\n\x0estatistics_gen\x18\x03 \x01(\x0b\x32#.hilo_rpc.proto.StatisticsGenConfigH\x00\x12\x35\n\nschema_gen\x18\x04 \x01(\x0b\x32\x1f.hilo_rpc.proto.SchemaGenConfigH\x00\x12H\n\x14single_dimension_gen\x18\x05 \x01(\x0b\x32(.hilo_rpc.proto.SingleDimensionGenConfigH\x00\x12;\n\rpartition_gen\x18\x06 \x01(\x0b\x32\".hilo_rpc.proto.PartitionGenConfigH\x00\x42\x08\n\x06\x63onfig\"\xc3\x01\n\x05Stage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1b.hilo_rpc.proto.StageConfigb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -856,6 +856,282 @@ _JSONEXAMPLEGENCONFIG = _descriptor.Descriptor(
 )
 
 
+_CSVEXAMPLEGENCONFIG_INPUTSPLIT = _descriptor.Descriptor(
+  name='InputSplit',
+  full_name='hilo_rpc.proto.CsvExampleGenConfig.InputSplit',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='hilo_rpc.proto.CsvExampleGenConfig.InputSplit.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pattern', full_name='hilo_rpc.proto.CsvExampleGenConfig.InputSplit.pattern', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1515,
+  serialized_end=1558,
+)
+
+_CSVEXAMPLEGENCONFIG_OUTPUTSPLIT = _descriptor.Descriptor(
+  name='OutputSplit',
+  full_name='hilo_rpc.proto.CsvExampleGenConfig.OutputSplit',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='hilo_rpc.proto.CsvExampleGenConfig.OutputSplit.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hash_buckets', full_name='hilo_rpc.proto.CsvExampleGenConfig.OutputSplit.hash_buckets', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1560,
+  serialized_end=1609,
+)
+
+_CSVEXAMPLEGENCONFIG_INPUTCONFIG = _descriptor.Descriptor(
+  name='InputConfig',
+  full_name='hilo_rpc.proto.CsvExampleGenConfig.InputConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='splits', full_name='hilo_rpc.proto.CsvExampleGenConfig.InputConfig.splits', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2286,
+  serialized_end=2363,
+)
+
+_CSVEXAMPLEGENCONFIG_OUTPUTCONFIG = _descriptor.Descriptor(
+  name='OutputConfig',
+  full_name='hilo_rpc.proto.CsvExampleGenConfig.OutputConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='splits', full_name='hilo_rpc.proto.CsvExampleGenConfig.OutputConfig.splits', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2365,
+  serialized_end=2444,
+)
+
+_CSVEXAMPLEGENCONFIG_PARAMS = _descriptor.Descriptor(
+  name='Params',
+  full_name='hilo_rpc.proto.CsvExampleGenConfig.Params',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='input_config', full_name='hilo_rpc.proto.CsvExampleGenConfig.Params.input_config', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='output_config', full_name='hilo_rpc.proto.CsvExampleGenConfig.Params.output_config', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2447,
+  serialized_end=2599,
+)
+
+_CSVEXAMPLEGENCONFIG_INPUTS = _descriptor.Descriptor(
+  name='Inputs',
+  full_name='hilo_rpc.proto.CsvExampleGenConfig.Inputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='input', full_name='hilo_rpc.proto.CsvExampleGenConfig.Inputs.input', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1930,
+  serialized_end=1953,
+)
+
+_CSVEXAMPLEGENCONFIG_OUTPUTS = _descriptor.Descriptor(
+  name='Outputs',
+  full_name='hilo_rpc.proto.CsvExampleGenConfig.Outputs',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='examples', full_name='hilo_rpc.proto.CsvExampleGenConfig.Outputs.examples', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1955,
+  serialized_end=1982,
+)
+
+_CSVEXAMPLEGENCONFIG = _descriptor.Descriptor(
+  name='CsvExampleGenConfig',
+  full_name='hilo_rpc.proto.CsvExampleGenConfig',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='params', full_name='hilo_rpc.proto.CsvExampleGenConfig.params', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='inputs', full_name='hilo_rpc.proto.CsvExampleGenConfig.inputs', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='outputs', full_name='hilo_rpc.proto.CsvExampleGenConfig.outputs', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_CSVEXAMPLEGENCONFIG_INPUTSPLIT, _CSVEXAMPLEGENCONFIG_OUTPUTSPLIT, _CSVEXAMPLEGENCONFIG_INPUTCONFIG, _CSVEXAMPLEGENCONFIG_OUTPUTCONFIG, _CSVEXAMPLEGENCONFIG_PARAMS, _CSVEXAMPLEGENCONFIG_INPUTS, _CSVEXAMPLEGENCONFIG_OUTPUTS, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1985,
+  serialized_end=2653,
+)
+
+
 _STAGECONFIG = _descriptor.Descriptor(
   name='StageConfig',
   full_name='hilo_rpc.proto.StageConfig',
@@ -864,36 +1140,43 @@ _STAGECONFIG = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='json_example_gen', full_name='hilo_rpc.proto.StageConfig.json_example_gen', index=0,
+      name='csv_example_gen', full_name='hilo_rpc.proto.StageConfig.csv_example_gen', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='statistics_gen', full_name='hilo_rpc.proto.StageConfig.statistics_gen', index=1,
+      name='json_example_gen', full_name='hilo_rpc.proto.StageConfig.json_example_gen', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='schema_gen', full_name='hilo_rpc.proto.StageConfig.schema_gen', index=2,
+      name='statistics_gen', full_name='hilo_rpc.proto.StageConfig.statistics_gen', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='single_dimension_gen', full_name='hilo_rpc.proto.StageConfig.single_dimension_gen', index=3,
+      name='schema_gen', full_name='hilo_rpc.proto.StageConfig.schema_gen', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='partition_gen', full_name='hilo_rpc.proto.StageConfig.partition_gen', index=4,
+      name='single_dimension_gen', full_name='hilo_rpc.proto.StageConfig.single_dimension_gen', index=4,
       number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='partition_gen', full_name='hilo_rpc.proto.StageConfig.partition_gen', index=5,
+      number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -913,8 +1196,8 @@ _STAGECONFIG = _descriptor.Descriptor(
       name='config', full_name='hilo_rpc.proto.StageConfig.config',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=1985,
-  serialized_end=2327,
+  serialized_start=2656,
+  serialized_end=3062,
 )
 
 
@@ -979,8 +1262,8 @@ _STAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2330,
-  serialized_end=2525,
+  serialized_start=3065,
+  serialized_end=3260,
 )
 
 _PARTITIONGENCONFIG_PARAMS.containing_type = _PARTITIONGENCONFIG
@@ -1021,11 +1304,29 @@ _JSONEXAMPLEGENCONFIG_OUTPUTS.containing_type = _JSONEXAMPLEGENCONFIG
 _JSONEXAMPLEGENCONFIG.fields_by_name['params'].message_type = _JSONEXAMPLEGENCONFIG_PARAMS
 _JSONEXAMPLEGENCONFIG.fields_by_name['inputs'].message_type = _JSONEXAMPLEGENCONFIG_INPUTS
 _JSONEXAMPLEGENCONFIG.fields_by_name['outputs'].message_type = _JSONEXAMPLEGENCONFIG_OUTPUTS
+_CSVEXAMPLEGENCONFIG_INPUTSPLIT.containing_type = _CSVEXAMPLEGENCONFIG
+_CSVEXAMPLEGENCONFIG_OUTPUTSPLIT.containing_type = _CSVEXAMPLEGENCONFIG
+_CSVEXAMPLEGENCONFIG_INPUTCONFIG.fields_by_name['splits'].message_type = _CSVEXAMPLEGENCONFIG_INPUTSPLIT
+_CSVEXAMPLEGENCONFIG_INPUTCONFIG.containing_type = _CSVEXAMPLEGENCONFIG
+_CSVEXAMPLEGENCONFIG_OUTPUTCONFIG.fields_by_name['splits'].message_type = _CSVEXAMPLEGENCONFIG_OUTPUTSPLIT
+_CSVEXAMPLEGENCONFIG_OUTPUTCONFIG.containing_type = _CSVEXAMPLEGENCONFIG
+_CSVEXAMPLEGENCONFIG_PARAMS.fields_by_name['input_config'].message_type = _CSVEXAMPLEGENCONFIG_INPUTCONFIG
+_CSVEXAMPLEGENCONFIG_PARAMS.fields_by_name['output_config'].message_type = _CSVEXAMPLEGENCONFIG_OUTPUTCONFIG
+_CSVEXAMPLEGENCONFIG_PARAMS.containing_type = _CSVEXAMPLEGENCONFIG
+_CSVEXAMPLEGENCONFIG_INPUTS.containing_type = _CSVEXAMPLEGENCONFIG
+_CSVEXAMPLEGENCONFIG_OUTPUTS.containing_type = _CSVEXAMPLEGENCONFIG
+_CSVEXAMPLEGENCONFIG.fields_by_name['params'].message_type = _CSVEXAMPLEGENCONFIG_PARAMS
+_CSVEXAMPLEGENCONFIG.fields_by_name['inputs'].message_type = _CSVEXAMPLEGENCONFIG_INPUTS
+_CSVEXAMPLEGENCONFIG.fields_by_name['outputs'].message_type = _CSVEXAMPLEGENCONFIG_OUTPUTS
+_STAGECONFIG.fields_by_name['csv_example_gen'].message_type = _CSVEXAMPLEGENCONFIG
 _STAGECONFIG.fields_by_name['json_example_gen'].message_type = _JSONEXAMPLEGENCONFIG
 _STAGECONFIG.fields_by_name['statistics_gen'].message_type = _STATISTICSGENCONFIG
 _STAGECONFIG.fields_by_name['schema_gen'].message_type = _SCHEMAGENCONFIG
 _STAGECONFIG.fields_by_name['single_dimension_gen'].message_type = _SINGLEDIMENSIONGENCONFIG
 _STAGECONFIG.fields_by_name['partition_gen'].message_type = _PARTITIONGENCONFIG
+_STAGECONFIG.oneofs_by_name['config'].fields.append(
+  _STAGECONFIG.fields_by_name['csv_example_gen'])
+_STAGECONFIG.fields_by_name['csv_example_gen'].containing_oneof = _STAGECONFIG.oneofs_by_name['config']
 _STAGECONFIG.oneofs_by_name['config'].fields.append(
   _STAGECONFIG.fields_by_name['json_example_gen'])
 _STAGECONFIG.fields_by_name['json_example_gen'].containing_oneof = _STAGECONFIG.oneofs_by_name['config']
@@ -1049,6 +1350,7 @@ DESCRIPTOR.message_types_by_name['SingleDimensionGenConfig'] = _SINGLEDIMENSIONG
 DESCRIPTOR.message_types_by_name['SchemaGenConfig'] = _SCHEMAGENCONFIG
 DESCRIPTOR.message_types_by_name['StatisticsGenConfig'] = _STATISTICSGENCONFIG
 DESCRIPTOR.message_types_by_name['JsonExampleGenConfig'] = _JSONEXAMPLEGENCONFIG
+DESCRIPTOR.message_types_by_name['CsvExampleGenConfig'] = _CSVEXAMPLEGENCONFIG
 DESCRIPTOR.message_types_by_name['StageConfig'] = _STAGECONFIG
 DESCRIPTOR.message_types_by_name['Stage'] = _STAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -1239,6 +1541,69 @@ _sym_db.RegisterMessage(JsonExampleGenConfig.OutputConfig)
 _sym_db.RegisterMessage(JsonExampleGenConfig.Params)
 _sym_db.RegisterMessage(JsonExampleGenConfig.Inputs)
 _sym_db.RegisterMessage(JsonExampleGenConfig.Outputs)
+
+CsvExampleGenConfig = _reflection.GeneratedProtocolMessageType('CsvExampleGenConfig', (_message.Message,), {
+
+  'InputSplit' : _reflection.GeneratedProtocolMessageType('InputSplit', (_message.Message,), {
+    'DESCRIPTOR' : _CSVEXAMPLEGENCONFIG_INPUTSPLIT,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CsvExampleGenConfig.InputSplit)
+    })
+  ,
+
+  'OutputSplit' : _reflection.GeneratedProtocolMessageType('OutputSplit', (_message.Message,), {
+    'DESCRIPTOR' : _CSVEXAMPLEGENCONFIG_OUTPUTSPLIT,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CsvExampleGenConfig.OutputSplit)
+    })
+  ,
+
+  'InputConfig' : _reflection.GeneratedProtocolMessageType('InputConfig', (_message.Message,), {
+    'DESCRIPTOR' : _CSVEXAMPLEGENCONFIG_INPUTCONFIG,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CsvExampleGenConfig.InputConfig)
+    })
+  ,
+
+  'OutputConfig' : _reflection.GeneratedProtocolMessageType('OutputConfig', (_message.Message,), {
+    'DESCRIPTOR' : _CSVEXAMPLEGENCONFIG_OUTPUTCONFIG,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CsvExampleGenConfig.OutputConfig)
+    })
+  ,
+
+  'Params' : _reflection.GeneratedProtocolMessageType('Params', (_message.Message,), {
+    'DESCRIPTOR' : _CSVEXAMPLEGENCONFIG_PARAMS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CsvExampleGenConfig.Params)
+    })
+  ,
+
+  'Inputs' : _reflection.GeneratedProtocolMessageType('Inputs', (_message.Message,), {
+    'DESCRIPTOR' : _CSVEXAMPLEGENCONFIG_INPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CsvExampleGenConfig.Inputs)
+    })
+  ,
+
+  'Outputs' : _reflection.GeneratedProtocolMessageType('Outputs', (_message.Message,), {
+    'DESCRIPTOR' : _CSVEXAMPLEGENCONFIG_OUTPUTS,
+    '__module__' : 'hilo_rpc.proto.stage_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CsvExampleGenConfig.Outputs)
+    })
+  ,
+  'DESCRIPTOR' : _CSVEXAMPLEGENCONFIG,
+  '__module__' : 'hilo_rpc.proto.stage_pb2'
+  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.CsvExampleGenConfig)
+  })
+_sym_db.RegisterMessage(CsvExampleGenConfig)
+_sym_db.RegisterMessage(CsvExampleGenConfig.InputSplit)
+_sym_db.RegisterMessage(CsvExampleGenConfig.OutputSplit)
+_sym_db.RegisterMessage(CsvExampleGenConfig.InputConfig)
+_sym_db.RegisterMessage(CsvExampleGenConfig.OutputConfig)
+_sym_db.RegisterMessage(CsvExampleGenConfig.Params)
+_sym_db.RegisterMessage(CsvExampleGenConfig.Inputs)
+_sym_db.RegisterMessage(CsvExampleGenConfig.Outputs)
 
 StageConfig = _reflection.GeneratedProtocolMessageType('StageConfig', (_message.Message,), {
   'DESCRIPTOR' : _STAGECONFIG,
