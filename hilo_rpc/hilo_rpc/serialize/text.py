@@ -7,6 +7,22 @@ from google.protobuf import text_format
 from hilo_rpc.serialize.size import MB
 
 
+def _set_defaults(message: Message):
+    for field in message.DESCRIPTOR.fields:
+        value = getattr(message, field.name)
+        if isinstance(value, int):
+            setattr(message, field.name, 1)
+        elif isinstance(value, float):
+            setattr(message, field.name, 1.0)
+        elif isinstance(value, str):
+            setattr(message, field.name, field.name)
+        elif isinstance(value, Message):
+            _set_defaults(value)
+
+        # TODO(): set defaults for all types. Maps, lists and
+        # oneofs are missing
+
+
 def deserialize(
         stream: IOBase,
         message: Union[Type[Message], Message],
@@ -35,14 +51,23 @@ def deserialize_from_file(
 
 def serialize(
         stream: IOBase,
-        message: Message
+        message: Union[Type[Message], Message],
+        set_defaults: bool = False,
 ):
+    if isinstance(message, Message):
+        message: Message = message
+    else:
+        message = message()
+        if set_defaults:
+            _set_defaults(message)
     text_format.PrintMessage(message, stream)
 
 
 def serialize_to_file(
         path: Text,
-        message: Message
+        message: Union[Type[Message], Message],
+        set_defaults: bool = False,
 ):
     with open(path, 'w') as f:
-        serialize(f, message)
+        serialize(
+            f, message, set_defaults=set_defaults)

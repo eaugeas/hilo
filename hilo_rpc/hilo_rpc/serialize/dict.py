@@ -106,6 +106,12 @@ def serialize(
 ) -> Dict[str, Any]:
     """serialize_to_dict serializes the message type
     into a dictionary."""
+
+    # TODO(): when deserializing a message that has a oneof property,
+    # when with_types is set to false, the serialization should only
+    # serialize one of the values in the oneof statement. Otherwise,
+    # json serialization and deserializaton are not composable
+
     if not symbol_loader:
         symbol_loader: SymbolLoader = ProtobufSymbolLoader()
 
@@ -357,7 +363,7 @@ def _get_message_instance(
         else:
             record: Message = message()
     elif url:
-        record: Message = symbol_loader.load(url)
+        record: Message = symbol_loader.load(url)()
     else:
         raise ValueError('either `message` or `url` must be set')
     return record
