@@ -34,6 +34,20 @@ class ExampleCmd(Cmd):
 
         ExampleCmd.apply(args.path)
 
+    def _decompress_gzipped_files(data_dir_path: Text):
+        import gzip
+        import os
+        import shutil
+
+        for filename in os.listdir(data_dir_path):
+            filepath = os.path.join(data_dir_path, filename)
+            if filepath.endswith('.gz'):
+                with gzip.open(filepath, 'rb') as f_in:
+                    root, ext = os.path.splitext(filepath)
+                    with open(root, 'wb') as f_out:
+                        shutil.copyfileobj(f_in, f_out)
+                    os.unlink(filepath)
+
     @staticmethod
     def apply(path: Text):
         import os
@@ -50,6 +64,15 @@ class ExampleCmd(Cmd):
                 'An example must contain a pipeline.yaml file. The path '
                 'provided, {0}, does not contain a pipeline.yaml'
                 ' file.'.format(path))
+
+        data_dir_path = os.path.join(path, 'data')
+        if not os.path.isdir(data_dir_path):
+            raise ValueError(
+                'An example must contain a data directory. The path '
+                'provided, {0}, does not contain a `data`'
+                ' directory.'.format(path))
+
+        ExampleCmd._decompress_gzipped_files(data_dir_path)
 
         # examples must use EXAMPLE_ROOT as environment variable
         # to define their project root
