@@ -115,13 +115,51 @@ message JsonExampleGenConfig {
     Outputs outputs = 3;
 }
 
+message CsvExampleGenConfig {
+    message InputSplit {
+        string name = 1;
+        string pattern = 2;
+    }
+
+    message OutputSplit {
+        string name = 1;
+        uint32 hash_buckets = 2;
+    }
+
+    message InputConfig {
+        repeated InputSplit splits = 1;
+    }
+
+    message OutputConfig {
+        repeated OutputSplit splits = 1;
+    }
+
+    message Params {
+        InputConfig input_config = 1;
+        OutputConfig output_config = 2;
+    }
+
+    message Inputs {
+        string input = 1;
+    }
+
+    message Outputs {
+        string examples = 1;
+    }
+
+    Params params = 1;
+    Inputs inputs = 2;
+    Outputs outputs = 3;
+}
+
 message StageConfig {
     oneof config {
-        JsonExampleGenConfig json_example_gen = 1;
-        StatisticsGenConfig statistics_gen = 2;
-        SchemaGenConfig schema_gen = 3;
-        SingleDimensionGenConfig single_dimension_gen = 4;
-        PartitionGenConfig partition_gen = 5;
+        CsvExampleGenConfig csv_example_gen = 1;
+        JsonExampleGenConfig json_example_gen = 2;
+        StatisticsGenConfig statistics_gen = 3;
+        SchemaGenConfig schema_gen = 4;
+        SingleDimensionGenConfig single_dimension_gen = 5;
+        PartitionGenConfig partition_gen = 6;
     }
 }
 
