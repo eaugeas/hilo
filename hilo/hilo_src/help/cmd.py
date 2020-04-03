@@ -1,7 +1,7 @@
 import argparse
 from abc import ABC
 
-from hilo_src.cmd.cmd import Cmd
+from hilo_cmd.cmd.cmd import Cmd
 from hilo_src.help.entity import (
     describe as describe_entity,
     find as find_entity)

@@ -1,6 +1,6 @@
 import argparse
 
-from hilo_src.cmd.cmd import Cmd
+from hilo_cmd.cmd.cmd import Cmd
 from hilo_src.help.cmd import HelpCmd
 
 

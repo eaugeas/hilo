@@ -7,6 +7,6 @@ setup(
     author='eaugeas',
     author_email='eaugeas@gmail.com',
     packages=['hilo_src'],
-    install_requires=['hilo_rpc'],
+    install_requires=['hilo_rpc', 'hilo_cmd'],
     scripts=['hilo'],
 )

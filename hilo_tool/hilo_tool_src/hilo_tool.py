@@ -1,33 +1,38 @@
-from tfx.orchestration.beam.beam_dag_runner import BeamDagRunner
+import argparse
 
+from hilo_cmd.cmd.cmd import Cmd
 from hilo_rpc.serialize.argparse import (
     add_to_parser,
     deserialize_from_namespace,
 )
-from hilo_rpc.serialize.yaml import deserialize_from_file
-
+from hilo_tool_src.apply import ApplyCmd
+from hilo_tool_src.example import ExampleCmd
 from hilo_tool_src.logging.config import (
     LoggingConfig, basic_config as config_logging)
-from hilo_stage.pipeline.builder import Builder, Pipeline
+
+
+class HiloToolCmd(Cmd):
+    def __init__(self):
+        super().__init__(
+            'hilo_tool',
+            subcommands=[ApplyCmd(), ExampleCmd()])
+
+    def add_arguments(self, parser: argparse.ArgumentParser):
+        add_to_parser(parser, LoggingConfig)
+        super().add_arguments(parser)
+
+    def exec(self, args: argparse.Namespace):
+        logging_config = deserialize_from_namespace(
+            args, LoggingConfig)
+        config_logging(logging_config)
+
+        if not Cmd.has_next(args):
+            self.print_help()
 
 
 def main(argv):
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description='command line utility to execute pipelines')
-    parser.add_argument(
-        '-path', default=None, type=str,
-        help='path to a yaml file that defines a pipeline')
-    add_to_parser(parser, LoggingConfig)
+    hilo = HiloToolCmd()
+    parser = argparse.ArgumentParser()
+    hilo.add_arguments(parser)
     args = parser.parse_args(argv[1:])
-    logging_config = deserialize_from_namespace(
-        args, LoggingConfig)
-    config_logging(logging_config)
-
-    pipeline = deserialize_from_file(
-        args.path, Pipeline)
-
-    BeamDagRunner().run(
-        Builder(pipeline).build()
-    )
+    args.exec(args)

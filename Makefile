@@ -1,6 +1,6 @@
 MAKE=make
 
-PROJECTS=hilo_rpc hilo_stage hilo_server hilo hilo_tool
+PROJECTS=hilo_cmd hilo_rpc hilo_stage hilo_server hilo hilo_tool
 CHECKS=$(patsubst %,%/check, $(PROJECTS))
 CLEANS=$(patsubst %,%/clean, $(PROJECTS))
 BUILDS=$(patsubst %,%/build, $(PROJECTS))

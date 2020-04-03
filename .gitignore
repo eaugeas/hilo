@@ -133,3 +133,7 @@ dmypy.json
 
 # metadata files
 data/
+
+# examples generated files. Examples may still be
+# added but it will have to be forced to prevent mistakes
+examples/
