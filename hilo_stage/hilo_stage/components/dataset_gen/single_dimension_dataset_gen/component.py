@@ -3,8 +3,9 @@ from typing import List, Optional, Text
 from tfx.components.base import executor_spec
 from tfx.components.base.base_component import BaseComponent
 from tfx.types import Channel
-from tfx.types import artifact
 
+from hilo_stage.components.utils.splits import (
+    splits_or_example_defaults)
 from hilo_stage.components.dataset_gen.single_dimension_dataset_gen.executor import (  # noqa: E501
     Executor)
 from hilo_stage.components.dataset_gen.single_dimension_dataset_gen.spec import (  # noqa: E501
@@ -26,26 +27,13 @@ class SingleDimensionGen(BaseComponent):
     def __init__(
             self,
             examples: Channel,
-            schema: Optional[Channel] = None,
             statistics: Optional[Channel] = None,
             split_names: Optional[List[Text]] = None,
     ):
         """Construct a SingleDimensionGen component."""
-        splits: List[Text] = []
-        if split_names:
-            splits = split_names
-        else:
-            for el in artifact.DEFAULT_EXAMPLE_SPLITS:
-                splits.append(el)
-
-        datasets = Channel(
-            type=Datasets,
-            artifacts=[Datasets()])
-
         spec = SingleDimensionGenSpec(
             examples=examples,
-            schema=schema,
             statistics=statistics,
-            datasets=datasets,
-            split_names=splits)
+            datasets=Channel(type=Datasets, artifacts=[Datasets()]),
+            split_names=splits_or_example_defaults(split_names))
         super().__init__(spec=spec)

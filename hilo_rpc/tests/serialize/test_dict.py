@@ -1,7 +1,6 @@
 import unittest
 
-from hilo_rpc.proto.tests_pb2 import (
-    TestMessage)
+from hilo_rpc.proto.tests_pb2 import TestMessage
 from hilo_rpc.serialize.dict import (
     flatten,
     unflatten,
@@ -9,7 +8,7 @@ from hilo_rpc.serialize.dict import (
     serialize)
 
 
-class SerializeTest(unittest.TestCase):
+class DictTest(unittest.TestCase):
     def test_serialize_ok_message(self):
         message = TestMessage(
             enum=TestMessage.Enum(int32_enum=1),

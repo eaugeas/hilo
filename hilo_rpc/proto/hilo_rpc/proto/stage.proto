@@ -4,6 +4,25 @@ package hilo_rpc.proto;
 
 import "google/protobuf/timestamp.proto";
 
+message PartitionGenConfig {
+    message Params {
+        repeated string split_names = 1;
+    }
+
+    message Inputs {
+        string examples = 1;
+        string datasets = 2;
+    }
+
+    message Outputs {
+        string partitions = 1;
+    }
+
+    Params params = 1;
+    Inputs inputs = 2;
+    Outputs outputs = 3;
+}
+
 message SingleDimensionGenConfig {
     message Params {
         repeated string split_names = 1;
@@ -102,6 +121,7 @@ message StageConfig {
         StatisticsGenConfig statistics_gen = 2;
         SchemaGenConfig schema_gen = 3;
         SingleDimensionGenConfig single_dimension_gen = 4;
+        PartitionGenConfig partition_gen = 5;
     }
 }
 
