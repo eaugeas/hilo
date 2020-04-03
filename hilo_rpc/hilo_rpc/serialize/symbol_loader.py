@@ -44,7 +44,7 @@ class ProtobufSymbolLoader(SymbolLoader):
         for symbol_database in self._symbol_databases:
             return symbol_database.GetSymbol(url)
 
-    def load_all(self, url: Text) -> Dict[Text, Message]:
+    def load_all(self, url: List[Text]) -> Dict[Text, Message]:
         messages: Dict[str, Message] = {}
         for symbol_database in self._symbol_databases:
             try:

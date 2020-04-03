@@ -3,8 +3,7 @@ from typing import List, Optional, Text, Type, Union
 from google.protobuf.message import Message
 
 from hilo_rpc.proto import filenames as proto_filenames
-from hilo_rpc.serialize.dict import serialize
-from hilo_rpc.serialize.text import serialize as serialize_text
+from hilo_rpc.serialize.format import serialize
 from hilo_rpc.serialize.symbol_loader import ProtobufSymbolLoader
 
 
@@ -28,30 +27,13 @@ def find(name: Optional[Text]) -> List[Message]:
 
 def describe(
         message: Union[Message, Type[Message]],
-        formatter: Optional[Text] = 'yaml'
+        **kwargs
 ) -> Text:
     """Provides a full description of the entity based on the
     properties provided. If no empty is found, an error is raised"""
 
     import io
-    import json
-    import yaml
-
-    if formatter == 'json':
-        serialized = serialize(message, with_types=True)
-        return json.dumps(serialized, indent='  ')
-    elif formatter == 'text':
-        s = io.StringIO()
-        serialize_text(s, message)
-        s.seek(0)
-        return s.read(-1)
-    elif formatter is None or formatter == 'yaml':
-        serialized = serialize(message, with_types=True)
-        s = io.StringIO()
-        yaml.dump(serialized, s)
-        s.seek(0)
-        return s.read(-1)
-    else:
-        raise ValueError(
-            'Unknown description format for entity {0}. '
-            'Supported formats are: `json`.'.format(formatter))
+    s = io.StringIO()
+    serialize(s, message, **kwargs)
+    s.seek(0)
+    return s.read(-1)

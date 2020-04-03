@@ -22,8 +22,17 @@ class EntityHelpCmd(Cmd, ABC):
                  'the name provided will be listed')
         parser.add_argument(
             '-formatter', type=str, default='yaml',
-            help='output formatter used. Options are `yaml` and `json`'
-        )
+            help='output formatter used. '
+                 'Options are `yaml`, `json` and `text`')
+        parser.add_argument(
+            '-pretty', action='store_true', default=False,
+            help='if set, the output will be more human readable')
+        parser.add_argument(
+            '-set-defaults', action='store_true', default=True,
+            help='if set, the entity will have default values set')
+        parser.add_argument(
+            '-with-types', action='store_true', default=False,
+            help='if set, it outputs a spec of the entity')
 
     def exec(self, args: argparse.Namespace):
         entities = find_entity(args.name)
@@ -31,7 +40,14 @@ class EntityHelpCmd(Cmd, ABC):
             for entity in entities:
                 print(entity.DESCRIPTOR.full_name)
         elif len(entities) == 1:
-            print(describe_entity(entities[0], args.formatter))
+            print(describe_entity(
+                entities[0],
+                **{
+                    'formatter': args.formatter,
+                    'pretty': args.pretty,
+                    'with_types': args.with_types,
+                    'set_defaults': args.set_defaults
+                }))
 
 
 class HelpCmd(Cmd, ABC):
