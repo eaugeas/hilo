@@ -22,7 +22,7 @@ class Builder(object):
         for stage in self._pipeline.config.stages:
             stage_context = context.for_stage(stage.id)
             stages.append(
-                StageBuilder(stage.config).build(stage_context))
+                StageBuilder(stage).build(stage_context))
 
         metadata_store_config = MetadataStoreBuilder(
             self._pipeline.config.metadata).build()

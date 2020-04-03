@@ -6,10 +6,10 @@ from tfx.components.base.base_component import BaseComponent
 
 from hilo_stage.components.utils.splits import splits_or_example_defaults
 from hilo_rpc.proto.stage_pb2 import (
-    StageConfig, PartitionGenConfig,
+    Stage, PartitionGenConfig,
     JsonExampleGenConfig, SingleDimensionGenConfig,
     StatisticsGenConfig, SchemaGenConfig,
-    CsvExampleGenConfig)
+    CsvExampleGenConfig, TransformConfig)
 
 
 class Context:
@@ -27,6 +27,10 @@ class Context:
             raise ValueError(
                 'Created new context for stage with '
                 'existing id {0}'.format(self._id))
+
+    @property
+    def id(self) -> Text:
+        return self._id
 
     def for_stage(self, id: Text) -> 'Context':
         return Context(id, parent=self)
@@ -65,7 +69,8 @@ class SchemaGenBuilder(ComponentBuilder):
         statistics = context.get(self._config.inputs.statistics)
         component = SchemaGen(
             statistics=statistics,
-            infer_feature_shape=self._config.params.infer_feature_shape
+            infer_feature_shape=self._config.params.infer_feature_shape,
+            instance_name=context.id
         )
 
         context.put_outputs(self._config.outputs, component)
@@ -93,7 +98,7 @@ class StatisticsGenBuilder(ComponentBuilder):
             examples=examples,
             stats_options=None,
             output=output,
-            instance_name=None
+            instance_name=context.id
         )
 
         context.put_outputs(self._config.outputs, component)
@@ -115,7 +120,8 @@ class SingleDimensionGenBuilder(ComponentBuilder):
         component = SingleDimensionGen(
             statistics=statistics,
             examples=examples,
-            split_names=split_names)
+            split_names=split_names,
+        )
 
         context.put_outputs(self._config.outputs, component)
         return component
@@ -173,10 +179,45 @@ class CsvExampleGenBuilder(ComponentBuilder):
                     hash_buckets=split.hash_buckets))
 
         component = CsvExampleGen(
+            instance_name=context.id,
             input=context.get(self._config.inputs.input),
             input_config=Input(splits=input_splits),
             output_config=Output(
                 split_config=SplitConfig(splits=output_splits)))
+        context.put_outputs(self._config.outputs, component)
+        return component
+
+
+class TransformBuilder(ComponentBuilder):
+    def __init__(self, config: Optional[TransformConfig] = None):
+        super().__init__(config)
+        self._config = config or TransformConfig()
+
+    def build(self, context: Context) -> BaseComponent:
+        from hilo_stage.components import Transform
+
+        props = {}
+
+        if not self._config.inputs.examples:
+            raise KeyError(
+                'transform pipeline requires `examples`'
+                ' as one of its inputs')
+
+        props['examples'] = context.get(self._config.inputs.examples)
+
+        if self._config.inputs.schema:
+            props['schema'] = context.get(self._config.inputs.schema)
+
+        if not self._config.params.module_file_path:
+            raise KeyError(
+                'transform pipeline requires `module_file_path`'
+                ' as one of its params')
+
+        props['module_file'] = self._config.params.module_file_path
+        props['instance_name'] = context.id
+        props['split_names'] = splits_or_example_defaults(
+            self._config.params.split_names)
+        component = Transform(**props)
         context.put_outputs(self._config.outputs, component)
         return component
 
@@ -205,6 +246,7 @@ class JsonExampleGenBuilder(ComponentBuilder):
                     hash_buckets=split.hash_buckets))
 
         component = JsonExampleGen(
+            instance_name=context.id,
             input=context.get(self._config.inputs.input),
             input_config=Input(splits=input_splits),
             output_config=Output(
@@ -214,8 +256,8 @@ class JsonExampleGenBuilder(ComponentBuilder):
 
 
 class Builder:
-    def __init__(self, config: Optional[StageConfig] = None):
-        self._config = config or StageConfig()
+    def __init__(self, stage: Optional[Stage] = None):
+        self._stage = stage or Stage()
 
         self._stage_builders: Dict[str, Type[ComponentBuilder]] = {
             'json_example_gen': JsonExampleGenBuilder,
@@ -224,14 +266,24 @@ class Builder:
             'single_dimension_gen': SingleDimensionGenBuilder,
             'partition_gen': PartitionGenBuilder,
             'csv_example_gen': CsvExampleGenBuilder,
+            'transform': TransformBuilder
         }
 
-    def build(self, context: Context) -> BaseComponent:
-        stage_name = self._config.WhichOneof('config')
+    def _build(self, context: Context) -> BaseComponent:
+        config = self._stage.config
+        stage_name = config.WhichOneof('config')
         if stage_name in self._stage_builders:
             builder_constructor = self._stage_builders[stage_name]
-            args = getattr(self._config, stage_name)
+            args = getattr(config, stage_name)
             builder = builder_constructor(args)
             return builder.build(context)
         else:
             raise ValueError('Unknown stage name {0}'.format(stage_name))
+
+    def build(self, context: Context) -> BaseComponent:
+        try:
+            return self._build(context)
+        except KeyError as e:
+            raise KeyError(
+                'missing property for config stage `{0}`; {1}'.format(
+                    self._stage.config.WhichOneof('config'), str(e)))

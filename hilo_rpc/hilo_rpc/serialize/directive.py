@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Text, Type
+from typing import Any, Dict, Text, Type
 
 
 class Directive(object):
@@ -33,46 +33,29 @@ class EnvironDirective(Directive):
             self._kwargs = os.environ
 
     def execute(self) -> Text:
+        from string import Template
+
         if len(self._args) != 1:
             raise ValueError(
                 '`env` directive only supports one argument.'
                 ' Received {0}'.format(self._args))
 
-        variable = self._args[0]
-        if variable not in self._kwargs:
-            raise KeyError(
-                '`env` directive cannot find environment variable {0} '
-                'defined in environment'.format(variable))
-        return self._kwargs[variable]
+        try:
+            return Template(self._args[0]).substitute(**self._kwargs)
+        except ValueError:
+            raise ValueError(
+                'failed to substitute environment variables in '
+                'string {0}'.format(self._args[0]))
 
 
 def starts_as_directive(s: Text) -> bool:
     return s.startswith('$')
 
 
-def parse_directive(s: Text) -> List[Text]:
-    """parse_directive parses the directive
-    $(command arg1 arg2 ...) into a list [command, arg1, arg2, ...]"""
-    if not s.startswith('$(') and s.endswith(')'):
-        raise ValueError(
-            'not a directive. A directive follows the '
-            'format $(command arg1 arg2 ...). Received {0}'.format(s))
-
-    stripped = s.lstrip('$(').rstrip(')')
-    split = stripped.split(' ')
-    if len(split) < 1:
-        raise ValueError(
-            'not a directive. A directive follows the '
-            'format $(command arg1 arg2 ...). Received {0}'.format(s))
-    return split
-
-
 def create(s: Text, **kwargs) -> Directive:
     """create a new directive from the text specifying
-    the directive. THe format of a directive is
-    $(command arg1 arg2 ...)"""
-    args = parse_directive(s)
-    return build(args[0], *args[1:], **kwargs)
+    the directive"""
+    return build('env', s, **kwargs)
 
 
 def build(command: Text, *args, **kwargs) -> Directive:

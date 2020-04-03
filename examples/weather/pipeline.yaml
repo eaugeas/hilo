@@ -1,0 +1,115 @@
+id: weather_pipeline
+name: weather_pipeline
+config:
+  root_dir: $EXAMPLE_ROOT/weather_pipeline
+  params:
+    enable_cache: true
+  source:
+    config:
+      local_file:
+        path: $EXAMPLE_ROOT/data
+  sink:
+    config:
+      empty:
+        empty: true
+  metadata:
+    sqlite:
+      path: $EXAMPLE_ROOT/metadata
+  stages:
+    - id: '0'
+      name: CsvExampleGen
+      config:
+        csv_example_gen:
+          params:
+            input_config:
+              splits:
+              - name: 'train'
+                pattern: '*'
+            output_config:
+              splits:
+              - name: 'train'
+                hash_buckets: 1
+          inputs:
+            input: pipeline.source.channel
+          outputs:
+            examples: examples
+    - id: '1'
+      name: StatisticsGen
+      config:
+        statistics_gen:
+          params:
+            split_names:
+              - 'train'
+          inputs:
+            examples: 0.outputs.examples
+          outputs:
+            statistics: statistics
+    - id: '2'
+      name: SchemaGen
+      config:
+        schema_gen:
+          inputs:
+            statistics: 1.outputs.statistics
+          params:
+            infer_feature_shape: false
+          outputs:
+            schema: schema
+    - id: '3'
+      name: Transform
+      config:
+        transform:
+          inputs:
+            examples: 0.outputs.examples
+            schema: 2.outputs.schema
+          params:
+            module_file_path: $EXAMPLE_ROOT/module/module.py
+            split_names:
+              - 'train'
+          outputs:
+            transformed_examples: examples
+    - id: '4'
+      name: StatisticsGen
+      config:
+        statistics_gen:
+          params:
+            split_names:
+              - 'train'
+          inputs:
+            examples: 3.outputs.examples
+          outputs:
+            statistics: statistics
+    - id: '5'
+      name: SchemaGen
+      config:
+        schema_gen:
+          inputs:
+            statistics: 4.outputs.statistics
+          params:
+            infer_feature_shape: false
+          outputs:
+            schema: schema
+    - id: '6'
+      name: SingleDimensionGen
+      config:
+        single_dimension_gen:
+          params:
+            split_names:
+              - 'train'
+          inputs:
+            examples: 3.outputs.examples
+            statistics: 4.outputs.statistics
+            schema: 5.outputs.schema
+          outputs:
+            datasets: datasets
+    - id: '7'
+      name: PartitionGen
+      config:
+        partition_gen:
+          params:
+            split_names:
+              - 'train'
+          inputs:
+            examples: 3.outputs.examples
+            datasets: 6.outputs.datasets
+          outputs:
+            partitions: partitions

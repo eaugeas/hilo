@@ -115,6 +115,26 @@ message JsonExampleGenConfig {
     Outputs outputs = 3;
 }
 
+message TransformConfig {
+    message Params {
+        string module_file_path = 1;
+        repeated string split_names = 2;
+    }
+
+    message Inputs {
+        string examples = 1;
+        string schema = 2;
+    }
+
+    message Outputs {
+        string transformed_examples = 1;
+    }
+
+    Params params = 1;
+    Inputs inputs = 2;
+    Outputs outputs = 3;
+}
+
 message CsvExampleGenConfig {
     message InputSplit {
         string name = 1;
@@ -160,6 +180,7 @@ message StageConfig {
         SchemaGenConfig schema_gen = 4;
         SingleDimensionGenConfig single_dimension_gen = 5;
         PartitionGenConfig partition_gen = 6;
+        TransformConfig transform = 7;
     }
 }
 
