@@ -27,10 +27,11 @@ class PartitionGen(BaseComponent):
             datasets: Optional[Channel] = None,
             partitions: Optional[Channel] = None,
             split_names: Optional[List[Text]] = None,
+            instance_name: Optional[Text] = None
     ):
         super().__init__(spec=PartitionGenSpec(
             examples=examples,
             datasets=datasets,
             partitions=partitions,
             split_names=splits_or_example_defaults(split_names=split_names)
-        ))
+        ), instance_name=instance_name)

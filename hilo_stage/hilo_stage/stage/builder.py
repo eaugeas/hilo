@@ -121,6 +121,7 @@ class SingleDimensionGenBuilder(ComponentBuilder):
             statistics=statistics,
             examples=examples,
             split_names=split_names,
+            instance_name=context.id
         )
 
         context.put_outputs(self._config.outputs, component)
@@ -150,7 +151,8 @@ class PartitionGenBuilder(ComponentBuilder):
             examples=context.get(self._config.inputs.examples),
             datasets=context.get(self._config.inputs.datasets),
             partitions=partitions,
-            split_names=split_names)
+            split_names=split_names,
+            instance_name=context.id)
         context.put_outputs(self._config.outputs, component)
         return component
 

@@ -18,7 +18,7 @@ class ExampleCmd(Cmd):
 
     def description(self) -> Text:
         return (
-            'manage the execution of examples. Examples are directories'
+            'manage the execution of examples. Examples are directories '
             'that follow a specific structure, that showcase some '
             ' functionality of hilo. The purpose of this command is to make '
             'the execution of examples easy.')

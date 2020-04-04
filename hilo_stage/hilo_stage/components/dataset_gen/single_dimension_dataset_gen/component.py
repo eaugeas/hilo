@@ -29,6 +29,7 @@ class SingleDimensionGen(BaseComponent):
             examples: Channel,
             statistics: Optional[Channel] = None,
             split_names: Optional[List[Text]] = None,
+            instance_name: Optional[Text] = None
     ):
         """Construct a SingleDimensionGen component."""
         spec = SingleDimensionGenSpec(
@@ -36,4 +37,4 @@ class SingleDimensionGen(BaseComponent):
             statistics=statistics,
             datasets=Channel(type=Datasets, artifacts=[Datasets()]),
             split_names=splits_or_example_defaults(split_names))
-        super().__init__(spec=spec)
+        super().__init__(spec=spec, instance_name=instance_name)
