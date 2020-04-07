@@ -5,7 +5,8 @@ from hilo_rpc.serialize.dict import (
     flatten,
     unflatten,
     deserialize,
-    serialize)
+    serialize,
+    typedef)
 
 
 class DictTest(unittest.TestCase):
@@ -18,17 +19,16 @@ class DictTest(unittest.TestCase):
         )
         d = serialize(message)
         self.assertEqual({
-            'enum': {
-                'bool_enum': False,
-                'int32_enum': 1,
-                'string_enum': ''},
+            'enum': {'int32_enum': 1},
             'params': {
                 'bool_param': False,
                 'int32_param': 2,
                 'string_param': ''
             },
             'mapping': {'key': 'value'},
-            'string_repeated': ['hello', 'bye']
+            'params_repeated': [],
+            'params_map': {},
+            'string_repeated': ['hello', 'bye'],
         }, d)
 
     def test_serialize_ok_message_type(self):
@@ -44,24 +44,37 @@ class DictTest(unittest.TestCase):
                 'string_param': ''
             },
             'mapping': {},
-            'string_repeated': []
+            'string_repeated': [],
+            'params_repeated': [],
+            'params_map': {}
         }, d)
 
     def test_serialize_ok_message_type_with_types(self):
-        d = serialize(TestMessage, with_types=True)
+        d = typedef(TestMessage)
         self.assertEqual({
              'enum': {
                  'bool_enum': 'bool',
                  'int32_enum': 'int',
-                 'string_enum': 'Text'
+                 'string_enum': 'str'
              },
              'params': {
                  'bool_param': 'bool',
                  'int32_param': 'int',
-                 'string_param': 'Text'
+                 'string_param': 'str'
              },
-             'mapping': {},
-             'string_repeated': ['str']
+             'mapping': {'str': 'str'},
+             'params_map': {'entry': {
+                 'key': 'int',
+                 'value': {
+                     'bool_param': 'bool',
+                     'int32_param': 'int',
+                     'string_param': 'str'}}},
+             'string_repeated': ['str'],
+             'params_repeated': [{
+                 'bool_param': 'bool',
+                 'int32_param': 'int',
+                 'string_param': 'str'
+             }]
         }, d)
 
     def test_flatten_ok_without_namespace(self):
@@ -140,7 +153,12 @@ class DictTest(unittest.TestCase):
                 'string_param': 'hello'
             },
             'mapping': {'key': 'value'},
-            'string_repeated': ['hello', 'bye']
+            'string_repeated': ['hello', 'bye'],
+            'params_map': {1: {
+                'bool_param': True,
+                'int32_param': 1,
+                'string_param': 'hello'
+            }}
         }, TestMessage)
 
         self.assertEqual(TestMessage(
@@ -151,7 +169,12 @@ class DictTest(unittest.TestCase):
                 string_param='hello'
             ),
             mapping={'key': 'value'},
-            string_repeated=['hello', 'bye']
+            string_repeated=['hello', 'bye'],
+            params_map={1: TestMessage.Params(
+                bool_param=True,
+                int32_param=1,
+                string_param='hello')
+            }
         ), deserialized)
 
 
