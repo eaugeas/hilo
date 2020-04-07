@@ -1,15 +1,17 @@
-from typing import Any, Dict, Optional, Text, Type
+from typing import Any, Dict, List, Optional, Text, Type
 
 from google.protobuf.message import Message
 from tfx.types import Channel, standard_artifacts, artifact_utils
 from tfx.components.base.base_component import BaseComponent
 
 from hilo_stage.components.utils.splits import splits_or_example_defaults
+from hilo_rpc.serialize.dict import serialize as serialize_dict
 from hilo_rpc.proto.stage_pb2 import (
-    Stage, PartitionGenConfig,
+    Stage, PartitionGenConfig, ExampleValidatorConfig,
     JsonExampleGenConfig, SingleDimensionGenConfig,
     StatisticsGenConfig, SchemaGenConfig,
-    CsvExampleGenConfig, TransformConfig)
+    CsvExampleGenConfig, TransformConfig,
+    TrainerConfig)
 
 
 class Context:
@@ -35,6 +37,9 @@ class Context:
     def for_stage(self, id: Text) -> 'Context':
         return Context(id, parent=self)
 
+    def get_or(self, map_key, default: Optional[Any] = None) -> Optional[Any]:
+        return self._context.get(map_key, default)
+
     def get(self, map_key) -> Any:
         return self._context[map_key]
 
@@ -56,6 +61,50 @@ class ComponentBuilder(object):
 
     def build(self, context: Context) -> BaseComponent:
         raise NotImplementedError()
+
+
+class ExampleValidatorBuilder(ComponentBuilder):
+    def __init__(self, config: Optional[ExampleValidatorConfig] = None):
+        super().__init__(config)
+        self._config = config or ExampleValidatorConfig()
+
+    def build(self, context: Context) -> BaseComponent:
+        from hilo_stage.components import ExampleValidator
+
+        statistics = context.get(self._config.inputs.statistics)
+        schema = context.get(self._config.inputs.schema)
+        component = ExampleValidator(
+            statistics=statistics,
+            schema=schema,
+            split_names=self._config.params.split_names,
+            instance_name=context.id
+        )
+
+        context.put_outputs(self._config.outputs, component)
+        return component
+
+
+class TrainerBuilder(ComponentBuilder):
+    def __init__(self, config: Optional[TrainerConfig] = None):
+        super().__init__(config)
+        self._config = config or TrainerConfig()
+
+    def build(self, context: Context) -> BaseComponent:
+        from tfx.components import Trainer
+
+        component = Trainer(
+            examples=context.get(self._config.inputs.examples),
+            schema=context.get(self._config.inputs.schema),
+            transform_graph=context.get_or(
+                self._config.inputs.transform_graph, None),
+            train_args=serialize_dict(self._config.params.train_args),
+            eval_args=serialize_dict(self._config.params.eval_args),
+            module_file=self._config.params.module_file,
+            instance_name=context.id
+        )
+
+        context.put_outputs(self._config.outputs, component)
+        return component
 
 
 class SchemaGenBuilder(ComponentBuilder):
@@ -116,10 +165,8 @@ class SingleDimensionGenBuilder(ComponentBuilder):
             self._config.params.split_names)
 
         statistics = context.get(self._config.inputs.statistics)
-        examples = context.get(self._config.inputs.examples)
         component = SingleDimensionGen(
             statistics=statistics,
-            examples=examples,
             split_names=split_names,
             instance_name=context.id
         )
@@ -166,26 +213,34 @@ class CsvExampleGenBuilder(ComponentBuilder):
         from tfx.components import CsvExampleGen
         from tfx.proto.example_gen_pb2 import Input, Output, SplitConfig
 
-        input_splits = []
-        for split in self._config.params.input_config.splits:
-            input_splits.append({
-                'name': split.name,
-                'pattern': split.pattern,
-            })
+        input_config: Optional[Output] = None
+        if (self._config.params.input_config and
+                len(self._config.params.input_config.splits) > 0):
+            input_splits: List[Dict[str, str]] = [
+                {
+                    'name': split.name,
+                    'pattern': split.pattern,
+                } for split in self._config.params.output_config.splits
+            ]
+            input_config = Input(splits=input_splits)
 
-        output_splits = []
-        for split in self._config.params.output_config.splits:
-            output_splits.append(
-                SplitConfig.Split(
-                    name=split.name,
-                    hash_buckets=split.hash_buckets))
+        output_config: Optional[Output] = None
+        if (self._config.params.output_config and
+                len(self._config.params.output_config.splits) > 0):
+            output_splits: List[Dict[str, str]] = [
+                {
+                    'name': split.name,
+                    'hash_buckets': split.hash_buckets
+                } for split in self._config.params.output_config.splits
+            ]
+            output_config = Output(
+                split_config=SplitConfig(splits=output_splits))
 
         component = CsvExampleGen(
             instance_name=context.id,
             input=context.get(self._config.inputs.input),
-            input_config=Input(splits=input_splits),
-            output_config=Output(
-                split_config=SplitConfig(splits=output_splits)))
+            input_config=input_config,
+            output_config=output_config)
         context.put_outputs(self._config.outputs, component)
         return component
 
@@ -210,12 +265,12 @@ class TransformBuilder(ComponentBuilder):
         if self._config.inputs.schema:
             props['schema'] = context.get(self._config.inputs.schema)
 
-        if not self._config.params.module_file_path:
+        if not self._config.params.module_file:
             raise KeyError(
-                'transform pipeline requires `module_file_path`'
+                'transform pipeline requires `module_file`'
                 ' as one of its params')
 
-        props['module_file'] = self._config.params.module_file_path
+        props['module_file'] = self._config.params.module_file
         props['instance_name'] = context.id
         props['split_names'] = splits_or_example_defaults(
             self._config.params.split_names)
@@ -268,7 +323,9 @@ class Builder:
             'single_dimension_gen': SingleDimensionGenBuilder,
             'partition_gen': PartitionGenBuilder,
             'csv_example_gen': CsvExampleGenBuilder,
-            'transform': TransformBuilder
+            'transform': TransformBuilder,
+            'example_validator': ExampleValidatorBuilder,
+            'trainer': TrainerBuilder
         }
 
     def _build(self, context: Context) -> BaseComponent:

@@ -29,8 +29,7 @@ message SingleDimensionGenConfig {
     }
 
     message Inputs {
-        string examples = 1;
-        string statistics = 2;
+        string statistics = 1;
     }
 
     message Outputs {
@@ -117,7 +116,7 @@ message JsonExampleGenConfig {
 
 message TransformConfig {
     message Params {
-        string module_file_path = 1;
+        string module_file = 1;
         repeated string split_names = 2;
     }
 
@@ -128,6 +127,7 @@ message TransformConfig {
 
     message Outputs {
         string transformed_examples = 1;
+        string transform_graph = 2;
     }
 
     Params params = 1;
@@ -172,6 +172,55 @@ message CsvExampleGenConfig {
     Outputs outputs = 3;
 }
 
+message ExampleValidatorConfig {
+    message Params {
+        repeated string split_names = 1;
+    }
+
+    message Inputs {
+        string statistics = 1;
+        string schema = 2;
+    }
+
+    message Outputs {
+        string anomalies = 1;
+    }
+
+    Params params = 1;
+    Inputs inputs = 2;
+    Outputs outputs = 3;
+}
+
+message TrainerConfig {
+    message TrainArgs {
+        int32 num_steps = 1;
+    }
+
+    message EvalArgs {
+        int32 num_steps = 1;
+    }
+
+    message Params {
+        string module_file = 1;
+        TrainArgs train_args = 2;
+        EvalArgs eval_args = 3;
+    }
+
+    message Inputs {
+        string examples = 1;
+        string schema = 2;
+        string transform_graph = 3;
+    }
+
+    message Outputs {
+        string model = 1;
+    }
+
+    Params params = 1;
+    Inputs inputs = 2;
+    Outputs outputs = 3;
+}
+
 message StageConfig {
     oneof config {
         CsvExampleGenConfig csv_example_gen = 1;
@@ -181,6 +230,8 @@ message StageConfig {
         SingleDimensionGenConfig single_dimension_gen = 5;
         PartitionGenConfig partition_gen = 6;
         TransformConfig transform = 7;
+        ExampleValidatorConfig example_validator = 8;
+        TrainerConfig trainer = 9;
     }
 }
 

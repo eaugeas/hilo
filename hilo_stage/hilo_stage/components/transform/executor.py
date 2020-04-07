@@ -8,15 +8,16 @@ from tfx.utils import io_utils
 
 
 class Executor(executor.Executor):
+    """
+    Executor is just a copy of tfx.components.transform.executor.Executor.
+    The reason for this new Executor is because the original does not
+    allow the client to specify the input and output splits. Once this
+    is allowed, this Executor will not be needed
+    """
+
     def Do(self, input_dict: Dict[Text, List[Artifact]],
            output_dict: Dict[Text, List[Artifact]],
            exec_properties: Dict[Text, Any]) -> None:
-        """
-        Executor is just a copy of tfx.components.transform.executor.Executor.
-        The reason for this new Executor is because the original does not
-        allow the client to specify the input and output splits. Once this
-        is allowed, this Executor will not be needed
-        """
         split_uris: List[Text] = []
         for artifact in input_dict[executor.EXAMPLES_KEY]:
             for split in artifact_utils.decode_split_names(
