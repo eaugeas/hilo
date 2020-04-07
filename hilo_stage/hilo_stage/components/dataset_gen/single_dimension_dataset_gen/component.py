@@ -26,14 +26,12 @@ class SingleDimensionGen(BaseComponent):
 
     def __init__(
             self,
-            examples: Channel,
             statistics: Optional[Channel] = None,
             split_names: Optional[List[Text]] = None,
             instance_name: Optional[Text] = None
     ):
         """Construct a SingleDimensionGen component."""
         spec = SingleDimensionGenSpec(
-            examples=examples,
             statistics=statistics,
             datasets=Channel(type=Datasets, artifacts=[Datasets()]),
             split_names=splits_or_example_defaults(split_names))

@@ -14,7 +14,6 @@ class SingleDimensionGenSpec(ComponentSpec):
         'split_names': ExecutionParameter(type=List[Text]),
     }
     INPUTS = {
-        'examples': ChannelParameter(type=standard_artifacts.Examples),
         'statistics': ChannelParameter(
             type=standard_artifacts.ExampleStatistics,
             optional=True),
