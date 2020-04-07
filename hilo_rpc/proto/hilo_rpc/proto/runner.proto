@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package hilo_rpc.proto;
+
+message BeamDagRunnerConfig {
+    repeated string orchestrator_args = 1;
+}
+
+message RunnerConfig {
+    oneof config {
+        BeamDagRunnerConfig beam = 1;
+    }
+}
+
