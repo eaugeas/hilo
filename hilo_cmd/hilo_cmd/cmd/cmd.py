@@ -56,4 +56,5 @@ class Cmd(object):
         parser.print_help()
 
     def exec(self, args: argparse.Namespace):
-        self.print_help()
+        if not Cmd.has_next(args):
+            self.print_help()

@@ -164,7 +164,8 @@ class _RepeatedCompositeContainer(object):
             descriptor: Descriptor,
     ):
         for v in collection:
-            value.append(_Serializer.deserialize(v))
+            symbol = _SYMBOL_LOADER.load(descriptor.message_type.full_name)
+            value.append(_Serializer.deserialize(symbol(), v, descriptor))
         return value
 
 
@@ -311,6 +312,8 @@ class _SimpleValue(_Value):
     def deserialize(self, value: Any, r: Any, descriptor: Descriptor) -> Any:
         self.typecheck(value)
         self.typecheck(r)
+        if r is None:
+            return self._t()
         return self._t(r)
 
 

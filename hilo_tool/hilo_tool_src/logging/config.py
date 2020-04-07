@@ -14,7 +14,7 @@ def basic_config(config: LoggingConfig):
     elif not config.level:
         d['level'] = logging.INFO
     else:
-        raise ValueError('Unknown logging level {0}'.format(d['level']))
+        raise ValueError('Unknown logging level {0}'.format(config.level))
 
     if config.filename:
         d['filename'] = config.filename
