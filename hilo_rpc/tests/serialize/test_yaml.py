@@ -24,13 +24,13 @@ class SerializeTest(unittest.TestCase):
         stream.seek(0)
         self.assertEqual("""enum:
   bool_enum: true
-  int32_enum: 0
-  string_enum: ''
 mapping: {}
 params:
   bool_param: true
   int32_param: 1
   string_param: hello
+params_map: {}
+params_repeated: []
 string_repeated: []
 """, stream.read(-1))
 

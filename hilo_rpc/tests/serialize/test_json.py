@@ -23,10 +23,11 @@ class SerializeTest(unittest.TestCase):
 
         stream.seek(0)
         self.assertEqual(
-            '{"enum": {"bool_enum": true, "int32_enum": 0,'
-            ' "string_enum": ""}, "params": {"bool_param": true, '
-            '"int32_param": 1, "string_param": "hello"}, "mapping": {},'
-            ' "string_repeated": []}', stream.read(-1))
+            '{"enum": {"bool_enum": true}, '
+            '"params": {"bool_param": true, '
+            '"int32_param": 1, "string_param": "hello"}'
+            ', "mapping": {}, "string_repeated": [], '
+            '"params_repeated": [], "params_map": {}}', stream.read(-1))
 
     def test_serialize_ok_pretty_print(self):
         stream = io.StringIO()
@@ -44,9 +45,7 @@ class SerializeTest(unittest.TestCase):
         stream.seek(0)
         self.assertEqual("""{
  "enum": {
-  "bool_enum": true,
-  "int32_enum": 0,
-  "string_enum": ""
+  "bool_enum": true
  },
  "params": {
   "bool_param": true,
@@ -54,7 +53,9 @@ class SerializeTest(unittest.TestCase):
   "string_param": "hello"
  },
  "mapping": {},
- "string_repeated": []
+ "string_repeated": [],
+ "params_repeated": [],
+ "params_map": {}
 }""", stream.read(-1))
 
     def test_deserialize_ok_input_config(self):

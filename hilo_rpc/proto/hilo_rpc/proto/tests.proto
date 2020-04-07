@@ -10,7 +10,7 @@ message TestMessage {
     }
 
     message Enum {
-        oneof enum {
+        oneof type_enum {
             bool bool_enum = 1;
             int32 int32_enum = 2;
             string string_enum = 3;
@@ -21,4 +21,6 @@ message TestMessage {
     Params params = 2;
     map<string, string> mapping = 3;
     repeated string string_repeated = 4;
+    repeated Params params_repeated = 5;
+    map<int32, Params> params_map = 6;
 }

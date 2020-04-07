@@ -8,7 +8,8 @@ from hilo_rpc.serialize.symbol_loader import SymbolLoader
 from hilo_rpc.serialize.directive import execute as execute_directives
 from hilo_rpc.serialize.dict import (
     deserialize as deserialize_dict,
-    serialize as serialize_dict)
+    serialize as serialize_dict,
+    typedef as typedef_dict)
 
 
 def deserialize(
@@ -44,7 +45,10 @@ def serialize(
 ):
     """serialize serializes the message as yaml and writes the result
     to the stream"""
-    serialized = serialize_dict(message, with_types=with_types)
+    if with_types:
+        serialized = typedef_dict(message)
+    else:
+        serialized = serialize_dict(message)
 
     if pretty:
         json.dump(serialized, stream, indent=' ')
