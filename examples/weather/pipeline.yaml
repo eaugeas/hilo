@@ -108,3 +108,29 @@ config:
               num_steps: 500
           outputs:
             model: model
+    - id: '9'
+      name: ModelResolver
+      config:
+        resolver_node:
+          outputs:
+            model: model
+    - id: '10'
+      name: ModelEvaluator
+      config:
+        evaluator:
+          inputs:
+            examples: 7.outputs.examples
+            model: 8.outputs.model
+            baseline_model: 9.outputs.model
+          outputs:
+            blessing: blessing
+    - id: '11'
+      name: ModelPusher
+      config:
+        pusher:
+          inputs:
+            model: 8.outputs.model
+            model_blessing: 10.outputs.blessing
+            push_destination:
+              filesystem:
+                $EXAMPLE_ROOT/weather-model

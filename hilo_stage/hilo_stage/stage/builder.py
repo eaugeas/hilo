@@ -2,7 +2,7 @@ from typing import Any, Dict, List, Optional, Text, Type
 
 from google.protobuf.message import Message
 from tfx.types import Channel, standard_artifacts, artifact_utils
-from tfx.components.base.base_component import BaseComponent
+from tfx.components.base.base_node import BaseNode
 
 from hilo_stage.components.utils.splits import splits_or_example_defaults
 from hilo_rpc.serialize.dict import serialize as serialize_dict
@@ -11,7 +11,8 @@ from hilo_rpc.proto.stage_pb2 import (
     JsonExampleGenConfig, SingleDimensionGenConfig,
     StatisticsGenConfig, SchemaGenConfig,
     CsvExampleGenConfig, TransformConfig,
-    TrainerConfig)
+    TrainerConfig, ResolverNodeConfig, EvaluatorConfig,
+    PusherConfig)
 
 
 class Context:
@@ -43,7 +44,7 @@ class Context:
     def get(self, map_key) -> Any:
         return self._context[map_key]
 
-    def put_outputs(self, message: Message, component: BaseComponent):
+    def put_outputs(self, message: Message, component: BaseNode):
         descriptor = message.DESCRIPTOR
         for field in descriptor.fields:
             self.put_self(
@@ -59,8 +60,67 @@ class ComponentBuilder(object):
     def __init__(self, config: Optional[Any] = None):
         pass
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         raise NotImplementedError()
+
+
+class EvaluatorBuilder(ComponentBuilder):
+    def __init__(self, config: Optional[EvaluatorConfig]):
+        super().__init__(config)
+        self._config = config or EvaluatorConfig
+
+    def build(self, context: Context) -> BaseNode:
+        from tfx.components import Evaluator
+        import tensorflow_model_analysis as tfma
+
+        threshold = {
+            'binary_accuracy':
+                tfma.config.MetricThreshold(
+                    value_threshold=tfma.GenericValueThreshold(
+                        lower_bound={'value': 0.6}),
+                    change_threshold=tfma.GenericChangeThreshold(
+                        direction=tfma.MetricDirection.HIGHER_IS_BETTER,
+                        absolute={'value': -1e-10}))
+                }
+        eval_config = tfma.EvalConfig(
+            model_specs=[tfma.ModelSpec(signature_name='eval')],
+            slicing_specs=[
+                tfma.SlicingSpec(),
+            ],
+            metrics_specs=[tfma.MetricsSpec(thresholds=threshold)])
+
+        component = Evaluator(
+            examples=context.get(self._config.inputs.examples),
+            model=context.get(self._config.inputs.model),
+            baseline_model=context.get(self._config.inputs.baseline_model),
+            eval_config=eval_config,
+            instance_name=context.id)
+        context.put_outputs(self._config.outputs, component)
+        return component
+
+
+class PusherBuilder(ComponentBuilder):
+    def __init__(self, config: Optional[PusherConfig] = None):
+        super().__init__(config)
+        self._config = config or PusherConfig()
+
+    def build(self, context: Context) -> BaseNode:
+        from tfx.components import Pusher
+        from tfx.proto.pusher_pb2 import PushDestination
+
+        d = self._config.params.destination.filesystem.base_directory
+        push_destination = PushDestination(
+            filesystem=PushDestination.Filesystem(base_directory=d))
+
+        component = Pusher(
+            model=context.get(self._config.inputs.model),
+            model_blessing=context.get(self._config.inputs.model_blessing),
+            push_destination=push_destination,
+            instance_name=context.id
+        )
+
+        context.put_outputs(self._config.outputs, component)
+        return component
 
 
 class ExampleValidatorBuilder(ComponentBuilder):
@@ -68,7 +128,7 @@ class ExampleValidatorBuilder(ComponentBuilder):
         super().__init__(config)
         self._config = config or ExampleValidatorConfig()
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         from hilo_stage.components import ExampleValidator
 
         statistics = context.get(self._config.inputs.statistics)
@@ -83,12 +143,33 @@ class ExampleValidatorBuilder(ComponentBuilder):
         return component
 
 
+class ResolverNodeBuilder(ComponentBuilder):
+    def __init__(self, config: Optional[ResolverNodeConfig] = None):
+        super().__init__(config)
+        self._config = config or ResolverNodeConfig()
+
+    def build(self, context: Context) -> BaseNode:
+        from tfx.components import ResolverNode
+        from tfx.dsl.experimental.latest_blessed_model_resolver import (
+            LatestBlessedModelResolver)
+        from tfx.types.standard_artifacts import Model, ModelBlessing
+
+        component = ResolverNode(
+            instance_name=context.id,
+            resolver_class=LatestBlessedModelResolver,
+            model=Channel(type=Model),
+            model_blessing=Channel(type=ModelBlessing))
+
+        context.put_outputs(self._config.outputs, component)
+        return component
+
+
 class TrainerBuilder(ComponentBuilder):
     def __init__(self, config: Optional[TrainerConfig] = None):
         super().__init__(config)
         self._config = config or TrainerConfig()
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         from tfx.components import Trainer
 
         component = Trainer(
@@ -111,7 +192,7 @@ class SchemaGenBuilder(ComponentBuilder):
         super().__init__(config)
         self._config = config or SchemaGenConfig()
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         from tfx.components import SchemaGen
 
         statistics = context.get(self._config.inputs.statistics)
@@ -130,7 +211,7 @@ class StatisticsGenBuilder(ComponentBuilder):
         super().__init__(config)
         self._config = config or StatisticsGenConfig()
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         from tfx.components import StatisticsGen
 
         statistics_artifact = standard_artifacts.ExampleStatistics()
@@ -158,7 +239,7 @@ class SingleDimensionGenBuilder(ComponentBuilder):
         super().__init__(config)
         self._config = config or SingleDimensionGenConfig()
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         from hilo_stage.components import SingleDimensionGen
         split_names = splits_or_example_defaults(
             self._config.params.split_names)
@@ -179,7 +260,7 @@ class PartitionGenBuilder(ComponentBuilder):
         super().__init__(config)
         self._config = config or PartitionGenConfig()
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         from hilo_stage.components import PartitionGen
 
         split_names = splits_or_example_defaults(
@@ -208,7 +289,7 @@ class CsvExampleGenBuilder(ComponentBuilder):
         super().__init__(config)
         self._config = config or CsvExampleGenConfig()
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         from tfx.components import CsvExampleGen
         from tfx.proto.example_gen_pb2 import Input, Output, SplitConfig
 
@@ -249,7 +330,7 @@ class TransformBuilder(ComponentBuilder):
         super().__init__(config)
         self._config = config or TransformConfig()
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         from hilo_stage.components import Transform
 
         props = {}
@@ -283,7 +364,7 @@ class JsonExampleGenBuilder(ComponentBuilder):
         super().__init__(config)
         self._config = config or JsonExampleGenConfig()
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         from hilo_stage.components import JsonExampleGen
         from tfx.proto.example_gen_pb2 import Input, Output, SplitConfig
 
@@ -324,10 +405,13 @@ class Builder:
             'csv_example_gen': CsvExampleGenBuilder,
             'transform': TransformBuilder,
             'example_validator': ExampleValidatorBuilder,
-            'trainer': TrainerBuilder
+            'trainer': TrainerBuilder,
+            'resolver_node': ResolverNodeBuilder,
+            'evaluator': EvaluatorBuilder,
+            'pusher': PusherBuilder,
         }
 
-    def _build(self, context: Context) -> BaseComponent:
+    def _build(self, context: Context) -> BaseNode:
         config = self._stage.config
         stage_name = config.WhichOneof('config')
         if stage_name in self._stage_builders:
@@ -338,7 +422,7 @@ class Builder:
         else:
             raise ValueError('Unknown stage name {0}'.format(stage_name))
 
-    def build(self, context: Context) -> BaseComponent:
+    def build(self, context: Context) -> BaseNode:
         try:
             return self._build(context)
         except KeyError as e:

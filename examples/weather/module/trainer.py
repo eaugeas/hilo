@@ -8,6 +8,7 @@ from tensorflow_transform.tf_metadata import schema_utils
 
 NUMERIC_FEATURE_KEYS = [
     'timestamp',
+    'p_mbar',
     't_degc',
     'tpot_k',
     'tdew_degc',
@@ -23,7 +24,7 @@ NUMERIC_FEATURE_KEYS = [
     'wd_deg'
 ]
 
-LABEL_KEYS = ['p_mbar']
+LABEL_KEY = 'p_mbar'
 
 
 def _get_raw_feature_spec(schema):
@@ -31,13 +32,10 @@ def _get_raw_feature_spec(schema):
 
 
 def _transformed_name(key: Text) -> Text:
-    if key in NUMERIC_FEATURE_KEYS:
-        return 'input_{0}'.format(NUMERIC_FEATURE_KEYS.index(key) + 1)
-    elif key in LABEL_KEYS:
-        return 'label_{0}'.format(LABEL_KEYS.index(key) + 1)
-    else:
+    if key not in NUMERIC_FEATURE_KEYS:
         raise KeyError(
-            'key {0} not in keys {1}'.format(key, NUMERIC_FEATURE_KEYS))
+            'Key {0} does not belong to NUMERIC_FEATURE_KEYS'.format(key))
+    return '{0}_tx'.format(key)
 
 
 def _transformed_names(keys):
@@ -54,11 +52,10 @@ def _estimator(
     run_config.replace(
         model_dir=serving_model_dir)
 
-    columns = []
-    for column in NUMERIC_FEATURE_KEYS:
-        name = _transformed_name(column)
-        columns.append(
-            tf.compat.v1.feature_column.numeric_column(name))
+    columns = [
+        tf.compat.v1.feature_column.numeric_column(_transformed_name(column))
+        for column in filter(lambda x: x != LABEL_KEY, NUMERIC_FEATURE_KEYS)
+    ]
 
     return tf.compat.v1.estimator.DNNClassifier(
         hidden_units=[1, 14, 1],
@@ -81,7 +78,7 @@ def _input_dataset(
         reader=lambda files: tf.data.TFRecordDataset(
             files,
             compression_type='GZIP'),
-        label_key=_transformed_name(LABEL_KEYS[0]))
+        label_key=_transformed_name(LABEL_KEY))
 
 
 def _train_spec(
@@ -99,8 +96,7 @@ def _serving_input_receiver_fn(
         schema
 ) -> tf.estimator.export.ServingInputReceiver:
     raw_feature_spec = _get_raw_feature_spec(schema)
-    for key in LABEL_KEYS:
-        raw_feature_spec.pop(key)
+    raw_feature_spec.pop(LABEL_KEY)
 
     raw_input_fn = tf.estimator.export.build_parsing_serving_input_receiver_fn(
         raw_feature_spec, default_batch_size=None)
@@ -142,7 +138,7 @@ def _eval_input_receiver_fn(transform_output, schema):
     return tfma.export.EvalInputReceiver(
         features=features,
         receiver_tensors=receiver_tensors,
-        labels=transformed_features[_transformed_name(LABEL_KEYS[0])])
+        labels=transformed_features[_transformed_name(LABEL_KEY)])
 
 
 def trainer_fn(
