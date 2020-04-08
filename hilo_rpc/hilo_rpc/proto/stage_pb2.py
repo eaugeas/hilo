@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1ahilo_rpc/proto/stage.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb3\x02\n\x12PartitionGenConfig\x12\x39\n\x06params\x18\x01 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Params\x12\x39\n\x06inputs\x18\x02 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Inputs\x12;\n\x07outputs\x18\x03 \x01(\x0b\x32*.hilo_rpc.proto.PartitionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a,\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x10\n\x08\x64\x61tasets\x18\x02 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\npartitions\x18\x01 \x01(\t\"\xb9\x02\n\x18SingleDimensionGenConfig\x12?\n\x06params\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Params\x12?\n\x06inputs\x18\x02 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Inputs\x12\x41\n\x07outputs\x18\x03 \x01(\x0b\x32\x30.hilo_rpc.proto.SingleDimensionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x64\x61tasets\x18\x01 \x01(\t\"\x9b\x02\n\x0fSchemaGenConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.SchemaGenConfig.Outputs\x1a%\n\x06Params\x12\x1b\n\x13infer_feature_shape\x18\x01 \x01(\x08\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x19\n\x07Outputs\x12\x0e\n\x06schema\x18\x01 \x01(\t\"\xa5\x02\n\x13StatisticsGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.StatisticsGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1a\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\"\xa4\x05\n\x14JsonExampleGenConfig\x12;\n\x06params\x18\x01 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Params\x12;\n\x06inputs\x18\x02 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Inputs\x12=\n\x07outputs\x18\x03 \x01(\x0b\x32,.hilo_rpc.proto.JsonExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aN\n\x0bInputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.JsonExampleGenConfig.InputSplit\x1aP\n\x0cOutputConfig\x12@\n\x06splits\x18\x01 \x03(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.OutputSplit\x1a\x9a\x01\n\x06Params\x12\x46\n\x0cinput_config\x18\x01 \x01(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.InputConfig\x12H\n\routput_config\x18\x02 \x01(\x0b\x32\x31.hilo_rpc.proto.JsonExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\xdd\x02\n\x0fTransformConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.TransformConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.TransformConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.TransformConfig.Outputs\x1a\x32\n\x06Params\x12\x13\n\x0bmodule_file\x18\x01 \x01(\t\x12\x13\n\x0bsplit_names\x18\x02 \x03(\t\x1a*\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x1a@\n\x07Outputs\x12\x1c\n\x14transformed_examples\x18\x01 \x01(\t\x12\x17\n\x0ftransform_graph\x18\x02 \x01(\t\"\x9c\x05\n\x13\x43svExampleGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.CsvExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aM\n\x0bInputConfig\x12>\n\x06splits\x18\x01 \x03(\x0b\x32..hilo_rpc.proto.CsvExampleGenConfig.InputSplit\x1aO\n\x0cOutputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.OutputSplit\x1a\x98\x01\n\x06Params\x12\x45\n\x0cinput_config\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.InputConfig\x12G\n\routput_config\x18\x02 \x01(\x0b\x32\x30.hilo_rpc.proto.CsvExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\xc2\x02\n\x16\x45xampleValidatorConfig\x12=\n\x06params\x18\x01 \x01(\x0b\x32-.hilo_rpc.proto.ExampleValidatorConfig.Params\x12=\n\x06inputs\x18\x02 \x01(\x0b\x32-.hilo_rpc.proto.ExampleValidatorConfig.Inputs\x12?\n\x07outputs\x18\x03 \x01(\x0b\x32..hilo_rpc.proto.ExampleValidatorConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a,\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x1a\x1c\n\x07Outputs\x12\x11\n\tanomalies\x18\x01 \x01(\t\"\xe9\x03\n\rTrainerConfig\x12\x34\n\x06params\x18\x01 \x01(\x0b\x32$.hilo_rpc.proto.TrainerConfig.Params\x12\x34\n\x06inputs\x18\x02 \x01(\x0b\x32$.hilo_rpc.proto.TrainerConfig.Inputs\x12\x36\n\x07outputs\x18\x03 \x01(\x0b\x32%.hilo_rpc.proto.TrainerConfig.Outputs\x1a\x1e\n\tTrainArgs\x12\x11\n\tnum_steps\x18\x01 \x01(\x05\x1a\x1d\n\x08\x45valArgs\x12\x11\n\tnum_steps\x18\x01 \x01(\x05\x1a\x95\x01\n\x06Params\x12\x13\n\x0bmodule_file\x18\x01 \x01(\t\x12;\n\ntrain_args\x18\x02 \x01(\x0b\x32\'.hilo_rpc.proto.TrainerConfig.TrainArgs\x12\x39\n\teval_args\x18\x03 \x01(\x0b\x32&.hilo_rpc.proto.TrainerConfig.EvalArgs\x1a\x43\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x12\x17\n\x0ftransform_graph\x18\x03 \x01(\t\x1a\x18\n\x07Outputs\x12\r\n\x05model\x18\x01 \x01(\t\"\xc3\x04\n\x0bStageConfig\x12>\n\x0f\x63sv_example_gen\x18\x01 \x01(\x0b\x32#.hilo_rpc.proto.CsvExampleGenConfigH\x00\x12@\n\x10json_example_gen\x18\x02 \x01(\x0b\x32$.hilo_rpc.proto.JsonExampleGenConfigH\x00\x12=\n\x0estatistics_gen\x18\x03 \x01(\x0b\x32#.hilo_rpc.proto.StatisticsGenConfigH\x00\x12\x35\n\nschema_gen\x18\x04 \x01(\x0b\x32\x1f.hilo_rpc.proto.SchemaGenConfigH\x00\x12H\n\x14single_dimension_gen\x18\x05 \x01(\x0b\x32(.hilo_rpc.proto.SingleDimensionGenConfigH\x00\x12;\n\rpartition_gen\x18\x06 \x01(\x0b\x32\".hilo_rpc.proto.PartitionGenConfigH\x00\x12\x34\n\ttransform\x18\x07 \x01(\x0b\x32\x1f.hilo_rpc.proto.TransformConfigH\x00\x12\x43\n\x11\x65xample_validator\x18\x08 \x01(\x0b\x32&.hilo_rpc.proto.ExampleValidatorConfigH\x00\x12\x30\n\x07trainer\x18\t \x01(\x0b\x32\x1d.hilo_rpc.proto.TrainerConfigH\x00\x42\x08\n\x06\x63onfig\"\xc3\x01\n\x05Stage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1b.hilo_rpc.proto.StageConfigb\x06proto3'
+  serialized_pb=b'\n\x1ahilo_rpc/proto/stage.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb3\x02\n\x12PartitionGenConfig\x12\x39\n\x06params\x18\x01 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Params\x12\x39\n\x06inputs\x18\x02 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Inputs\x12;\n\x07outputs\x18\x03 \x01(\x0b\x32*.hilo_rpc.proto.PartitionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a,\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x10\n\x08\x64\x61tasets\x18\x02 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\npartitions\x18\x01 \x01(\t\"\xb9\x02\n\x18SingleDimensionGenConfig\x12?\n\x06params\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Params\x12?\n\x06inputs\x18\x02 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Inputs\x12\x41\n\x07outputs\x18\x03 \x01(\x0b\x32\x30.hilo_rpc.proto.SingleDimensionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x64\x61tasets\x18\x01 \x01(\t\"\x9b\x02\n\x0fSchemaGenConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.SchemaGenConfig.Outputs\x1a%\n\x06Params\x12\x1b\n\x13infer_feature_shape\x18\x01 \x01(\x08\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x19\n\x07Outputs\x12\x0e\n\x06schema\x18\x01 \x01(\t\"\xa5\x02\n\x13StatisticsGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.StatisticsGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1a\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\"\xa4\x05\n\x14JsonExampleGenConfig\x12;\n\x06params\x18\x01 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Params\x12;\n\x06inputs\x18\x02 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Inputs\x12=\n\x07outputs\x18\x03 \x01(\x0b\x32,.hilo_rpc.proto.JsonExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aN\n\x0bInputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.JsonExampleGenConfig.InputSplit\x1aP\n\x0cOutputConfig\x12@\n\x06splits\x18\x01 \x03(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.OutputSplit\x1a\x9a\x01\n\x06Params\x12\x46\n\x0cinput_config\x18\x01 \x01(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.InputConfig\x12H\n\routput_config\x18\x02 \x01(\x0b\x32\x31.hilo_rpc.proto.JsonExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\xdd\x02\n\x0fTransformConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.TransformConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.TransformConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.TransformConfig.Outputs\x1a\x32\n\x06Params\x12\x13\n\x0bmodule_file\x18\x01 \x01(\t\x12\x13\n\x0bsplit_names\x18\x02 \x03(\t\x1a*\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x1a@\n\x07Outputs\x12\x1c\n\x14transformed_examples\x18\x01 \x01(\t\x12\x17\n\x0ftransform_graph\x18\x02 \x01(\t\"\x9c\x05\n\x13\x43svExampleGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.CsvExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aM\n\x0bInputConfig\x12>\n\x06splits\x18\x01 \x03(\x0b\x32..hilo_rpc.proto.CsvExampleGenConfig.InputSplit\x1aO\n\x0cOutputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.OutputSplit\x1a\x98\x01\n\x06Params\x12\x45\n\x0cinput_config\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.InputConfig\x12G\n\routput_config\x18\x02 \x01(\x0b\x32\x30.hilo_rpc.proto.CsvExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\xad\x02\n\x16\x45xampleValidatorConfig\x12=\n\x06params\x18\x01 \x01(\x0b\x32-.hilo_rpc.proto.ExampleValidatorConfig.Params\x12=\n\x06inputs\x18\x02 \x01(\x0b\x32-.hilo_rpc.proto.ExampleValidatorConfig.Inputs\x12?\n\x07outputs\x18\x03 \x01(\x0b\x32..hilo_rpc.proto.ExampleValidatorConfig.Outputs\x1a\x08\n\x06Params\x1a,\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x1a\x1c\n\x07Outputs\x12\x11\n\tanomalies\x18\x01 \x01(\t\"\xe9\x03\n\rTrainerConfig\x12\x34\n\x06params\x18\x01 \x01(\x0b\x32$.hilo_rpc.proto.TrainerConfig.Params\x12\x34\n\x06inputs\x18\x02 \x01(\x0b\x32$.hilo_rpc.proto.TrainerConfig.Inputs\x12\x36\n\x07outputs\x18\x03 \x01(\x0b\x32%.hilo_rpc.proto.TrainerConfig.Outputs\x1a\x1e\n\tTrainArgs\x12\x11\n\tnum_steps\x18\x01 \x01(\x05\x1a\x1d\n\x08\x45valArgs\x12\x11\n\tnum_steps\x18\x01 \x01(\x05\x1a\x95\x01\n\x06Params\x12\x13\n\x0bmodule_file\x18\x01 \x01(\t\x12;\n\ntrain_args\x18\x02 \x01(\x0b\x32\'.hilo_rpc.proto.TrainerConfig.TrainArgs\x12\x39\n\teval_args\x18\x03 \x01(\x0b\x32&.hilo_rpc.proto.TrainerConfig.EvalArgs\x1a\x43\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x12\x17\n\x0ftransform_graph\x18\x03 \x01(\t\x1a\x18\n\x07Outputs\x12\r\n\x05model\x18\x01 \x01(\t\"\xc3\x04\n\x0bStageConfig\x12>\n\x0f\x63sv_example_gen\x18\x01 \x01(\x0b\x32#.hilo_rpc.proto.CsvExampleGenConfigH\x00\x12@\n\x10json_example_gen\x18\x02 \x01(\x0b\x32$.hilo_rpc.proto.JsonExampleGenConfigH\x00\x12=\n\x0estatistics_gen\x18\x03 \x01(\x0b\x32#.hilo_rpc.proto.StatisticsGenConfigH\x00\x12\x35\n\nschema_gen\x18\x04 \x01(\x0b\x32\x1f.hilo_rpc.proto.SchemaGenConfigH\x00\x12H\n\x14single_dimension_gen\x18\x05 \x01(\x0b\x32(.hilo_rpc.proto.SingleDimensionGenConfigH\x00\x12;\n\rpartition_gen\x18\x06 \x01(\x0b\x32\".hilo_rpc.proto.PartitionGenConfigH\x00\x12\x34\n\ttransform\x18\x07 \x01(\x0b\x32\x1f.hilo_rpc.proto.TransformConfigH\x00\x12\x43\n\x11\x65xample_validator\x18\x08 \x01(\x0b\x32&.hilo_rpc.proto.ExampleValidatorConfigH\x00\x12\x30\n\x07trainer\x18\t \x01(\x0b\x32\x1d.hilo_rpc.proto.TrainerConfigH\x00\x42\x08\n\x06\x63onfig\"\xc3\x01\n\x05Stage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x06\x63onfig\x18\x06 \x01(\x0b\x32\x1b.hilo_rpc.proto.StageConfigb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -1288,13 +1288,6 @@ _EXAMPLEVALIDATORCONFIG_PARAMS = _descriptor.Descriptor(
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
-    _descriptor.FieldDescriptor(
-      name='split_names', full_name='hilo_rpc.proto.ExampleValidatorConfig.Params.split_names', index=0,
-      number=1, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -1308,7 +1301,7 @@ _EXAMPLEVALIDATORCONFIG_PARAMS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=281,
-  serialized_end=310,
+  serialized_end=289,
 )
 
 _EXAMPLEVALIDATORCONFIG_INPUTS = _descriptor.Descriptor(
@@ -1344,8 +1337,8 @@ _EXAMPLEVALIDATORCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3238,
-  serialized_end=3282,
+  serialized_start=3217,
+  serialized_end=3261,
 )
 
 _EXAMPLEVALIDATORCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -1374,8 +1367,8 @@ _EXAMPLEVALIDATORCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3284,
-  serialized_end=3312,
+  serialized_start=3263,
+  serialized_end=3291,
 )
 
 _EXAMPLEVALIDATORCONFIG = _descriptor.Descriptor(
@@ -1419,7 +1412,7 @@ _EXAMPLEVALIDATORCONFIG = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=2990,
-  serialized_end=3312,
+  serialized_end=3291,
 )
 
 
@@ -1449,8 +1442,8 @@ _TRAINERCONFIG_TRAINARGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3496,
-  serialized_end=3526,
+  serialized_start=3475,
+  serialized_end=3505,
 )
 
 _TRAINERCONFIG_EVALARGS = _descriptor.Descriptor(
@@ -1479,8 +1472,8 @@ _TRAINERCONFIG_EVALARGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3528,
-  serialized_end=3557,
+  serialized_start=3507,
+  serialized_end=3536,
 )
 
 _TRAINERCONFIG_PARAMS = _descriptor.Descriptor(
@@ -1523,8 +1516,8 @@ _TRAINERCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3560,
-  serialized_end=3709,
+  serialized_start=3539,
+  serialized_end=3688,
 )
 
 _TRAINERCONFIG_INPUTS = _descriptor.Descriptor(
@@ -1567,8 +1560,8 @@ _TRAINERCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3711,
-  serialized_end=3778,
+  serialized_start=3690,
+  serialized_end=3757,
 )
 
 _TRAINERCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -1597,8 +1590,8 @@ _TRAINERCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3780,
-  serialized_end=3804,
+  serialized_start=3759,
+  serialized_end=3783,
 )
 
 _TRAINERCONFIG = _descriptor.Descriptor(
@@ -1641,8 +1634,8 @@ _TRAINERCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3315,
-  serialized_end=3804,
+  serialized_start=3294,
+  serialized_end=3783,
 )
 
 
@@ -1731,8 +1724,8 @@ _STAGECONFIG = _descriptor.Descriptor(
       name='config', full_name='hilo_rpc.proto.StageConfig.config',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=3807,
-  serialized_end=4386,
+  serialized_start=3786,
+  serialized_end=4365,
 )
 
 
@@ -1797,8 +1790,8 @@ _STAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4389,
-  serialized_end=4584,
+  serialized_start=4368,
+  serialized_end=4563,
 )
 
 _PARTITIONGENCONFIG_PARAMS.containing_type = _PARTITIONGENCONFIG
