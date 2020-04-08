@@ -5,6 +5,7 @@ import tensorflow_transform as tft
 
 NUMERIC_FEATURE_KEYS = [
     'timestamp',
+    'p_mbar',
     't_degc',
     'tpot_k',
     'tdew_degc',
@@ -20,7 +21,7 @@ NUMERIC_FEATURE_KEYS = [
     'wd_deg'
 ]
 
-LABEL_KEYS = ['p_mbar']
+LABEL_KEY = 'p_mbar'
 
 RAW_DATA_FEATURE_SPEC = dict(
     [(name, tf.io.FixedLenFeature([], tf.float32))
@@ -49,13 +50,10 @@ def _fill_in_missing(x):
 
 
 def _transformed_name(key: Text) -> Text:
-    if key in NUMERIC_FEATURE_KEYS:
-        return 'input_{0}'.format(NUMERIC_FEATURE_KEYS.index(key) + 1)
-    elif key in LABEL_KEYS:
-        return 'label_{0}'.format(LABEL_KEYS.index(key) + 1)
-    else:
+    if key not in NUMERIC_FEATURE_KEYS:
         raise KeyError(
-            'key {0} not in keys {1}'.format(key, NUMERIC_FEATURE_KEYS))
+            'Key {0} does not belong to NUMERIC_FEATURE_KEYS'.format(key))
+    return '{0}_tx'.format(key)
 
 
 def preprocessing_fn(inputs: Dict[Text, Any]) -> Dict[Text, Any]:
@@ -65,8 +63,4 @@ def preprocessing_fn(inputs: Dict[Text, Any]) -> Dict[Text, Any]:
     for key in NUMERIC_FEATURE_KEYS:
         outputs[_transformed_name(key)] = tft.scale_to_0_1(
             _fill_in_missing(inputs[key]))
-    for key in LABEL_KEYS:
-        outputs[_transformed_name(key)] = tft.scale_to_0_1(
-            _fill_in_missing(inputs[key]))
-
     return outputs

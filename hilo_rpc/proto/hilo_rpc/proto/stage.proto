@@ -23,6 +23,33 @@ message PartitionGenConfig {
     Outputs outputs = 3;
 }
 
+message PusherConfig {
+    message PushDestination {
+        message Filesystem {
+            string base_directory = 1;
+        }
+
+        oneof destination {
+            Filesystem filesystem = 1;
+        }
+    }
+
+    message Params {
+        PushDestination destination = 1;
+    }
+
+    message Inputs {
+        string model = 1;
+        string model_blessing = 2;
+    }
+
+    message Outputs {}
+
+    Params params = 1;
+    Inputs inputs = 2;
+    Outputs outputs = 3;
+}
+
 message SingleDimensionGenConfig {
     message Params {
         repeated string split_names = 1;
@@ -219,6 +246,44 @@ message TrainerConfig {
     Outputs outputs = 3;
 }
 
+message EvaluatorConfig {
+    message EvalConfig {
+
+    }
+
+    message Params {
+        EvalConfig eval_config = 1;
+    }
+
+    message Inputs {
+        string examples= 1;
+        string model = 2;
+        string baseline_model = 3;
+    }
+
+    message Outputs {
+        string blessing = 1;
+    }
+
+    Params params = 1;
+    Inputs inputs = 2;
+    Outputs outputs = 3;
+}
+
+message ResolverNodeConfig {
+    message Params {}
+
+    message Inputs {}
+
+    message Outputs {
+        string model = 1;
+    }
+
+    Params params = 1;
+    Inputs inputs = 2;
+    Outputs outputs = 3;
+}
+
 message StageConfig {
     oneof config {
         CsvExampleGenConfig csv_example_gen = 1;
@@ -230,6 +295,9 @@ message StageConfig {
         TransformConfig transform = 7;
         ExampleValidatorConfig example_validator = 8;
         TrainerConfig trainer = 9;
+        ResolverNodeConfig resolver_node = 10;
+        EvaluatorConfig evaluator = 11;
+        PusherConfig pusher = 12;
     }
 }
 
