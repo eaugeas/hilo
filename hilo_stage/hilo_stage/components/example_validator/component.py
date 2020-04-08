@@ -18,7 +18,7 @@ from __future__ import division
 from __future__ import print_function
 
 import logging
-from typing import Optional, List, Text
+from typing import Optional, Text
 
 from tfx import types
 from tfx.components.base import base_component
@@ -38,7 +38,6 @@ class ExampleValidator(base_component.BaseComponent):
                  schema: types.Channel = None,
                  output: Optional[types.Channel] = None,
                  stats: Optional[types.Channel] = None,
-                 split_names: Optional[List[Text]] = None,
                  instance_name: Optional[Text] = None):
         """An ExampleValidator component for examples.
 

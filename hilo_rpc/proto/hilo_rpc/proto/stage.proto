@@ -173,9 +173,7 @@ message CsvExampleGenConfig {
 }
 
 message ExampleValidatorConfig {
-    message Params {
-        repeated string split_names = 1;
-    }
+    message Params {}
 
     message Inputs {
         string statistics = 1;

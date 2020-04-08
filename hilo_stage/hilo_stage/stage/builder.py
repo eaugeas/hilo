@@ -76,7 +76,6 @@ class ExampleValidatorBuilder(ComponentBuilder):
         component = ExampleValidator(
             statistics=statistics,
             schema=schema,
-            split_names=self._config.params.split_names,
             instance_name=context.id
         )
 

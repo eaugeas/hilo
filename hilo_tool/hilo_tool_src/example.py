@@ -34,19 +34,26 @@ class ExampleCmd(Cmd):
 
         ExampleCmd.apply(args.path)
 
-    def _decompress_gzipped_files(data_dir_path: Text):
+    @staticmethod
+    def _decompress_gzipped_files(
+            data_dir_path: Text,
+            raw_dir_path: Text
+    ):
         import gzip
         import os
         import shutil
 
-        for filename in os.listdir(data_dir_path):
-            filepath = os.path.join(data_dir_path, filename)
-            if filepath.endswith('.gz'):
-                with gzip.open(filepath, 'rb') as f_in:
-                    root, ext = os.path.splitext(filepath)
-                    with open(root, 'wb') as f_out:
+        if not os.path.isdir(data_dir_path):
+            os.mkdir(data_dir_path)
+
+        for filename in os.listdir(raw_dir_path):
+            inpath = os.path.join(raw_dir_path, filename)
+            if inpath.endswith('.gz'):
+                with gzip.open(inpath, 'rb') as f_in:
+                    root, ext = os.path.splitext(filename)
+                    outpath = os.path.join(data_dir_path, root)
+                    with open(outpath, 'wb') as f_out:
                         shutil.copyfileobj(f_in, f_out)
-                    os.unlink(filepath)
 
     @staticmethod
     def apply(path: Text):
@@ -65,14 +72,17 @@ class ExampleCmd(Cmd):
                 'provided, {0}, does not contain a pipeline.yaml'
                 ' file.'.format(path))
 
-        data_dir_path = os.path.join(path, 'data')
-        if not os.path.isdir(data_dir_path):
+        raw_dir_path = os.path.join(path, 'raw')
+        if not os.path.isdir(raw_dir_path):
             raise ValueError(
                 'An example must contain a data directory. The path '
-                'provided, {0}, does not contain a `data`'
+                'provided, {0}, does not contain a `raw`'
                 ' directory.'.format(path))
 
-        ExampleCmd._decompress_gzipped_files(data_dir_path)
+        data_dir_path = os.path.join(path, 'data')
+        if not os.path.isdir(data_dir_path):
+            ExampleCmd._decompress_gzipped_files(
+                data_dir_path, raw_dir_path)
 
         # examples must use EXAMPLE_ROOT as environment variable
         # to define their project root

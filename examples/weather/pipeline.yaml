@@ -20,15 +20,6 @@ config:
       name: CsvExampleGen
       config:
         csv_example_gen:
-          params:
-            input_config:
-              splits:
-              - name: 'train'
-                pattern: '*'
-            output_config:
-              splits:
-              - name: 'train'
-                hash_buckets: 1
           inputs:
             input: pipeline.source.channel
           outputs:
@@ -37,9 +28,6 @@ config:
       name: StatisticsGen
       config:
         statistics_gen:
-          params:
-            split_names:
-              - 'train'
           inputs:
             examples: 0.outputs.examples
           outputs:
@@ -62,18 +50,13 @@ config:
             examples: 0.outputs.examples
             schema: 2.outputs.schema
           params:
-            module_file_path: $EXAMPLE_ROOT/module/module.py
-            split_names:
-              - 'train'
+            module_file: $EXAMPLE_ROOT/module/introduce_timestamp.py
           outputs:
             transformed_examples: examples
     - id: '4'
       name: StatisticsGen
       config:
         statistics_gen:
-          params:
-            split_names:
-              - 'train'
           inputs:
             examples: 3.outputs.examples
           outputs:
@@ -89,27 +72,39 @@ config:
           outputs:
             schema: schema
     - id: '6'
-      name: SingleDimensionGen
+      name: ExampleValidator
       config:
-        single_dimension_gen:
-          params:
-            split_names:
-              - 'train'
+        example_validator:
           inputs:
-            examples: 3.outputs.examples
             statistics: 4.outputs.statistics
             schema: 5.outputs.schema
           outputs:
-            datasets: datasets
+            anomalies: anomalies
     - id: '7'
-      name: PartitionGen
+      name: Transform
       config:
-        partition_gen:
-          params:
-            split_names:
-              - 'train'
+        transform:
           inputs:
             examples: 3.outputs.examples
-            datasets: 6.outputs.datasets
+            schema: 5.outputs.schema
+          params:
+            module_file: $EXAMPLE_ROOT/module/normalize.py
           outputs:
-            partitions: partitions
+            transformed_examples: examples
+            transform_graph: graph
+    - id: '8'
+      name: Trainer
+      config:
+        trainer:
+          inputs:
+            schema: 5.outputs.schema
+            examples: 7.outputs.examples
+            transform_graph: 7.outputs.graph
+          params:
+            module_file: $EXAMPLE_ROOT/module/trainer.py
+            train_args:
+              num_steps: 500
+            eval_args:
+              num_steps: 500
+          outputs:
+            model: model
