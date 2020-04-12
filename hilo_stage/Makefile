@@ -34,3 +34,6 @@ lint-src:
 
 lint-tests:
 	$(FLAKE8) $(TESTS)
+
+countlines:
+	@echo $(SRC)	`find . -name '*.py' | xargs grep -E '\w' | wc -l`

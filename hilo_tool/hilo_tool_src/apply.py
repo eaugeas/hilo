@@ -27,12 +27,10 @@ class ApplyCmd(Cmd):
 
     @staticmethod
     def apply(file: Text):
-        from hilo_rpc.serialize.yaml import deserialize_from_file
-        from hilo_stage.pipeline.builder import (
-            Builder as PipelineBuilder, Pipeline)
+        from hilo_stage.pipeline.builder import Builder as PipelineBuilder
         from hilo_stage.runner.builder import Builder as RunnerBuilder
 
-        pipeline = deserialize_from_file(file, Pipeline)
         runner = RunnerBuilder().build()
-        pipeline = PipelineBuilder(pipeline).build()
-        runner.run(pipeline)
+        runner.run(
+            PipelineBuilder.from_yaml(file).build()
+        )

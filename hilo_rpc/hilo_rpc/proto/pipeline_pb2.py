@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1dhilo_rpc/proto/pipeline.proto\x12\x0ehilo_rpc.proto\x1a\x1dhilo_rpc/proto/metadata.proto\x1a\x19hilo_rpc/proto/sink.proto\x1a\x1bhilo_rpc/proto/source.proto\x1a\x1ahilo_rpc/proto/stage.proto\"\xa3\x02\n\x0ePipelineConfig\x12\x10\n\x08root_dir\x18\x01 \x01(\t\x12\x35\n\x06params\x18\x02 \x01(\x0b\x32%.hilo_rpc.proto.PipelineConfig.Params\x12&\n\x06source\x18\x03 \x01(\x0b\x32\x16.hilo_rpc.proto.Source\x12\"\n\x04sink\x18\x04 \x01(\x0b\x32\x14.hilo_rpc.proto.Sink\x12\x35\n\x08metadata\x18\x05 \x01(\x0b\x32#.hilo_rpc.proto.MetadataStoreConfig\x12%\n\x06stages\x18\x06 \x03(\x0b\x32\x15.hilo_rpc.proto.Stage\x1a\x1e\n\x06Params\x12\x14\n\x0c\x65nable_cache\x18\x01 \x01(\x08\"T\n\x08Pipeline\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12.\n\x06\x63onfig\x18\x03 \x01(\x0b\x32\x1e.hilo_rpc.proto.PipelineConfigb\x06proto3'
+  serialized_pb=b'\n\x1dhilo_rpc/proto/pipeline.proto\x12\x0ehilo_rpc.proto\x1a\x1dhilo_rpc/proto/metadata.proto\x1a\x19hilo_rpc/proto/sink.proto\x1a\x1bhilo_rpc/proto/source.proto\x1a\x1ahilo_rpc/proto/stage.proto\"\xaf\x03\n\x0ePipelineConfig\x12\x10\n\x08root_dir\x18\x01 \x01(\t\x12\x35\n\x06params\x18\x02 \x01(\x0b\x32%.hilo_rpc.proto.PipelineConfig.Params\x12&\n\x06source\x18\x03 \x01(\x0b\x32\x16.hilo_rpc.proto.Source\x12\"\n\x04sink\x18\x04 \x01(\x0b\x32\x14.hilo_rpc.proto.Sink\x12\x35\n\x08metadata\x18\x05 \x01(\x0b\x32#.hilo_rpc.proto.MetadataStoreConfig\x12\x32\n\x05steps\x18\x06 \x03(\x0b\x32#.hilo_rpc.proto.PipelineConfig.Step\x1a\x1e\n\x06Params\x12\x14\n\x0c\x65nable_cache\x18\x01 \x01(\x08\x1a}\n\x04Step\x12\x17\n\rpipeline_path\x18\x01 \x01(\tH\x00\x12,\n\x08pipeline\x18\x02 \x01(\x0b\x32\x18.hilo_rpc.proto.PipelineH\x00\x12&\n\x05stage\x18\x03 \x01(\x0b\x32\x15.hilo_rpc.proto.StageH\x00\x42\x06\n\x04step\"T\n\x08Pipeline\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12.\n\x06\x63onfig\x18\x03 \x01(\x0b\x32\x1e.hilo_rpc.proto.PipelineConfigb\x06proto3'
   ,
   dependencies=[hilo__rpc_dot_proto_dot_metadata__pb2.DESCRIPTOR,hilo__rpc_dot_proto_dot_sink__pb2.DESCRIPTOR,hilo__rpc_dot_proto_dot_source__pb2.DESCRIPTOR,hilo__rpc_dot_proto_dot_stage__pb2.DESCRIPTOR,])
 
@@ -55,8 +55,55 @@ _PIPELINECONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=426,
-  serialized_end=456,
+  serialized_start=439,
+  serialized_end=469,
+)
+
+_PIPELINECONFIG_STEP = _descriptor.Descriptor(
+  name='Step',
+  full_name='hilo_rpc.proto.PipelineConfig.Step',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='pipeline_path', full_name='hilo_rpc.proto.PipelineConfig.Step.pipeline_path', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pipeline', full_name='hilo_rpc.proto.PipelineConfig.Step.pipeline', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='stage', full_name='hilo_rpc.proto.PipelineConfig.Step.stage', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='step', full_name='hilo_rpc.proto.PipelineConfig.Step.step',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=471,
+  serialized_end=596,
 )
 
 _PIPELINECONFIG = _descriptor.Descriptor(
@@ -102,7 +149,7 @@ _PIPELINECONFIG = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='stages', full_name='hilo_rpc.proto.PipelineConfig.stages', index=5,
+      name='steps', full_name='hilo_rpc.proto.PipelineConfig.steps', index=5,
       number=6, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -111,7 +158,7 @@ _PIPELINECONFIG = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_PIPELINECONFIG_PARAMS, ],
+  nested_types=[_PIPELINECONFIG_PARAMS, _PIPELINECONFIG_STEP, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -121,7 +168,7 @@ _PIPELINECONFIG = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=165,
-  serialized_end=456,
+  serialized_end=596,
 )
 
 
@@ -165,16 +212,28 @@ _PIPELINE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=458,
-  serialized_end=542,
+  serialized_start=598,
+  serialized_end=682,
 )
 
 _PIPELINECONFIG_PARAMS.containing_type = _PIPELINECONFIG
+_PIPELINECONFIG_STEP.fields_by_name['pipeline'].message_type = _PIPELINE
+_PIPELINECONFIG_STEP.fields_by_name['stage'].message_type = hilo__rpc_dot_proto_dot_stage__pb2._STAGE
+_PIPELINECONFIG_STEP.containing_type = _PIPELINECONFIG
+_PIPELINECONFIG_STEP.oneofs_by_name['step'].fields.append(
+  _PIPELINECONFIG_STEP.fields_by_name['pipeline_path'])
+_PIPELINECONFIG_STEP.fields_by_name['pipeline_path'].containing_oneof = _PIPELINECONFIG_STEP.oneofs_by_name['step']
+_PIPELINECONFIG_STEP.oneofs_by_name['step'].fields.append(
+  _PIPELINECONFIG_STEP.fields_by_name['pipeline'])
+_PIPELINECONFIG_STEP.fields_by_name['pipeline'].containing_oneof = _PIPELINECONFIG_STEP.oneofs_by_name['step']
+_PIPELINECONFIG_STEP.oneofs_by_name['step'].fields.append(
+  _PIPELINECONFIG_STEP.fields_by_name['stage'])
+_PIPELINECONFIG_STEP.fields_by_name['stage'].containing_oneof = _PIPELINECONFIG_STEP.oneofs_by_name['step']
 _PIPELINECONFIG.fields_by_name['params'].message_type = _PIPELINECONFIG_PARAMS
 _PIPELINECONFIG.fields_by_name['source'].message_type = hilo__rpc_dot_proto_dot_source__pb2._SOURCE
 _PIPELINECONFIG.fields_by_name['sink'].message_type = hilo__rpc_dot_proto_dot_sink__pb2._SINK
 _PIPELINECONFIG.fields_by_name['metadata'].message_type = hilo__rpc_dot_proto_dot_metadata__pb2._METADATASTORECONFIG
-_PIPELINECONFIG.fields_by_name['stages'].message_type = hilo__rpc_dot_proto_dot_stage__pb2._STAGE
+_PIPELINECONFIG.fields_by_name['steps'].message_type = _PIPELINECONFIG_STEP
 _PIPELINE.fields_by_name['config'].message_type = _PIPELINECONFIG
 DESCRIPTOR.message_types_by_name['PipelineConfig'] = _PIPELINECONFIG
 DESCRIPTOR.message_types_by_name['Pipeline'] = _PIPELINE
@@ -188,12 +247,20 @@ PipelineConfig = _reflection.GeneratedProtocolMessageType('PipelineConfig', (_me
     # @@protoc_insertion_point(class_scope:hilo_rpc.proto.PipelineConfig.Params)
     })
   ,
+
+  'Step' : _reflection.GeneratedProtocolMessageType('Step', (_message.Message,), {
+    'DESCRIPTOR' : _PIPELINECONFIG_STEP,
+    '__module__' : 'hilo_rpc.proto.pipeline_pb2'
+    # @@protoc_insertion_point(class_scope:hilo_rpc.proto.PipelineConfig.Step)
+    })
+  ,
   'DESCRIPTOR' : _PIPELINECONFIG,
   '__module__' : 'hilo_rpc.proto.pipeline_pb2'
   # @@protoc_insertion_point(class_scope:hilo_rpc.proto.PipelineConfig)
   })
 _sym_db.RegisterMessage(PipelineConfig)
 _sym_db.RegisterMessage(PipelineConfig.Params)
+_sym_db.RegisterMessage(PipelineConfig.Step)
 
 Pipeline = _reflection.GeneratedProtocolMessageType('Pipeline', (_message.Message,), {
   'DESCRIPTOR' : _PIPELINE,

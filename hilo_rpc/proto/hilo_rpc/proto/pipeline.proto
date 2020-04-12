@@ -12,12 +12,20 @@ message PipelineConfig {
         bool enable_cache = 1;
     }
 
+    message Step {
+        oneof step {
+            string pipeline_path = 1;
+            Pipeline pipeline = 2;
+            Stage stage = 3;
+        }
+    }
+
     string root_dir = 1;
     Params params = 2;
     Source source = 3;
     Sink sink = 4;
     MetadataStoreConfig metadata = 5;
-    repeated Stage stages = 6;
+    repeated Step steps = 6;
 }
 
 message Pipeline {
