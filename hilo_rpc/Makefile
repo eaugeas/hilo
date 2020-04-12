@@ -62,3 +62,6 @@ lint-src:
 
 lint-tests:
 	$(FLAKE8) $(TESTS)
+
+countlines:
+	@echo $(SRC)	`find . -name '*.py' -not -path "*hilo_rpc/proto*" | xargs grep -E '\w' | wc -l`

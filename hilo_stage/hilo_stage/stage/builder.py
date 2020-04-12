@@ -19,12 +19,17 @@ class Context:
     def __init__(
             self,
             id: Text,
+            stack: Optional[List[Text]] = None,
             parent: Optional['Context'] = None,
     ):
         self._context: Dict[str, Any] = {}
         if parent:
             self._context = parent._context
         self._id = id
+        if stack:
+            self._stack: List[Text] = [self._id] + stack
+        else:
+            self._stack = [self._id]
 
         if self._id in self._context:
             raise ValueError(
@@ -32,17 +37,51 @@ class Context:
                 'existing id {0}'.format(self._id))
 
     @property
+    def root_id(self) -> Text:
+        return self._stack[-1]
+
+    @property
     def id(self) -> Text:
         return self._id
 
     def for_stage(self, id: Text) -> 'Context':
-        return Context(id, parent=self)
+        return Context(id, parent=self, stack=self._stack)
 
     def get_or(self, map_key, default: Optional[Any] = None) -> Optional[Any]:
         return self._context.get(map_key, default)
 
-    def get(self, map_key) -> Any:
-        return self._context[map_key]
+    def get(self, key: Text, default: Any = None) -> Any:
+        print('look for key: ', key, default)
+        print('current context: ', self._context)
+        if key in self._context:
+            print('key found in context', key, self._context[key])
+            return self._context[key]
+
+        for id in self._stack:
+            map_key = '{0}.{1}'.format(id, key)
+            if map_key in self._context:
+                print('key found in parent', key, map_key)
+                return self._context[map_key]
+            else:
+                print('key not found in parent', key, map_key)
+
+        if default is not None:
+            print('return defulat')
+            return default
+
+        raise KeyError(
+            'key {0} not found in context. Current keys: {1}'.format(
+                key, list(self._context.keys())))
+
+    def get_self(self, key: Text, default: Any = None) -> Any:
+        map_key = '{0}.{1}'.format(self._id, key)
+        if map_key in self._context:
+            return self._context[map_key]
+        elif default is not None:
+            return default
+        else:
+            raise KeyError(
+                'key {0} for stage {1} missing in context'.format(key, id))
 
     def put_outputs(self, message: Message, component: BaseNode):
         descriptor = message.DESCRIPTOR
@@ -300,7 +339,7 @@ class CsvExampleGenBuilder(ComponentBuilder):
                 {
                     'name': split.name,
                     'pattern': split.pattern,
-                } for split in self._config.params.output_config.splits
+                } for split in self._config.params.input_config.splits
             ]
             input_config = Input(splits=input_splits)
 

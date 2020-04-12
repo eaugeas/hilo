@@ -1,0 +1,134 @@
+id: train
+name: train
+config:
+  steps:
+    - stage:
+        id: '0'
+        name: CsvExampleGen
+        config:
+          csv_example_gen:
+            inputs:
+              input: source.channel
+            outputs:
+              examples: examples
+    - stage:
+        id: '1'
+        name: StatisticsGen
+        config:
+          statistics_gen:
+            inputs:
+              examples: 0.outputs.examples
+            outputs:
+              statistics: statistics
+    - stage:
+        id: '2'
+        name: SchemaGen
+        config:
+          schema_gen:
+            inputs:
+              statistics: 1.outputs.statistics
+            params:
+              infer_feature_shape: false
+            outputs:
+              schema: schema
+    - stage:
+        id: '3'
+        name: Transform
+        config:
+          transform:
+            inputs:
+              examples: 0.outputs.examples
+              schema: 2.outputs.schema
+            params:
+              module_file: $EXAMPLE_ROOT/module/introduce_timestamp.py
+            outputs:
+              transformed_examples: examples
+    - stage:
+        id: '4'
+        name: StatisticsGen
+        config:
+          statistics_gen:
+            inputs:
+              examples: 3.outputs.examples
+            outputs:
+              statistics: statistics
+    - stage:
+        id: '5'
+        name: SchemaGen
+        config:
+          schema_gen:
+            inputs:
+              statistics: 4.outputs.statistics
+            params:
+              infer_feature_shape: false
+            outputs:
+              schema: schema
+    - stage:
+        id: '6'
+        name: ExampleValidator
+        config:
+          example_validator:
+            inputs:
+              statistics: 4.outputs.statistics
+              schema: 5.outputs.schema
+            outputs:
+              anomalies: anomalies
+    - stage:
+        id: '7'
+        name: Transform
+        config:
+          transform:
+            inputs:
+              examples: 3.outputs.examples
+              schema: 5.outputs.schema
+            params:
+              module_file: $EXAMPLE_ROOT/module/normalize.py
+            outputs:
+              transformed_examples: examples
+              transform_graph: graph
+    - stage:
+        id: '8'
+        name: Trainer
+        config:
+          trainer:
+            inputs:
+              schema: 5.outputs.schema
+              examples: 7.outputs.examples
+              transform_graph: 7.outputs.graph
+            params:
+              module_file: $EXAMPLE_ROOT/module/trainer.py
+              train_args:
+                num_steps: 500
+              eval_args:
+                num_steps: 500
+            outputs:
+              model: model
+    - stage:
+        id: '9'
+        name: ModelResolver
+        config:
+          resolver_node:
+            outputs:
+              model: model
+    - stage:
+        id: '10'
+        name: ModelEvaluator
+        config:
+          evaluator:
+            inputs:
+              examples: 7.outputs.examples
+              model: 8.outputs.model
+              baseline_model: 9.outputs.model
+            outputs:
+              blessing: blessing
+    - stage:
+        id: '11'
+        name: ModelPusher
+        config:
+          pusher:
+            inputs:
+              model: 8.outputs.model
+              model_blessing: 10.outputs.blessing
+              push_destination:
+                filesystem:
+                  $EXAMPLE_ROOT/weather-model

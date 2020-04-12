@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional, Type
 from tfx.orchestration import tfx_runner
 
 from hilo_rpc.proto.runner_pb2 import BeamDagRunnerConfig, RunnerConfig
+from hilo_stage.runner.runner import Runner
 
 
 class RunnerBuilder(object):
@@ -37,11 +38,11 @@ class Builder(object):
             'beam': BeamDagRunnerBuilder,
         }
 
-    def build(self) -> tfx_runner.TfxRunner:
+    def build(self) -> Runner:
         runner_name = self._config.WhichOneof('config')
         if runner_name in self._runner_builders:
             runner_constructor = self._runner_builders[runner_name]
             builder = runner_constructor(getattr(self._config, runner_name))
-            return builder.build()
+            return Runner(builder.build())
         else:
             raise ValueError('Unknown runner name {0}'.format(runner_name))

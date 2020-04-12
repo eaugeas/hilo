@@ -542,6 +542,10 @@ def flatten(d: Dict[str, Any], namespace: Text = '') -> Dict[str, Any]:
 
     The input dictionary's values are expected to be simple values
     such as int, float, str, or other dictionaries or lists
+
+    :param d: the dictionary to flatten
+    :param namespace: a namespace that may be added to every key
+    :return: a flattened dictionary
     """
     result: Dict[str, Any] = {}
     _flatten_dict_rec(namespace, d, result)
@@ -549,13 +553,18 @@ def flatten(d: Dict[str, Any], namespace: Text = '') -> Dict[str, Any]:
 
 
 def unflatten(d: Dict[str, Any], namespace: Text = '') -> Dict[str, Any]:
-    """unflatten is the opposite operation of flatten_dict. It takes
+    """
+    unflatten is the opposite operation of flatten. It takes
     a single level dictionary and unflattens it to a multi level dictionary.
 
     For example:
         d = {'key1.key2': 'value1'}
      would be unflattened  into
         d = {'key1': {'key2': 'value1'}}
+
+    :param d: dictionary to flatten
+    :param namespace: whether to strip a namespace from the dictionary keys
+    :return: a flattened dictionary
     """
     result = {}
 
@@ -628,6 +637,18 @@ def deserialize(
         symbol_loader: Optional[SymbolLoader] = None,
         url: Optional[Text] = None
 ) -> Message:
+    """deserialize the contents of the dictionary into a message of
+    the provided type
+
+    :param d: the dictionary with the contents to be deserialized
+    :param message: either a message type or the message instance where
+    the contents will be put
+    :param symbol_loader: the symbol loader to use to create new instances
+    of messages that may belong to the higher level message
+    :param url: url to the message that the symbol loader can use to
+    load a new instance of the message
+    :return: an instance of message with the contents of d
+    """
     message: Message = _get_message_instance(
         message=message, url=url)
     return _Serializer.deserialize(message, d, message.DESCRIPTOR)
