@@ -16,4 +16,5 @@ config:
     sqlite:
       path: $EXAMPLE_ROOT/metadata
   steps:
+    - pipeline_path: $EXAMPLE_ROOT/pipelines/partition.yaml
     - pipeline_path: $EXAMPLE_ROOT/pipelines/train.yaml

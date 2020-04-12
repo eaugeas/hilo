@@ -1,5 +1,5 @@
-id: train
-name: train
+id: partition
+name: partition
 config:
   steps:
     - stage:
@@ -7,6 +7,15 @@ config:
         name: CsvExampleGen
         config:
           csv_example_gen:
+            params:
+              input_config:
+                splits:
+                - name: 'train'
+                  pattern: '*'
+              output_config:
+                splits:
+                - name: 'train'
+                  hash_buckets: 1
             inputs:
               input: source.channel
             outputs:
@@ -16,6 +25,9 @@ config:
         name: StatisticsGen
         config:
           statistics_gen:
+            params:
+              split_names:
+                - 'train'
             inputs:
               examples: 0.outputs.examples
             outputs:
@@ -41,6 +53,8 @@ config:
               schema: 2.outputs.schema
             params:
               module_file: $EXAMPLE_ROOT/module/introduce_timestamp.py
+              split_names:
+                - 'train'
             outputs:
               transformed_examples: examples
     - stage:
@@ -48,6 +62,9 @@ config:
         name: StatisticsGen
         config:
           statistics_gen:
+            params:
+              split_names:
+                - 'train'
             inputs:
               examples: 3.outputs.examples
             outputs:
@@ -75,60 +92,28 @@ config:
               anomalies: anomalies
     - stage:
         id: '7'
-        name: Transform
+        name: SingleDimensionGen
         config:
-          transform:
+          single_dimension_gen:
+            params:
+              split_names:
+                - 'train'
             inputs:
               examples: 3.outputs.examples
+              statistics: 4.outputs.statistics
               schema: 5.outputs.schema
-            params:
-              module_file: $EXAMPLE_ROOT/module/normalize.py
             outputs:
-              transformed_examples: examples
-              transform_graph: graph
+              datasets: datasets
     - stage:
         id: '8'
-        name: Trainer
+        name: PartitionGen
         config:
-          trainer:
-            inputs:
-              schema: 5.outputs.schema
-              examples: 7.outputs.examples
-              transform_graph: 7.outputs.graph
+          partition_gen:
             params:
-              module_file: $EXAMPLE_ROOT/module/trainer.py
-              train_args:
-                num_steps: 500
-              eval_args:
-                num_steps: 500
-            outputs:
-              model: model
-    - stage:
-        id: '9'
-        name: ModelResolver
-        config:
-          resolver_node:
-            outputs:
-              model: model
-    - stage:
-        id: '10'
-        name: ModelEvaluator
-        config:
-          evaluator:
+              split_names:
+                - 'train'
             inputs:
-              examples: 7.outputs.examples
-              model: 8.outputs.model
-              baseline_model: 9.outputs.model
+              examples: 3.outputs.examples
+              datasets: 7.outputs.datasets
             outputs:
-              blessing: blessing
-    - stage:
-        id: '11'
-        name: ModelPusher
-        config:
-          pusher:
-            inputs:
-              model: 8.outputs.model
-              model_blessing: 10.outputs.blessing
-              push_destination:
-                filesystem:
-                  $EXAMPLE_ROOT/weather-model
+              partitions: partitions

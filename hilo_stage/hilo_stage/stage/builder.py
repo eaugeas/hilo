@@ -73,9 +73,15 @@ class Context:
             'key {0} not found in context. Current keys: {1}'.format(
                 key, list(self._context.keys())))
 
-    def get_self(self, key: Text) -> Any:
+    def get_self(self, key: Text, default: Any = None) -> Any:
         map_key = '{0}.{1}'.format(self._id, key)
-        return self._context[map_key]
+        if map_key in self._context:
+            return self._context[map_key]
+        elif default is not None:
+            return default
+        else:
+            raise KeyError(
+                'key {0} for stage {1} missing in context'.format(key, id))
 
     def put_outputs(self, message: Message, component: BaseNode):
         descriptor = message.DESCRIPTOR
@@ -333,7 +339,7 @@ class CsvExampleGenBuilder(ComponentBuilder):
                 {
                     'name': split.name,
                     'pattern': split.pattern,
-                } for split in self._config.params.output_config.splits
+                } for split in self._config.params.input_config.splits
             ]
             input_config = Input(splits=input_splits)
 

@@ -18,6 +18,12 @@ class _StepBuilder(object):
     def __init__(self):
         pass
 
+    def id(self, default: Optional[Text] = None) -> Text:
+        if default:
+            return default
+        else:
+            raise ValueError('No default id provided')
+
     def build(self, context: Context) -> List[tfx_pipeline.Pipeline]:
         raise NotImplementedError()
 
@@ -49,24 +55,38 @@ class _StagesBuilder(_StepBuilder):
 class _PipelinePathBuilder(_StepBuilder):
     def __init__(self, path: Text):
         super().__init__()
-        self._path = path
+        self._builder = Builder.from_yaml(path)
+
+    def id(self, default: Optional[Text] = None) -> Text:
+        return self._builder.id()
 
     def build(self, context: Context) -> List[tfx_pipeline.Pipeline]:
-        return Builder.from_yaml(self._path).build(context).pipelines
+        return self._builder.build(context).pipelines
 
 
 class _PipelineBuilder(_StepBuilder):
     def __init__(self, pipeline: Optional[ProtoPipeline] = None):
         super().__init__()
-        self._pipeline = pipeline or ProtoPipeline()
+        self._builder = Builder(pipeline)
+
+    def id(self, default: Optional[Text] = None) -> Text:
+        return self._builder.id()
 
     def build(self, context: Context) -> List[tfx_pipeline.Pipeline]:
-        return Builder(self._pipeline).build(context).pipelines
+        return self._builder.build(context).pipelines
 
 
 class Builder(object):
     def __init__(self, pipeline: Optional[ProtoPipeline] = None):
         self._pipeline = pipeline or ProtoPipeline()
+
+    def id(self, default: Optional[Text] = None) -> Text:
+        if self._pipeline.id:
+            return self._pipeline.id  # type: ignore
+        elif default is not None:
+            return default
+        else:
+            raise ValueError('No default id provided')
 
     @staticmethod
     def from_yaml(path: Text) -> 'Builder':
@@ -127,7 +147,9 @@ class Builder(object):
             lambda a, b: a + b,
             [
                 step_builders[i].build(
-                    context.for_stage('pipeline{0}'.format(i)))
+                    context.for_stage(
+                        step_builders[i].id(
+                            default='{0}{1}'.format(self.id(), i))))
                 for i in range(0, len(step_builders))
             ]
         )

@@ -19,6 +19,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
 
+    - uses: actions/cache@v1
+      if: startsWith(runner.os, 'Linux')
+      with:
+        path: ./.venv
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py', './requirements.txt', '**/Makefile') }}
+        restore-keys: |
+          ${{ runner.os }}-venv-
+
     - name: Install depedencies
       run: sudo apt install python3 virtualenv make
 
