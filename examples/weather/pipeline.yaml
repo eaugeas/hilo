@@ -16,5 +16,5 @@ config:
   steps:
     - sequence_path: $EXAMPLE_ROOT/pipelines/features.yaml
     - sequence_path: $EXAMPLE_ROOT/pipelines/normalize.yaml
-#    - pipeline_path: $EXAMPLE_ROOT/pipelines/partition.yaml
+    - sequence_path: $EXAMPLE_ROOT/pipelines/partition.yaml
 #    - pipeline_path: $EXAMPLE_ROOT/pipelines/train.yaml
