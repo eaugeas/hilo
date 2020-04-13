@@ -7,8 +7,7 @@ import "hilo_rpc/proto/connector.proto";
 
 message SinkConfig {
   oneof config {
-    EmptyConfig empty = 1;
-    LocalFileConfig file = 2;
+    LocalFileConfig file = 1;
   }
 }
 

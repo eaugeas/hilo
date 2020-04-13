@@ -4,94 +4,6 @@ config:
   steps:
     - stage:
         id: '0'
-        name: CsvExampleGen
-        config:
-          csv_example_gen:
-            params:
-              input_config:
-                splits:
-                - name: 'train'
-                  pattern: '*'
-              output_config:
-                splits:
-                - name: 'train'
-                  hash_buckets: 1
-            inputs:
-              input: source.channel
-            outputs:
-              examples: examples
-    - stage:
-        id: '1'
-        name: StatisticsGen
-        config:
-          statistics_gen:
-            params:
-              split_names:
-                - 'train'
-            inputs:
-              examples: 0.outputs.examples
-            outputs:
-              statistics: statistics
-    - stage:
-        id: '2'
-        name: SchemaGen
-        config:
-          schema_gen:
-            inputs:
-              statistics: 1.outputs.statistics
-            params:
-              infer_feature_shape: false
-            outputs:
-              schema: schema
-    - stage:
-        id: '3'
-        name: Transform
-        config:
-          transform:
-            inputs:
-              examples: 0.outputs.examples
-              schema: 2.outputs.schema
-            params:
-              module_file: $EXAMPLE_ROOT/module/introduce_timestamp.py
-              split_names:
-                - 'train'
-            outputs:
-              transformed_examples: examples
-    - stage:
-        id: '4'
-        name: StatisticsGen
-        config:
-          statistics_gen:
-            params:
-              split_names:
-                - 'train'
-            inputs:
-              examples: 3.outputs.examples
-            outputs:
-              statistics: statistics
-    - stage:
-        id: '5'
-        name: SchemaGen
-        config:
-          schema_gen:
-            inputs:
-              statistics: 4.outputs.statistics
-            params:
-              infer_feature_shape: false
-            outputs:
-              schema: schema
-    - stage:
-        id: '6'
-        name: ExampleValidator
-        config:
-          example_validator:
-            inputs:
-              statistics: 4.outputs.statistics
-              schema: 5.outputs.schema
-            outputs:
-              anomalies: anomalies
-    - stage:
-        id: '7'
         name: SingleDimensionGen
         config:
           single_dimension_gen:
@@ -105,7 +17,7 @@ config:
             outputs:
               datasets: datasets
     - stage:
-        id: '8'
+        id: '1'
         name: PartitionGen
         config:
           partition_gen:

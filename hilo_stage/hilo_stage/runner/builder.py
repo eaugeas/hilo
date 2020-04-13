@@ -1,16 +1,15 @@
 from typing import Any, Dict, List, Optional, Type
 
-from tfx.orchestration import tfx_runner
+from tfx.orchestration.tfx_runner import TfxRunner
 
 from hilo_rpc.proto.runner_pb2 import BeamDagRunnerConfig, RunnerConfig
-from hilo_stage.runner.runner import Runner
 
 
 class RunnerBuilder(object):
     def __init__(self, config: Optional[Any] = None):
         pass
 
-    def build(self) -> tfx_runner.TfxRunner:
+    def build(self) -> TfxRunner:
         raise NotImplementedError()
 
 
@@ -19,7 +18,7 @@ class BeamDagRunnerBuilder(RunnerBuilder):
         super().__init__(config)
         self._config = config or BeamDagRunnerConfig()
 
-    def build(self) -> tfx_runner.TfxRunner:
+    def build(self) -> TfxRunner:
         from tfx.orchestration.beam.beam_dag_runner import BeamDagRunner
 
         orchestrator_args: Optional[List] = None
@@ -38,11 +37,11 @@ class Builder(object):
             'beam': BeamDagRunnerBuilder,
         }
 
-    def build(self) -> Runner:
+    def build(self) -> TfxRunner:
         runner_name = self._config.WhichOneof('config')
         if runner_name in self._runner_builders:
             runner_constructor = self._runner_builders[runner_name]
             builder = runner_constructor(getattr(self._config, runner_name))
-            return Runner(builder.build())
+            return builder.build()
         else:
             raise ValueError('Unknown runner name {0}'.format(runner_name))

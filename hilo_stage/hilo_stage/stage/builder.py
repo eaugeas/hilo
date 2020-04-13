@@ -1,11 +1,9 @@
-from typing import Any, Dict, List, Optional, Text, Type
+from typing import Any, Dict, List, Optional, Type
 
 from google.protobuf.message import Message
-from tfx.types import Channel, standard_artifacts, artifact_utils
 from tfx.components.base.base_node import BaseNode
+from tfx.types import Channel, standard_artifacts, artifact_utils
 
-from hilo_stage.components.utils.splits import splits_or_example_defaults
-from hilo_rpc.serialize.dict import serialize as serialize_dict
 from hilo_rpc.proto.stage_pb2 import (
     Stage, PartitionGenConfig, ExampleValidatorConfig,
     JsonExampleGenConfig, SingleDimensionGenConfig,
@@ -13,86 +11,20 @@ from hilo_rpc.proto.stage_pb2 import (
     CsvExampleGenConfig, TransformConfig,
     TrainerConfig, ResolverNodeConfig, EvaluatorConfig,
     PusherConfig)
+from hilo_rpc.serialize.dict import serialize as serialize_dict
+from hilo_stage.components.utils.splits import splits_or_example_defaults
+from hilo_stage.context.context import Context
 
 
-class Context:
-    def __init__(
-            self,
-            id: Text,
-            stack: Optional[List[Text]] = None,
-            parent: Optional['Context'] = None,
-    ):
-        self._context: Dict[str, Any] = {}
-        if parent:
-            self._context = parent._context
-        self._id = id
-        if stack:
-            self._stack: List[Text] = [self._id] + stack
-        else:
-            self._stack = [self._id]
-
-        if self._id in self._context:
-            raise ValueError(
-                'Created new context for stage with '
-                'existing id {0}'.format(self._id))
-
-    @property
-    def root_id(self) -> Text:
-        return self._stack[-1]
-
-    @property
-    def id(self) -> Text:
-        return self._id
-
-    def for_stage(self, id: Text) -> 'Context':
-        return Context(id, parent=self, stack=self._stack)
-
-    def get_or(self, map_key, default: Optional[Any] = None) -> Optional[Any]:
-        return self._context.get(map_key, default)
-
-    def get(self, key: Text, default: Any = None) -> Any:
-        print('look for key: ', key, default)
-        print('current context: ', self._context)
-        if key in self._context:
-            print('key found in context', key, self._context[key])
-            return self._context[key]
-
-        for id in self._stack:
-            map_key = '{0}.{1}'.format(id, key)
-            if map_key in self._context:
-                print('key found in parent', key, map_key)
-                return self._context[map_key]
-            else:
-                print('key not found in parent', key, map_key)
-
-        if default is not None:
-            print('return defulat')
-            return default
-
-        raise KeyError(
-            'key {0} not found in context. Current keys: {1}'.format(
-                key, list(self._context.keys())))
-
-    def get_self(self, key: Text, default: Any = None) -> Any:
-        map_key = '{0}.{1}'.format(self._id, key)
-        if map_key in self._context:
-            return self._context[map_key]
-        elif default is not None:
-            return default
-        else:
-            raise KeyError(
-                'key {0} for stage {1} missing in context'.format(key, id))
-
-    def put_outputs(self, message: Message, component: BaseNode):
-        descriptor = message.DESCRIPTOR
-        for field in descriptor.fields:
-            self.put_self(
-                'outputs.{0}'.format(getattr(message, field.name)),
-                component.outputs[field.name])
-
-    def put_self(self, key: Text, value: Any):
-        map_key = '{0}.{1}'.format(self._id, key)
-        self._context[map_key] = value
+def put_outputs_to_context(
+        context: Context,
+        message: Message,
+        component: BaseNode):
+    descriptor = message.DESCRIPTOR
+    for field in descriptor.fields:
+        context.put(
+            'outputs/{0}'.format(getattr(message, field.name)),
+            component.outputs[field.name])
 
 
 class ComponentBuilder(object):
@@ -133,8 +65,8 @@ class EvaluatorBuilder(ComponentBuilder):
             model=context.get(self._config.inputs.model),
             baseline_model=context.get(self._config.inputs.baseline_model),
             eval_config=eval_config,
-            instance_name=context.id)
-        context.put_outputs(self._config.outputs, component)
+            instance_name=context.abs_current_url_friendly)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -155,10 +87,10 @@ class PusherBuilder(ComponentBuilder):
             model=context.get(self._config.inputs.model),
             model_blessing=context.get(self._config.inputs.model_blessing),
             push_destination=push_destination,
-            instance_name=context.id
+            instance_name=context.abs_current_url_friendly
         )
 
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -175,10 +107,10 @@ class ExampleValidatorBuilder(ComponentBuilder):
         component = ExampleValidator(
             statistics=statistics,
             schema=schema,
-            instance_name=context.id
+            instance_name=context.abs_current_url_friendly
         )
 
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -194,12 +126,12 @@ class ResolverNodeBuilder(ComponentBuilder):
         from tfx.types.standard_artifacts import Model, ModelBlessing
 
         component = ResolverNode(
-            instance_name=context.id,
+            instance_name=context.abs_current_url_friendly,
             resolver_class=LatestBlessedModelResolver,
             model=Channel(type=Model),
             model_blessing=Channel(type=ModelBlessing))
 
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -211,18 +143,21 @@ class TrainerBuilder(ComponentBuilder):
     def build(self, context: Context) -> BaseNode:
         from tfx.components import Trainer
 
+        transform_graph = (self._config.inputs.transform_graph if
+                           context.has(self._config.inputs.transform_graph)
+                           else None)
+
         component = Trainer(
             examples=context.get(self._config.inputs.examples),
             schema=context.get(self._config.inputs.schema),
-            transform_graph=context.get_or(
-                self._config.inputs.transform_graph, None),
+            transform_graph=transform_graph,
             train_args=serialize_dict(self._config.params.train_args),
             eval_args=serialize_dict(self._config.params.eval_args),
             module_file=self._config.params.module_file,
-            instance_name=context.id
+            instance_name=context.abs_current_url_friendly
         )
 
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -238,10 +173,10 @@ class SchemaGenBuilder(ComponentBuilder):
         component = SchemaGen(
             statistics=statistics,
             infer_feature_shape=self._config.params.infer_feature_shape,
-            instance_name=context.id
+            instance_name=context.abs_current_url_friendly
         )
 
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -266,10 +201,10 @@ class StatisticsGenBuilder(ComponentBuilder):
             examples=examples,
             stats_options=None,
             output=output,
-            instance_name=context.id
+            instance_name=context.abs_current_url_friendly
         )
 
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -287,10 +222,10 @@ class SingleDimensionGenBuilder(ComponentBuilder):
         component = SingleDimensionGen(
             statistics=statistics,
             split_names=split_names,
-            instance_name=context.id
+            instance_name=context.abs_current_url_friendly
         )
 
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -318,8 +253,8 @@ class PartitionGenBuilder(ComponentBuilder):
             datasets=context.get(self._config.inputs.datasets),
             partitions=partitions,
             split_names=split_names,
-            instance_name=context.id)
-        context.put_outputs(self._config.outputs, component)
+            instance_name=context.abs_current_url_friendly)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -356,11 +291,11 @@ class CsvExampleGenBuilder(ComponentBuilder):
                 split_config=SplitConfig(splits=output_splits))
 
         component = CsvExampleGen(
-            instance_name=context.id,
+            instance_name=context.abs_current_url_friendly,
             input=context.get(self._config.inputs.input),
             input_config=input_config,
             output_config=output_config)
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -390,11 +325,11 @@ class TransformBuilder(ComponentBuilder):
                 ' as one of its params')
 
         props['module_file'] = self._config.params.module_file
-        props['instance_name'] = context.id
+        props['instance_name'] = context.abs_current_url_friendly
         props['split_names'] = splits_or_example_defaults(
             self._config.params.split_names)
         component = Transform(**props)
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 
@@ -422,12 +357,12 @@ class JsonExampleGenBuilder(ComponentBuilder):
                     hash_buckets=split.hash_buckets))
 
         component = JsonExampleGen(
-            instance_name=context.id,
+            instance_name=context.abs_current_url_friendly,
             input=context.get(self._config.inputs.input),
             input_config=Input(splits=input_splits),
             output_config=Output(
                 split_config=SplitConfig(splits=output_splits)))
-        context.put_outputs(self._config.outputs, component)
+        put_outputs_to_context(context, self._config.outputs, component)
         return component
 
 

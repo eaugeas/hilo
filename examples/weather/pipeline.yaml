@@ -4,17 +4,17 @@ config:
   root_dir: $EXAMPLE_ROOT/weather_pipeline
   params:
     enable_cache: true
-  source:
-    config:
-      local_file:
-        path: $EXAMPLE_ROOT/data
-  sink:
-    config:
-      empty:
-        empty: true
+  inputs:
+   - source:
+       id: data
+       config:
+         local_file:
+           path: $EXAMPLE_ROOT/data
   metadata:
     sqlite:
       path: $EXAMPLE_ROOT/metadata
   steps:
-    - pipeline_path: $EXAMPLE_ROOT/pipelines/partition.yaml
-    - pipeline_path: $EXAMPLE_ROOT/pipelines/train.yaml
+    - sequence_path: $EXAMPLE_ROOT/pipelines/features.yaml
+    - sequence_path: $EXAMPLE_ROOT/pipelines/normalize.yaml
+#    - pipeline_path: $EXAMPLE_ROOT/pipelines/partition.yaml
+#    - pipeline_path: $EXAMPLE_ROOT/pipelines/train.yaml

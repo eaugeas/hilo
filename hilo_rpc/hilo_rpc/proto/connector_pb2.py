@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1ehilo_rpc/proto/connector.proto\x12\x0ehilo_rpc.proto\"\x1f\n\x0fLocalFileConfig\x12\x0c\n\x04path\x18\x01 \x01(\t\"\x1c\n\x0cSqliteConfig\x12\x0c\n\x04path\x18\x01 \x01(\t\"\x1c\n\x0b\x45mptyConfig\x12\r\n\x05\x65mpty\x18\x01 \x01(\x08\"\x80\x01\n\x0f\x43onnectorConfig\x12,\n\x05\x65mpty\x18\x01 \x01(\x0b\x32\x1b.hilo_rpc.proto.EmptyConfigH\x00\x12\x35\n\nlocal_file\x18\x02 \x01(\x0b\x32\x1f.hilo_rpc.proto.LocalFileConfigH\x00\x42\x08\n\x06\x63onfigb\x06proto3'
+  serialized_pb=b'\n\x1ehilo_rpc/proto/connector.proto\x12\x0ehilo_rpc.proto\"\x1f\n\x0fLocalFileConfig\x12\x0c\n\x04path\x18\x01 \x01(\t\"\x1c\n\x0cSqliteConfig\x12\x0c\n\x04path\x18\x01 \x01(\t\"R\n\x0f\x43onnectorConfig\x12\x35\n\nlocal_file\x18\x01 \x01(\x0b\x32\x1f.hilo_rpc.proto.LocalFileConfigH\x00\x42\x08\n\x06\x63onfigb\x06proto3'
 )
 
 
@@ -86,37 +86,6 @@ _SQLITECONFIG = _descriptor.Descriptor(
 )
 
 
-_EMPTYCONFIG = _descriptor.Descriptor(
-  name='EmptyConfig',
-  full_name='hilo_rpc.proto.EmptyConfig',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='empty', full_name='hilo_rpc.proto.EmptyConfig.empty', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=113,
-  serialized_end=141,
-)
-
-
 _CONNECTORCONFIG = _descriptor.Descriptor(
   name='ConnectorConfig',
   full_name='hilo_rpc.proto.ConnectorConfig',
@@ -125,15 +94,8 @@ _CONNECTORCONFIG = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='empty', full_name='hilo_rpc.proto.ConnectorConfig.empty', index=0,
+      name='local_file', full_name='hilo_rpc.proto.ConnectorConfig.local_file', index=0,
       number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='local_file', full_name='hilo_rpc.proto.ConnectorConfig.local_file', index=1,
-      number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -153,21 +115,16 @@ _CONNECTORCONFIG = _descriptor.Descriptor(
       name='config', full_name='hilo_rpc.proto.ConnectorConfig.config',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=144,
-  serialized_end=272,
+  serialized_start=113,
+  serialized_end=195,
 )
 
-_CONNECTORCONFIG.fields_by_name['empty'].message_type = _EMPTYCONFIG
 _CONNECTORCONFIG.fields_by_name['local_file'].message_type = _LOCALFILECONFIG
-_CONNECTORCONFIG.oneofs_by_name['config'].fields.append(
-  _CONNECTORCONFIG.fields_by_name['empty'])
-_CONNECTORCONFIG.fields_by_name['empty'].containing_oneof = _CONNECTORCONFIG.oneofs_by_name['config']
 _CONNECTORCONFIG.oneofs_by_name['config'].fields.append(
   _CONNECTORCONFIG.fields_by_name['local_file'])
 _CONNECTORCONFIG.fields_by_name['local_file'].containing_oneof = _CONNECTORCONFIG.oneofs_by_name['config']
 DESCRIPTOR.message_types_by_name['LocalFileConfig'] = _LOCALFILECONFIG
 DESCRIPTOR.message_types_by_name['SqliteConfig'] = _SQLITECONFIG
-DESCRIPTOR.message_types_by_name['EmptyConfig'] = _EMPTYCONFIG
 DESCRIPTOR.message_types_by_name['ConnectorConfig'] = _CONNECTORCONFIG
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -184,13 +141,6 @@ SqliteConfig = _reflection.GeneratedProtocolMessageType('SqliteConfig', (_messag
   # @@protoc_insertion_point(class_scope:hilo_rpc.proto.SqliteConfig)
   })
 _sym_db.RegisterMessage(SqliteConfig)
-
-EmptyConfig = _reflection.GeneratedProtocolMessageType('EmptyConfig', (_message.Message,), {
-  'DESCRIPTOR' : _EMPTYCONFIG,
-  '__module__' : 'hilo_rpc.proto.connector_pb2'
-  # @@protoc_insertion_point(class_scope:hilo_rpc.proto.EmptyConfig)
-  })
-_sym_db.RegisterMessage(EmptyConfig)
 
 ConnectorConfig = _reflection.GeneratedProtocolMessageType('ConnectorConfig', (_message.Message,), {
   'DESCRIPTOR' : _CONNECTORCONFIG,

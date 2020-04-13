@@ -7,8 +7,7 @@ import "hilo_rpc/proto/connector.proto";
 
 message SourceConfig {
   oneof config {
-    EmptyConfig empty = 1;
-    LocalFileConfig local_file = 2;
+    LocalFileConfig local_file = 1;
   }
 }
 
@@ -16,36 +15,8 @@ message Source {
   string id = 1;
   string name = 2;
   string description = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp updated_at = 5;
-  SourceConfig config = 6;
-}
-
-message CreateSourceRequest {
-  string name = 1;
-  string description = 2;
-}
-
-message CreateSourceResponse {
-  string id = 1;
-}
-
-message DeleteSourceRequest {
-  string id = 1;
-}
-
-message DeleteSourceResponse {}
-
-message GetSourceRequest {
-  string id = 1;
-}
-
-message GetSourceResponse {
-  Source source = 1;
-}
-
-service SourceApi {
-  rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse);
-  rpc DeleteSource(DeleteSourceRequest) returns (DeleteSourceResponse);
-  rpc GetSource(GetSourceRequest) returns (GetSourceResponse);
+  string owner = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  SourceConfig config = 7;
 }
