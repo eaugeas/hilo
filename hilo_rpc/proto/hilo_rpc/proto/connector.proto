@@ -10,13 +10,8 @@ message SqliteConfig {
   string path = 1;
 }
 
-message EmptyConfig {
-  bool empty = 1;
-}
-
 message ConnectorConfig {
   oneof config {
-    EmptyConfig empty = 1;
-    LocalFileConfig local_file = 2;
+    LocalFileConfig local_file = 1;
   }
 }

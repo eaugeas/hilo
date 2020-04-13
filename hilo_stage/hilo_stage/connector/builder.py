@@ -1,9 +1,9 @@
 from typing import Any, Dict, Optional, Text, Type
 
-from tfx.types import Channel, channel_utils
+from tfx.types import Channel
 
 from hilo_stage.connector.config import (
-    ConnectorConfig, EmptyConfig, LocalFileConfig)
+    ConnectorConfig, LocalFileConfig)
 
 
 class ConnectorBuilder(object):
@@ -12,16 +12,6 @@ class ConnectorBuilder(object):
 
     def build(self) -> Channel:
         raise NotImplementedError()
-
-
-class EmptyBuilder(ConnectorBuilder):
-    """Empty implements an empty input. It builds an empty channel"""
-    def __init__(self, config: EmptyConfig):
-        super().__init__(config)
-        self._config = config
-
-    def build(self) -> Channel:
-        return channel_utils.as_channel([])
 
 
 class LocalFileBuilder(ConnectorBuilder):
@@ -45,7 +35,6 @@ class Builder(ConnectorBuilder):
 
         self._config = config or ConnectorConfig()
         self._connector_builders: Dict[Text, Type[ConnectorBuilder]] = {
-            'empty': EmptyBuilder,
             'local_file': LocalFileBuilder,
         }
 

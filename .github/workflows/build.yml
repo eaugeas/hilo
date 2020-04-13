@@ -23,7 +23,7 @@ jobs:
       if: startsWith(runner.os, 'Linux')
       with:
         path: ./.venv
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py', './requirements.txt', '**/Makefile') }}
+        key: ${{ runner.os }}-venv-${{ hashFiles('**/setup.py', './requirements.txt', '**/Makefile') }}
         restore-keys: |
           ${{ runner.os }}-venv-
 

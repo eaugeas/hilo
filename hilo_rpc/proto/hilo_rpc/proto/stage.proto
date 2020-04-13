@@ -305,7 +305,8 @@ message Stage {
   string id = 1;
   string name = 2;
   string description = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp updated_at = 5;
-  StageConfig config = 6;
+  string owner = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  StageConfig config = 7;
 }
