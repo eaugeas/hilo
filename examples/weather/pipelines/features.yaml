@@ -1,0 +1,72 @@
+id: features
+config:
+  inputs:
+   - source:
+       id: data
+       config:
+         local_file:
+           path: $EXAMPLE_ROOT/data
+  outputs:
+    - channel:
+        id: examples
+        url: stages/3/outputs/examples
+    - channel:
+        id: graph
+        url: stages/3/outputs/graph
+  steps:
+    - stage:
+        id: '0'
+        name: CsvExampleGen
+        config:
+          csv_example_gen:
+            params:
+              input_config:
+                splits:
+                - name: 'train'
+                  pattern: '*'
+              output_config:
+                splits:
+                - name: 'train'
+                  hash_buckets: 1
+            inputs:
+              input: inputs/data
+            outputs:
+              examples: examples
+    - stage:
+        id: '1'
+        name: StatisticsGen
+        config:
+          statistics_gen:
+            params:
+              split_names:
+                - 'train'
+            inputs:
+              examples: stages/0/outputs/examples
+            outputs:
+              statistics: statistics
+    - stage:
+        id: '2'
+        name: SchemaGen
+        config:
+          schema_gen:
+            inputs:
+              statistics: stages/1/outputs/statistics
+            params:
+              infer_feature_shape: false
+            outputs:
+              schema: schema
+    - stage:
+        id: '3'
+        name: Transform
+        config:
+          transform:
+            inputs:
+              examples: stages/0/outputs/examples
+              schema: stages/2/outputs/schema
+            params:
+              module_file: $EXAMPLE_ROOT/module/introduce_timestamp.py
+              split_names:
+                - 'train'
+            outputs:
+              transformed_examples: examples
+              transform_graph: graph
