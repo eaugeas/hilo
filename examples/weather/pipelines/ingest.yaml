@@ -1,4 +1,4 @@
-id: features
+id: ingest
 config:
   inputs:
    - source:
@@ -11,23 +11,14 @@ config:
         id: examples
         url: stages/3/outputs/examples
     - channel:
-        id: graph
-        url: stages/3/outputs/graph
+        id: transformed_graph
+        url: stages/3/outputs/transformed_graph
   steps:
     - stage:
         id: '0'
         name: CsvExampleGen
         config:
           csv_example_gen:
-            params:
-              input_config:
-                splits:
-                - name: 'train'
-                  pattern: '*'
-              output_config:
-                splits:
-                - name: 'train'
-                  hash_buckets: 1
             inputs:
               input: inputs/data
             outputs:
@@ -37,9 +28,6 @@ config:
         name: StatisticsGen
         config:
           statistics_gen:
-            params:
-              split_names:
-                - 'train'
             inputs:
               examples: stages/0/outputs/examples
             outputs:
@@ -65,8 +53,6 @@ config:
               schema: stages/2/outputs/schema
             params:
               module_file: $EXAMPLE_ROOT/module/introduce_timestamp.py
-              split_names:
-                - 'train'
             outputs:
               transformed_examples: examples
-              transform_graph: graph
+              transform_graph: transformed_graph

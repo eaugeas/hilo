@@ -143,9 +143,10 @@ class TrainerBuilder(ComponentBuilder):
     def build(self, context: Context) -> BaseNode:
         from tfx.components import Trainer
 
-        transform_graph = (self._config.inputs.transform_graph if
-                           context.has(self._config.inputs.transform_graph)
-                           else None)
+        if context.has(self._config.inputs.transform_graph):
+            transform_graph = context.get(self._config.inputs.transform_graph)
+        else:
+            transform_graph = None
 
         component = Trainer(
             examples=context.get(self._config.inputs.examples),

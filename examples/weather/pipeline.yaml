@@ -14,7 +14,6 @@ config:
     sqlite:
       path: $EXAMPLE_ROOT/metadata
   steps:
-    - sequence_path: $EXAMPLE_ROOT/pipelines/features.yaml
+    - sequence_path: $EXAMPLE_ROOT/pipelines/ingest.yaml
     - sequence_path: $EXAMPLE_ROOT/pipelines/normalize.yaml
-    - sequence_path: $EXAMPLE_ROOT/pipelines/partition.yaml
-#    - pipeline_path: $EXAMPLE_ROOT/pipelines/train.yaml
+    - sequence_path: $EXAMPLE_ROOT/pipelines/train.yaml

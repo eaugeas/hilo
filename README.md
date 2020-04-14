@@ -17,4 +17,4 @@ related to the name of the project. There is another Spanish term, altibajo,
 which translates to English as ups and downs, but that translated literally
 is high low. So, hilo is the contraction of high low, which in turn is a
 literal, even though not correct, translation of altibajo. We believe this
-concept is a fine made up adjective to define what an anomaly is.
+concept is a fine made up noun to define what an anomaly is.

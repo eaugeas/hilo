@@ -4,7 +4,7 @@ from tfx.types import standard_artifacts
 from tfx.types.component_spec import (
     ChannelParameter, ComponentSpec, ExecutionParameter)
 
-from hilo_stage.components.dataset_gen.entity.artifact import Datasets
+from hilo_stage.components.types.artifact import Datasets
 
 
 class SingleDimensionGenSpec(ComponentSpec):

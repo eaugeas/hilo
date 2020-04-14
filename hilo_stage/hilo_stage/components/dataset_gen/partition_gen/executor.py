@@ -101,7 +101,7 @@ class Executor(BaseExecutor):
                     artifact.split_names):
                 uri = os.path.join(artifact.uri, split)
                 split_uris.append((split, uri))
-        split_uris = list(filter(lambda uri: uri[0] == 'train', split_uris))
+
         datasets_uri = io_utils.get_only_uri_in_dir(
             artifact_utils.get_single_uri(input_dict[DATASETS_KEY]))
         datasets = deserialize_from_file(
