@@ -28,7 +28,6 @@ def infer_dimensions(
             common_stats = getattr(
                 feature, feature.WhichOneof('stats')).common_stats
             if dataset.num_examples * .05 < common_stats.num_non_missing:
-                name = ''
                 if feature.WhichOneof('field_id') == 'name':
                     name = feature.name
                 elif feature.WhichOneof('field_id') == 'path':

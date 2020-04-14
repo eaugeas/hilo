@@ -3,7 +3,7 @@ config:
   inputs:
     - channel:
         id: examples
-        url: sequence/features/outputs/examples
+        url: sequence/ingest/outputs/examples
   outputs:
     - channel:
         id: statistics
@@ -15,19 +15,19 @@ config:
         id: examples
         url: stages/3/outputs/examples
     - channel:
-        id: graph
-        url: stages/3/outputs/graph
+        id: transformed_graph
+        url: stages/3/outputs/transformed_graph
+    - channel:
+        id: datasets
+        url: stages/4/outputs/datasets
   steps:
     - stage:
         id: '0'
         name: StatisticsGen
         config:
           statistics_gen:
-            params:
-              split_names:
-                - 'train'
             inputs:
-              examples:  inputs/examples
+              examples: inputs/examples
             outputs:
               statistics: statistics
     - stage:
@@ -63,4 +63,14 @@ config:
               module_file: $EXAMPLE_ROOT/module/normalize.py
             outputs:
               transformed_examples: examples
-              transform_graph: graph
+              transform_graph: transformed_graph
+    - stage:
+        id: '4'
+        name: SingleDimensionGen
+        config:
+          single_dimension_gen:
+            inputs:
+              statistics: stages/0/outputs/statistics
+              schema: stages/1/outputs/schema
+            outputs:
+              datasets: datasets
