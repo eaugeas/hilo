@@ -1,6 +1,8 @@
-# Hilo
-Hilo is an anomaly detection system for time series data. It ingests input data,
-trains machine learning models, and detects anomalies on the data.
+# Hilo-tfx
+Hilo-tfx is an anomaly detection system for time series data. It ingests input data,
+trains machine learning models, and detects anomalies on the data. It uses 
+[tfx](https://www.tensorflow.org/tfx) as the underlying framework for orchestration
+and ml model management. This is just a prototype to test whether the idea is feasible.
 
 ## Building
 If you would like to build the project yourself, please see
