@@ -16,7 +16,6 @@ class Executor(executor.Executor):
     specify the input and output splits. Once this is allowed, this Executor
     will not be needed
     """
-
     def Do(self, input_dict: Dict[Text, List[types.Artifact]],
            output_dict: Dict[Text, List[types.Artifact]],
            exec_properties: Dict[Text, Any]) -> None:
@@ -31,16 +30,15 @@ class Executor(executor.Executor):
 
         label_inputs = {
             labels.STATS:
-                tfdv.load_statistics(
-                    io_utils.get_only_uri_in_dir(
-                        artifact_utils.get_split_uri(
-                            input_dict[executor.STATISTICS_KEY],
-                            split_uris[0]))),
+            tfdv.load_statistics(
+                io_utils.get_only_uri_in_dir(
+                    artifact_utils.get_split_uri(
+                        input_dict[executor.STATISTICS_KEY], split_uris[0]))),
             labels.SCHEMA:
-                io_utils.SchemaReader().read(
-                    io_utils.get_only_uri_in_dir(
-                        artifact_utils.get_single_uri(
-                            input_dict[executor.SCHEMA_KEY])))
+            io_utils.SchemaReader().read(
+                io_utils.get_only_uri_in_dir(
+                    artifact_utils.get_single_uri(
+                        input_dict[executor.SCHEMA_KEY])))
         }
         output_uri = artifact_utils.get_single_uri(
             output_dict[executor.ANOMALIES_KEY])

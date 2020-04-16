@@ -18,8 +18,8 @@ config:
         id: transformed_graph
         url: stages/3/outputs/transformed_graph
     - channel:
-        id: datasets
-        url: stages/4/outputs/datasets
+        id: partitions
+        url: stages/4/outputs/partitions
   steps:
     - stage:
         id: '0'
@@ -66,11 +66,12 @@ config:
               transform_graph: transformed_graph
     - stage:
         id: '4'
-        name: SingleDimensionGen
+        name: PartitionGen
         config:
-          single_dimension_gen:
+          partition_gen:
             inputs:
               statistics: stages/0/outputs/statistics
               schema: stages/1/outputs/schema
+              examples: stages/3/outputs/examples
             outputs:
-              datasets: datasets
+              partitions: partitions

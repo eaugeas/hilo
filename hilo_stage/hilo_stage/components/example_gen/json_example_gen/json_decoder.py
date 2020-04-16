@@ -5,10 +5,8 @@ from abc import ABC
 import apache_beam as beam
 import numpy as np
 import six
-from tfx_bsl.coders.csv_decoder import (
-    ColumnInfo as ValueInfo,
-    ColumnName as ValueName,
-    ColumnType as ValueType)
+from tfx_bsl.coders.csv_decoder import (ColumnInfo as ValueInfo, ColumnName as
+                                        ValueName, ColumnType as ValueType)
 
 JsonValue = Union[Text, int, float]
 JsonCell = Tuple[Text, JsonValue]
@@ -28,7 +26,6 @@ def deserialize_json_cell(s: Text) -> JsonCell:
 @beam.typehints.with_output_types(beam.typehints.List[JsonCellSerialized])
 class ParseJsonLine(beam.DoFn, ABC):
     """A beam.DoFn to parse JSONLines into List[JsonCell]"""
-
     def __init__(self):
         super(ParseJsonLine, self).__init__()
 
@@ -40,7 +37,8 @@ class ParseJsonLine(beam.DoFn, ABC):
         normalized_record = ParseJsonLine.normalize(record)
         yield [
             serialize_json_cell((field, normalized_record[field]))
-            for field in normalized_record]
+            for field in normalized_record
+        ]
 
     @staticmethod
     def prop_name(namespace, prop):
@@ -55,18 +53,17 @@ class ParseJsonLine(beam.DoFn, ABC):
             normalized_name = ParseJsonLine.prop_name(namespace, prop)
             if (isinstance(record[prop], int)
                     or isinstance(record[prop], float)
-                    or isinstance(record[prop], str)
-                    or record[prop] is None):
+                    or isinstance(record[prop], str) or record[prop] is None):
                 result[normalized_name] = record[prop]
             elif isinstance(record[prop], list):
                 result[normalized_name] = json.dumps(record[prop])
             elif isinstance(record[prop], dict):
-                ParseJsonLine.normalize_record(
-                    normalized_name, record[prop], result)
+                ParseJsonLine.normalize_record(normalized_name, record[prop],
+                                               result)
             else:
-                raise ValueError(
-                    'unexpected instance type in'
-                    ' record {0} for property {1}'.format(record, prop))
+                raise ValueError('unexpected instance type in'
+                                 ' record {0} for property {1}'.format(
+                                     record, prop))
 
     @staticmethod
     def normalize(record):
@@ -79,7 +76,6 @@ class ParseJsonLine(beam.DoFn, ABC):
 @beam.typehints.with_output_types(beam.typehints.List[ValueInfo])
 class ValueTypeInferrer(beam.CombineFn, ABC):
     """A beam.CombineFn to infer Json key types."""
-
     def __init__(self):
         super(ValueTypeInferrer, self).__init__()
 
@@ -88,9 +84,8 @@ class ValueTypeInferrer(beam.CombineFn, ABC):
         return {}
 
     def add_input(
-            self,
-            accumulator: Dict[ValueName, ValueType],
-            serialized_cells: List[JsonCellSerialized]
+        self, accumulator: Dict[ValueName, ValueType],
+        serialized_cells: List[JsonCellSerialized]
     ) -> Dict[ValueName, ValueType]:
         """Updates the feature types in the accumulator using
         the values provided in the cells.
@@ -128,8 +123,7 @@ class ValueTypeInferrer(beam.CombineFn, ABC):
     ) -> List[ValueInfo]:
         """Return a list of tuples containing the column info."""
         return [
-            ValueInfo(prop_name, accumulator.get(
-                prop_name, ValueType.UNKNOWN))
+            ValueInfo(prop_name, accumulator.get(prop_name, ValueType.UNKNOWN))
             for prop_name in accumulator
         ]
 

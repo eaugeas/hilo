@@ -41,5 +41,4 @@ class MetadataStoreBuilder(StoreBuilder):
             builder = builder_constructor(args)
             return builder.build()
         else:
-            raise ValueError(
-                'Unknown store name {0}'.format(store_name))
+            raise ValueError('Unknown store name {0}'.format(store_name))

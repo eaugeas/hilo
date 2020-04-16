@@ -6,16 +6,15 @@ import json
 
 from hilo_rpc.serialize.symbol_loader import SymbolLoader
 from hilo_rpc.serialize.directive import execute as execute_directives
-from hilo_rpc.serialize.dict import (
-    deserialize as deserialize_dict,
-    serialize as serialize_dict,
-    typedef as typedef_dict)
+from hilo_rpc.serialize.dict import (deserialize as deserialize_dict, serialize
+                                     as serialize_dict, typedef as
+                                     typedef_dict)
 
 
 def deserialize(
-        stream: io.IOBase,
-        message: Type[Message],
-        symbol_loader: Optional[SymbolLoader] = None,
+    stream: io.IOBase,
+    message: Type[Message],
+    symbol_loader: Optional[SymbolLoader] = None,
 ):
     """deserialize the contents of the json file to an instance
     of the provided message type"""
@@ -25,11 +24,11 @@ def deserialize(
 
 
 def deserialize_from_file(
-        filepath: Text,
-        message: Type[Message],
-        symbol_loader: Optional[SymbolLoader] = None,
-        env: Optional[Dict[Text, Text]] = None,
-        use_os_env: bool = False,
+    filepath: Text,
+    message: Type[Message],
+    symbol_loader: Optional[SymbolLoader] = None,
+    env: Optional[Dict[Text, Text]] = None,
+    use_os_env: bool = False,
 ):
     """deserialize the contents of the yaml file to an instance
     of the provided message type"""
@@ -37,12 +36,10 @@ def deserialize_from_file(
         return deserialize(f, message, symbol_loader)
 
 
-def serialize(
-        stream: io.IOBase,
-        message: Union[Type[Message], Message],
-        pretty: bool = False,
-        with_types: bool = False
-):
+def serialize(stream: io.IOBase,
+              message: Union[Type[Message], Message],
+              pretty: bool = False,
+              with_types: bool = False):
     """serialize serializes the message as yaml and writes the result
     to the stream"""
     if with_types:
@@ -56,12 +53,10 @@ def serialize(
         json.dump(serialized, stream)
 
 
-def serialize_file(
-        filepath: Text,
-        message: Type[Message],
-        pretty: bool = False,
-        with_types: bool = False
-):
+def serialize_file(filepath: Text,
+                   message: Type[Message],
+                   pretty: bool = False,
+                   with_types: bool = False):
     """serialize_file serializes a message as a yaml into a file"""
     with open(filepath, 'w') as f:
         serialize(f, message, pretty=pretty, with_types=with_types)

@@ -5,26 +5,20 @@ from tfx.components.base.base_node import BaseNode
 from tfx.types import Channel, standard_artifacts, artifact_utils
 
 from hilo_rpc.proto.stage_pb2 import (
-    Stage, PartitionGenConfig, ExampleValidatorConfig,
-    JsonExampleGenConfig, SingleDimensionGenConfig,
-    StatisticsGenConfig, SchemaGenConfig,
-    CsvExampleGenConfig, TransformConfig,
-    TrainerConfig, ResolverNodeConfig, EvaluatorConfig,
-    PusherConfig)
+    Stage, PartitionGenConfig, ExampleValidatorConfig, JsonExampleGenConfig,
+    StatisticsGenConfig, SchemaGenConfig, CsvExampleGenConfig, TransformConfig,
+    TrainerConfig, ResolverNodeConfig, EvaluatorConfig, PusherConfig)
 from hilo_rpc.serialize.dict import serialize as serialize_dict
 from hilo_stage.components.utils.splits import splits_or_example_defaults
 from hilo_stage.context.context import Context
 
 
-def put_outputs_to_context(
-        context: Context,
-        message: Message,
-        component: BaseNode):
+def put_outputs_to_context(context: Context, message: Message,
+                           component: BaseNode):
     descriptor = message.DESCRIPTOR
     for field in descriptor.fields:
-        context.put(
-            'outputs/{0}'.format(getattr(message, field.name)),
-            component.outputs[field.name])
+        context.put('outputs/{0}'.format(getattr(message, field.name)),
+                    component.outputs[field.name])
 
 
 class ComponentBuilder(object):
@@ -46,13 +40,13 @@ class EvaluatorBuilder(ComponentBuilder):
 
         threshold = {
             'binary_accuracy':
-                tfma.config.MetricThreshold(
-                    value_threshold=tfma.GenericValueThreshold(
-                        lower_bound={'value': 0.6}),
-                    change_threshold=tfma.GenericChangeThreshold(
-                        direction=tfma.MetricDirection.HIGHER_IS_BETTER,
-                        absolute={'value': -1e-10}))
-                }
+            tfma.config.MetricThreshold(
+                value_threshold=tfma.GenericValueThreshold(
+                    lower_bound={'value': 0.6}),
+                change_threshold=tfma.GenericChangeThreshold(
+                    direction=tfma.MetricDirection.HIGHER_IS_BETTER,
+                    absolute={'value': -1e-10}))
+        }
         eval_config = tfma.EvalConfig(
             model_specs=[tfma.ModelSpec(signature_name='eval')],
             slicing_specs=[
@@ -83,12 +77,11 @@ class PusherBuilder(ComponentBuilder):
         push_destination = PushDestination(
             filesystem=PushDestination.Filesystem(base_directory=d))
 
-        component = Pusher(
-            model=context.get(self._config.inputs.model),
-            model_blessing=context.get(self._config.inputs.model_blessing),
-            push_destination=push_destination,
-            instance_name=context.abs_current_url_friendly
-        )
+        component = Pusher(model=context.get(self._config.inputs.model),
+                           model_blessing=context.get(
+                               self._config.inputs.model_blessing),
+                           push_destination=push_destination,
+                           instance_name=context.abs_current_url_friendly)
 
         put_outputs_to_context(context, self._config.outputs, component)
         return component
@@ -107,8 +100,7 @@ class ExampleValidatorBuilder(ComponentBuilder):
         component = ExampleValidator(
             statistics=statistics,
             schema=schema,
-            instance_name=context.abs_current_url_friendly
-        )
+            instance_name=context.abs_current_url_friendly)
 
         put_outputs_to_context(context, self._config.outputs, component)
         return component
@@ -155,8 +147,7 @@ class TrainerBuilder(ComponentBuilder):
             train_args=serialize_dict(self._config.params.train_args),
             eval_args=serialize_dict(self._config.params.eval_args),
             module_file=self._config.params.module_file,
-            instance_name=context.abs_current_url_friendly
-        )
+            instance_name=context.abs_current_url_friendly)
 
         put_outputs_to_context(context, self._config.outputs, component)
         return component
@@ -174,8 +165,7 @@ class SchemaGenBuilder(ComponentBuilder):
         component = SchemaGen(
             statistics=statistics,
             infer_feature_shape=self._config.params.infer_feature_shape,
-            instance_name=context.abs_current_url_friendly
-        )
+            instance_name=context.abs_current_url_friendly)
 
         put_outputs_to_context(context, self._config.outputs, component)
         return component
@@ -193,38 +183,15 @@ class StatisticsGenBuilder(ComponentBuilder):
         statistics_artifact.split_names = artifact_utils.encode_split_names(
             splits_or_example_defaults(self._config.params.split_names))
 
-        output = Channel(
-            type=standard_artifacts.ExampleStatistics,
-            artifacts=[statistics_artifact])
+        output = Channel(type=standard_artifacts.ExampleStatistics,
+                         artifacts=[statistics_artifact])
 
         examples = context.get(self._config.inputs.examples)
         component = StatisticsGen(
             examples=examples,
             stats_options=None,
             output=output,
-            instance_name=context.abs_current_url_friendly
-        )
-
-        put_outputs_to_context(context, self._config.outputs, component)
-        return component
-
-
-class SingleDimensionGenBuilder(ComponentBuilder):
-    def __init__(self, config: Optional[SingleDimensionGenConfig] = None):
-        super().__init__(config)
-        self._config = config or SingleDimensionGenConfig()
-
-    def build(self, context: Context) -> BaseNode:
-        from hilo_stage.components import SingleDimensionGen
-        split_names = splits_or_example_defaults(
-            self._config.params.split_names)
-
-        statistics = context.get(self._config.inputs.statistics)
-        component = SingleDimensionGen(
-            statistics=statistics,
-            split_names=split_names,
-            instance_name=context.abs_current_url_friendly
-        )
+            instance_name=context.abs_current_url_friendly)
 
         put_outputs_to_context(context, self._config.outputs, component)
         return component
@@ -238,22 +205,10 @@ class PartitionGenBuilder(ComponentBuilder):
     def build(self, context: Context) -> BaseNode:
         from hilo_stage.components import PartitionGen
 
-        split_names = splits_or_example_defaults(
-            self._config.params.split_names)
-
-        partition_artifact = standard_artifacts.Examples()
-        partition_artifact.split_names = artifact_utils.encode_split_names(
-            splits_or_example_defaults(self._config.params.split_names))
-
-        partitions = Channel(
-            type=standard_artifacts.Examples,
-            artifacts=[partition_artifact])
-
         component = PartitionGen(
             examples=context.get(self._config.inputs.examples),
-            datasets=context.get(self._config.inputs.datasets),
-            partitions=partitions,
-            split_names=split_names,
+            schema=context.get(self._config.inputs.schema),
+            statistics=context.get(self._config.inputs.statistics),
             instance_name=context.abs_current_url_friendly)
         put_outputs_to_context(context, self._config.outputs, component)
         return component
@@ -269,27 +224,25 @@ class CsvExampleGenBuilder(ComponentBuilder):
         from tfx.proto.example_gen_pb2 import Input, Output, SplitConfig
 
         input_config: Optional[Output] = None
-        if (self._config.params.input_config and
-                len(self._config.params.input_config.splits) > 0):
-            input_splits: List[Dict[str, str]] = [
-                {
-                    'name': split.name,
-                    'pattern': split.pattern,
-                } for split in self._config.params.input_config.splits
-            ]
+        if (self._config.params.input_config
+                and len(self._config.params.input_config.splits) > 0):
+            input_splits: List[Dict[str, str]] = [{
+                'name': split.name,
+                'pattern': split.pattern,
+            } for split in self._config.params.input_config.splits]
             input_config = Input(splits=input_splits)
 
         output_config: Optional[Output] = None
-        if (self._config.params.output_config and
-                len(self._config.params.output_config.splits) > 0):
-            output_splits: List[Dict[str, str]] = [
-                {
-                    'name': split.name,
-                    'hash_buckets': split.hash_buckets
-                } for split in self._config.params.output_config.splits
-            ]
-            output_config = Output(
-                split_config=SplitConfig(splits=output_splits))
+        if (self._config.params.output_config
+                and len(self._config.params.output_config.splits) > 0):
+            output_splits: List[Dict[str, str]] = [{
+                'name':
+                split.name,
+                'hash_buckets':
+                split.hash_buckets
+            } for split in self._config.params.output_config.splits]
+            output_config = Output(split_config=SplitConfig(
+                splits=output_splits))
 
         component = CsvExampleGen(
             instance_name=context.abs_current_url_friendly,
@@ -311,9 +264,8 @@ class TransformBuilder(ComponentBuilder):
         props = {}
 
         if not self._config.inputs.examples:
-            raise KeyError(
-                'transform pipeline requires `examples`'
-                ' as one of its inputs')
+            raise KeyError('transform pipeline requires `examples`'
+                           ' as one of its inputs')
 
         props['examples'] = context.get(self._config.inputs.examples)
 
@@ -321,9 +273,8 @@ class TransformBuilder(ComponentBuilder):
             props['schema'] = context.get(self._config.inputs.schema)
 
         if not self._config.params.module_file:
-            raise KeyError(
-                'transform pipeline requires `module_file`'
-                ' as one of its params')
+            raise KeyError('transform pipeline requires `module_file`'
+                           ' as one of its params')
 
         props['module_file'] = self._config.params.module_file
         props['instance_name'] = context.abs_current_url_friendly
@@ -353,16 +304,15 @@ class JsonExampleGenBuilder(ComponentBuilder):
         output_splits = []
         for split in self._config.params.output_config.splits:
             output_splits.append(
-                SplitConfig.Split(
-                    name=split.name,
-                    hash_buckets=split.hash_buckets))
+                SplitConfig.Split(name=split.name,
+                                  hash_buckets=split.hash_buckets))
 
         component = JsonExampleGen(
             instance_name=context.abs_current_url_friendly,
             input=context.get(self._config.inputs.input),
             input_config=Input(splits=input_splits),
-            output_config=Output(
-                split_config=SplitConfig(splits=output_splits)))
+            output_config=Output(split_config=SplitConfig(
+                splits=output_splits)))
         put_outputs_to_context(context, self._config.outputs, component)
         return component
 
@@ -375,7 +325,6 @@ class Builder:
             'json_example_gen': JsonExampleGenBuilder,
             'statistics_gen': StatisticsGenBuilder,
             'schema_gen': SchemaGenBuilder,
-            'single_dimension_gen': SingleDimensionGenBuilder,
             'partition_gen': PartitionGenBuilder,
             'csv_example_gen': CsvExampleGenBuilder,
             'transform': TransformBuilder,

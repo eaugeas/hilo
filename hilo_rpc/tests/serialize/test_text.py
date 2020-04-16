@@ -9,18 +9,17 @@ from hilo_rpc.serialize.text import deserialize, serialize
 class TextTest(unittest.TestCase):
     def test_serialize_ok(self):
         stream = io.StringIO()
-        message = TestMessage(
-            enum=TestMessage.Enum(int32_enum=1),
-            params=TestMessage.Params(int32_param=2),
-            mapping={'key': 'value'},
-            string_repeated=['hello', 'bye']
-        )
+        message = TestMessage(enum=TestMessage.Enum(int32_enum=1),
+                              params=TestMessage.Params(int32_param=2),
+                              mapping={'key': 'value'},
+                              string_repeated=['hello', 'bye'])
 
         serialize(stream, message)
 
         stream.seek(0)
         contents = stream.read(-1)
-        self.assertEqual("""enum {
+        self.assertEqual(
+            """enum {
   int32_enum: 1
 }
 params {
@@ -68,12 +67,11 @@ string_repeated: \"bye\"
 """)
         deserialized = deserialize(contents, TestMessage)
 
-        self.assertEqual(TestMessage(
-            enum=TestMessage.Enum(int32_enum=1),
-            params=TestMessage.Params(int32_param=2),
-            mapping={'key': 'value'},
-            string_repeated=['hello', 'bye']
-        ), deserialized)
+        self.assertEqual(
+            TestMessage(enum=TestMessage.Enum(int32_enum=1),
+                        params=TestMessage.Params(int32_param=2),
+                        mapping={'key': 'value'},
+                        string_repeated=['hello', 'bye']), deserialized)
 
 
 if __name__ == '__main__':

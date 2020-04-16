@@ -15,20 +15,15 @@ def find(name: Optional[Text]) -> List[Message]:
     if name and name in messages:
         return [messages[name]]
 
-    result: List[Message] = list(map(
-        lambda item: item[1],  # type: ignore
-        filter(
-            lambda el: name is None or el[0].find(name) != -1,
-            messages.items()
-        )
-    ))
+    result: List[Message] = list(
+        map(
+            lambda item: item[1],  # type: ignore
+            filter(lambda el: name is None or el[0].find(name) != -1,
+                   messages.items())))
     return result
 
 
-def describe(
-        message: Union[Message, Type[Message]],
-        **kwargs
-) -> Text:
+def describe(message: Union[Message, Type[Message]], **kwargs) -> Text:
     """Provides a full description of the entity based on the
     properties provided. If no empty is found, an error is raised"""
 

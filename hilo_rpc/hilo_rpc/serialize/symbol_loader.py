@@ -19,8 +19,8 @@ class ProtobufSymbolLoader(SymbolLoader):
     """ProtobufSymbolLoader loads protobuf messages from the provided
     databases."""
     def __init__(
-            self,
-            symbol_databases: Optional[List[SymbolDatabase]] = None,
+        self,
+        symbol_databases: Optional[List[SymbolDatabase]] = None,
     ):
         super().__init__()
         self._symbol_databases: List[SymbolDatabase] = []
@@ -34,9 +34,8 @@ class ProtobufSymbolLoader(SymbolLoader):
                 self._symbol_databases.append(symbol_database)
 
         if len(self._symbol_databases) == 0:
-            raise RuntimeError(
-                'Cannot start ProtobufSymbolLoader, no'
-                ' instances of SymbolDatabase found')
+            raise RuntimeError('Cannot start ProtobufSymbolLoader, no'
+                               ' instances of SymbolDatabase found')
 
         ensure_protobuf_loaded()
 

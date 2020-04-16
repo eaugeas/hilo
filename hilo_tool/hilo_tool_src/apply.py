@@ -14,9 +14,7 @@ class ApplyCmd(Cmd):
         return 'applies the operation to the system'
 
     def add_arguments(self, parser: argparse.ArgumentParser):
-        parser.add_argument(
-            '-file', type=str,
-            help='path to file to apply')
+        parser.add_argument('-file', type=str, help='path to file to apply')
 
     def exec(self, args: argparse.Namespace):
         if not args.file:
@@ -31,6 +29,4 @@ class ApplyCmd(Cmd):
         from hilo_stage.runner.builder import Builder as RunnerBuilder
 
         runner = RunnerBuilder().build()
-        runner.run(
-            PipelineBuilder.from_yaml(file).build()
-        )
+        runner.run(PipelineBuilder.from_yaml(file).build())

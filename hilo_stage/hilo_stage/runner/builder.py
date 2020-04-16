@@ -25,8 +25,7 @@ class BeamDagRunnerBuilder(RunnerBuilder):
         if len(self._config.orchestrator_args) > 0:
             orchestrator_args = [arg for arg in self._config.orchestrator_args]
 
-        return BeamDagRunner(
-            beam_orchestrator_args=orchestrator_args)
+        return BeamDagRunner(beam_orchestrator_args=orchestrator_args)
 
 
 class Builder(object):

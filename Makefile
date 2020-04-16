@@ -1,7 +1,8 @@
 MAKE=make
 
 PROJECTS=hilo_cmd hilo_rpc hilo_stage hilo_server hilo hilo_tool
-LINES=$(patsubst %,%/lines, $(PROJECTS))
+COUNTLINES=$(patsubst %,%/countlines, $(PROJECTS))
+FORMAT=$(patsubst %,%/format, $(PROJECTS))
 CHECKS=$(patsubst %,%/check, $(PROJECTS))
 CLEANS=$(patsubst %,%/clean, $(PROJECTS))
 BUILDS=$(patsubst %,%/build, $(PROJECTS))
@@ -44,5 +45,10 @@ check: $(CHECKS)
 
 countlines: $(LINES)
 
-%/lines: %/Makefile
+%/countlines: %/Makefile
 	$(MAKE) -C $(dir $<) countlines
+
+format: $(FORMAT)
+
+%/format: %/Makefile
+	$(MAKE) -C $(dir $<) format

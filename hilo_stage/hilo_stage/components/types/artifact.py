@@ -1,6 +1,5 @@
 from tfx.types import artifact, standard_artifacts
 
-
 PARTITIONS_PROPERTY = artifact.Property(type=artifact.PropertyType.STRING)
 
 

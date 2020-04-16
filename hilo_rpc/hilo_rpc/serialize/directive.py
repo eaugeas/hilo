@@ -36,16 +36,14 @@ class EnvironDirective(Directive):
         from string import Template
 
         if len(self._args) != 1:
-            raise ValueError(
-                '`env` directive only supports one argument.'
-                ' Received {0}'.format(self._args))
+            raise ValueError('`env` directive only supports one argument.'
+                             ' Received {0}'.format(self._args))
 
         try:
             return Template(self._args[0]).substitute(**self._kwargs)
         except ValueError:
-            raise ValueError(
-                'failed to substitute environment variables in '
-                'string {0}'.format(self._args[0]))
+            raise ValueError('failed to substitute environment variables in '
+                             'string {0}'.format(self._args[0]))
 
 
 def starts_as_directive(s: Text) -> bool:
@@ -61,9 +59,7 @@ def create(s: Text, **kwargs) -> Directive:
 def build(command: Text, *args, **kwargs) -> Directive:
     """build a new instance of a directive from its
     command and its arguments"""
-    directives: Dict[Text, Type[Directive]] = {
-        'env': EnvironDirective
-    }
+    directives: Dict[Text, Type[Directive]] = {'env': EnvironDirective}
 
     if command in directives:
         return directives[command](command, *args, **kwargs)
