@@ -5,13 +5,12 @@ package hilo_rpc.proto;
 import "google/protobuf/timestamp.proto";
 
 message PartitionGenConfig {
-    message Params {
-        repeated string split_names = 1;
-    }
+    message Params { }
 
     message Inputs {
         string examples = 1;
-        string datasets = 2;
+        string statistics = 2;
+        string schema = 3;
     }
 
     message Outputs {

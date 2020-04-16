@@ -3,9 +3,10 @@ from typing import Any, Callable, Dict, List, Optional, Text, Type, Union
 
 from google.protobuf.message import Message
 from google.protobuf.descriptor import Descriptor
-from google.protobuf.pyext._message import (
-    ScalarMapContainer, MessageMapContainer,
-    RepeatedScalarContainer, RepeatedCompositeContainer)
+from google.protobuf.pyext._message import (ScalarMapContainer,
+                                            MessageMapContainer,
+                                            RepeatedScalarContainer,
+                                            RepeatedCompositeContainer)
 
 from hilo_rpc.serialize.symbol_loader import ProtobufSymbolLoader
 
@@ -18,10 +19,9 @@ def camel_case_to_snake_case(s: Text) -> Text:
     return reduce(lambda x, y: x + ('_' if y.isupper() else '') + y, s).lower()
 
 
-def _get_message_instance(
-        message: Optional[Union[Type[Message], Message]] = None,
-        url: Optional[Text] = None
-) -> Message:
+def _get_message_instance(message: Optional[Union[Type[Message],
+                                                  Message]] = None,
+                          url: Optional[Text] = None) -> Message:
     if message:
         if isinstance(message, Message):
             record: Message = message
@@ -61,32 +61,24 @@ class _Value:
 
 
 class _CompositeValue(_Value):
-    def __init__(
-            self,
-            typedef: Callable[['_Serializer', Any, Descriptor], Any],
-            serializer: Callable[['_Serializer', Any], Any],
-            deserializer: Callable[['_Serializer', Any, Any, Descriptor], Any]
-    ):
+    def __init__(self, typedef: Callable[['_Serializer', Any, Descriptor],
+                                         Any],
+                 serializer: Callable[['_Serializer', Any], Any],
+                 deserializer: Callable[['_Serializer', Any, Any, Descriptor],
+                                        Any]):
         self._typedef = typedef
         self._serializer = serializer
         self._deserializer = deserializer
 
-    def typedef(
-            self,
-            serializer: '_Serializer',
-            value: Any,
-            descriptor: Descriptor) -> Any:
+    def typedef(self, serializer: '_Serializer', value: Any,
+                descriptor: Descriptor) -> Any:
         return self._typedef(serializer, value, descriptor)
 
     def serialize(self, serializer: '_Serializer', value: Any) -> Any:
         return self._serializer(serializer, value)
 
-    def deserialize(
-            self,
-            serializer: '_Serializer',
-            value: Any,
-            r: Any,
-            descriptor: Descriptor) -> Any:
+    def deserialize(self, serializer: '_Serializer', value: Any, r: Any,
+                    descriptor: Descriptor) -> Any:
         return self._deserializer(serializer, value, r, descriptor)
 
 
@@ -137,10 +129,7 @@ class _Serializer:
             'Do not know how to deserialize value {0}'.format(value))
 
     @staticmethod
-    def _get_type_from_typedef(
-            value: Any,
-            typedef: '_TypeDef'
-    ) -> Any:
+    def _get_type_from_typedef(value: Any, typedef: '_TypeDef') -> Any:
         types = filter(
             lambda tp: isinstance(value, tp),
             typedef.keys(),
@@ -149,18 +138,16 @@ class _Serializer:
         for t in types:
             return typedef[t].typedef
 
-        raise ValueError(
-            'Unknown type instance for value {0}'.format(value))
+        raise ValueError('Unknown type instance for value {0}'.format(value))
 
     @staticmethod
     def get_type_from_simple_value(value: Any) -> Any:
-        return _Serializer._get_type_from_typedef(
-            value, _Types.simple_types)
+        return _Serializer._get_type_from_typedef(value, _Types.simple_types)
 
     @staticmethod
     def get_type_from_composite_value(value: Any) -> Any:
-        return _Serializer._get_type_from_typedef(
-            value, _Types.composite_types)
+        return _Serializer._get_type_from_typedef(value,
+                                                  _Types.composite_types)
 
     @staticmethod
     def get_type_from_value(value: Any) -> Any:
@@ -173,9 +160,7 @@ class _Serializer:
                 'Unknown type instance for value {0}'.format(value))
 
     @staticmethod
-    def _value(
-            value: Any,
-            typedef: '_TypeDef') -> Optional[_Value]:
+    def _value(value: Any, typedef: '_TypeDef') -> Optional[_Value]:
         types = filter(
             lambda tp: isinstance(value, tp),
             typedef.keys(),
@@ -258,26 +243,19 @@ class _MessageMapContainer(object):
         return results
 
     @staticmethod
-    def deserialize(
-            serializer: _Serializer,
-            value: MessageMapContainer,
-            collection: Dict[Any, Any],
-            descriptor: Descriptor
-    ) -> MessageMapContainer:
+    def deserialize(serializer: _Serializer, value: MessageMapContainer,
+                    collection: Dict[Any, Any],
+                    descriptor: Descriptor) -> MessageMapContainer:
         for key in collection:
             entry = value.get_or_create(key)
-            serializer.deserialize(
-                entry, collection[key], entry.DESCRIPTOR)
+            serializer.deserialize(entry, collection[key], entry.DESCRIPTOR)
         return value
 
 
 class _ScalarMapContainer(object):
     @staticmethod
-    def typedef(
-            serializer: _Serializer,
-            value: ScalarMapContainer,
-            descriptor: Descriptor
-    ) -> Dict[Any, Any]:
+    def typedef(serializer: _Serializer, value: ScalarMapContainer,
+                descriptor: Descriptor) -> Dict[Any, Any]:
         for key, v in zip(_Types.simple_types, _Types.simple_types):
             try:
                 e_key = _Types.simple_types[key].example()
@@ -341,10 +319,10 @@ class _RepeatedCompositeContainer(object):
 
     @staticmethod
     def deserialize(
-            serializer: _Serializer,
-            value: RepeatedScalarContainer,
-            collection: List[Any],
-            descriptor: Descriptor,
+        serializer: _Serializer,
+        value: RepeatedScalarContainer,
+        collection: List[Any],
+        descriptor: Descriptor,
     ):
         for v in collection:
             symbol = _SYMBOL_LOADER.load(descriptor.message_type.full_name)
@@ -364,8 +342,10 @@ class _RepeatedScalarContainer(object):
                 example = _Types.simple_types[t].example()
                 value.append(example)
                 value.pop()
-                return [_Types.simple_types[t].typedef(
-                    serializer, example, descriptor)]
+                return [
+                    _Types.simple_types[t].typedef(serializer, example,
+                                                   descriptor)
+                ]
             except TypeError:
                 pass
         raise ValueError(
@@ -382,12 +362,9 @@ class _RepeatedScalarContainer(object):
         return result
 
     @staticmethod
-    def deserialize(
-            serializer: _Serializer,
-            value: RepeatedScalarContainer,
-            collection: List[Any],
-            descriptor: Descriptor
-    ) -> RepeatedScalarContainer:
+    def deserialize(serializer: _Serializer, value: RepeatedScalarContainer,
+                    collection: List[Any],
+                    descriptor: Descriptor) -> RepeatedScalarContainer:
         for v in collection:
             value.append(v)
         return value
@@ -406,8 +383,8 @@ class _Message(object):
         for d_field in value.DESCRIPTOR.fields:
             field = getattr(value, d_field.name)
 
-            if (serializer.is_deserialized(d_field.full_name) and
-                    isinstance(field, Message)):
+            if (serializer.is_deserialized(d_field.full_name)
+                    and isinstance(field, Message)):
                 result[d_field.name] = d_field.full_name
             else:
                 serializer.add_url(d_field.full_name)
@@ -447,8 +424,8 @@ class _Message(object):
                 oneof_prop_name = field.WhichOneof(oneof_name)
                 if oneof_prop_name is not None:
                     result[d_field.name] = {
-                        oneof_prop_name: serializer.serialize(
-                            getattr(field, oneof_prop_name))
+                        oneof_prop_name:
+                        serializer.serialize(getattr(field, oneof_prop_name))
                     }
             else:
                 result[d_field.name] = serializer.serialize(field)
@@ -467,10 +444,9 @@ class _Message(object):
                 continue
 
             attribute = getattr(value, d_field.name)
-            deserialized = serializer.deserialize(
-                attribute,
-                collection[d_field.name],
-                d_field)
+            deserialized = serializer.deserialize(attribute,
+                                                  collection[d_field.name],
+                                                  d_field)
 
             if serializer.is_simple(attribute):
                 setattr(value, d_field.name, deserialized)
@@ -480,10 +456,10 @@ class _Message(object):
 
 class _SimpleValue(_Value):
     def __init__(
-            self,
-            typedef: Text,
-            example: Any,
-            t: Type,
+        self,
+        typedef: Text,
+        example: Any,
+        t: Type,
     ):
         self._typedef = typedef
         self._example = example
@@ -496,14 +472,11 @@ class _SimpleValue(_Value):
                 return
             except TypeError:
                 pass
-            raise ValueError(
-                'Expected {0} type. Received {1}'.format(self._typedef, value))
+            raise ValueError('Expected {0} type. Received {1}'.format(
+                self._typedef, value))
 
-    def typedef(
-            self,
-            serializer: _Serializer,
-            value: Any,
-            descriptor: Descriptor) -> Text:
+    def typedef(self, serializer: _Serializer, value: Any,
+                descriptor: Descriptor) -> Text:
         self.typecheck(value)
         return self._typedef
 
@@ -514,12 +487,8 @@ class _SimpleValue(_Value):
         self.typecheck(value)
         return self._t(value)
 
-    def deserialize(
-            self,
-            serializer: _Serializer,
-            value: Any,
-            r: Any,
-            descriptor: Descriptor) -> Any:
+    def deserialize(self, serializer: _Serializer, value: Any, r: Any,
+                    descriptor: Descriptor) -> Any:
         self.typecheck(value)
         self.typecheck(r)
         if r is None:
@@ -534,31 +503,25 @@ _TypeDef = Union[_SimpleTypeDef, _CompositeTypeDef]
 
 class _Types(object):
     composite_types: _CompositeTypeDef = {
-        ScalarMapContainer: _CompositeValue(
-            _ScalarMapContainer.typedef,
-            _ScalarMapContainer.serialize,
-            _ScalarMapContainer.deserialize
-        ),
-        MessageMapContainer: _CompositeValue(
-            _MessageMapContainer.typedef,
-            _MessageMapContainer.serialize,
-            _MessageMapContainer.deserialize
-        ),
-        RepeatedScalarContainer: _CompositeValue(
-            _RepeatedScalarContainer.typedef,
-            _RepeatedScalarContainer.serialize,
-            _RepeatedScalarContainer.deserialize
-        ),
-        RepeatedCompositeContainer: _CompositeValue(
-            _RepeatedCompositeContainer.typedef,
-            _RepeatedCompositeContainer.serialize,
-            _RepeatedCompositeContainer.deserialize
-        ),
-        Message: _CompositeValue(
-            _Message.typedef,
-            _Message.serialize,
-            _Message.deserialize
-        )
+        ScalarMapContainer:
+        _CompositeValue(_ScalarMapContainer.typedef,
+                        _ScalarMapContainer.serialize,
+                        _ScalarMapContainer.deserialize),
+        MessageMapContainer:
+        _CompositeValue(_MessageMapContainer.typedef,
+                        _MessageMapContainer.serialize,
+                        _MessageMapContainer.deserialize),
+        RepeatedScalarContainer:
+        _CompositeValue(_RepeatedScalarContainer.typedef,
+                        _RepeatedScalarContainer.serialize,
+                        _RepeatedScalarContainer.deserialize),
+        RepeatedCompositeContainer:
+        _CompositeValue(_RepeatedCompositeContainer.typedef,
+                        _RepeatedCompositeContainer.serialize,
+                        _RepeatedCompositeContainer.deserialize),
+        Message:
+        _CompositeValue(_Message.typedef, _Message.serialize,
+                        _Message.deserialize)
     }
 
     simple_types: _SimpleTypeDef = {
@@ -570,22 +533,15 @@ class _Types(object):
     }
 
 
-def _namespace(
-        current: Text,
-        addition: Text,
-        sep: Text = '.'
-) -> Text:
+def _namespace(current: Text, addition: Text, sep: Text = '.') -> Text:
     if current:
         return sep.join([current, addition])
     else:
         return addition
 
 
-def _flatten_dict_rec(
-        namespace: Text,
-        d: Dict[str, Any],
-        result: Dict[str, Any]
-):
+def _flatten_dict_rec(namespace: Text, d: Dict[str, Any], result: Dict[str,
+                                                                       Any]):
     for key in d:
         key_namespace = _namespace(namespace, key)
         if isinstance(d[key], int):
@@ -647,9 +603,8 @@ def unflatten(d: Dict[str, Any], namespace: Text = '') -> Dict[str, Any]:
             newkey = key.lstrip(namespace)[1:]
 
         if isinstance(d[key], dict):
-            raise ValueError(
-                'unflatten_dict expects a '
-                'single level dictionary. Received {0}'.format(d))
+            raise ValueError('unflatten_dict expects a '
+                             'single level dictionary. Received {0}'.format(d))
         split = newkey.split('.')
         it_result = result
         for level in split[:-1]:
@@ -690,11 +645,9 @@ def serialize(message: Union[Type[Message], Message]) -> Dict[str, Any]:
     return serializer.serialize(message)
 
 
-def deserialize(
-        d: Dict[Text, Any],
-        message: Optional[Union[Type[Message], Message]] = None,
-        url: Optional[Text] = None
-) -> Message:
+def deserialize(d: Dict[Text, Any],
+                message: Optional[Union[Type[Message], Message]] = None,
+                url: Optional[Text] = None) -> Message:
     """deserialize the contents of the dictionary into a message of
     the provided type
 

@@ -33,8 +33,7 @@ def deserialize(
 
     contents = stream.read(max_size + 1)
     if len(contents) > max_size:
-        raise BufferError(
-            'Message content length is greater than max_size')
+        raise BufferError('Message content length is greater than max_size')
 
     text_format.Parse(contents, message)
     return message
@@ -50,9 +49,9 @@ def deserialize_from_file(
 
 
 def serialize(
-        stream: IOBase,
-        message: Union[Type[Message], Message],
-        set_defaults: bool = False,
+    stream: IOBase,
+    message: Union[Type[Message], Message],
+    set_defaults: bool = False,
 ):
     if isinstance(message, Message):
         message: Message = message
@@ -64,10 +63,9 @@ def serialize(
 
 
 def serialize_to_file(
-        path: Text,
-        message: Union[Type[Message], Message],
-        set_defaults: bool = False,
+    path: Text,
+    message: Union[Type[Message], Message],
+    set_defaults: bool = False,
 ):
     with open(path, 'w') as f:
-        serialize(
-            f, message, set_defaults=set_defaults)
+        serialize(f, message, set_defaults=set_defaults)

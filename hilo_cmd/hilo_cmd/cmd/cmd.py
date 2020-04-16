@@ -33,8 +33,8 @@ class Cmd(object):
 
         if self._subcommands is not None:
             for command in self._subcommands:
-                subparser = subparsers.add_parser(
-                    command.name(), help=command.description())
+                subparser = subparsers.add_parser(command.name(),
+                                                  help=command.description())
                 command.add_arguments(subparser)
                 current = [fn for fn in fns]
                 current.append(command.exec)

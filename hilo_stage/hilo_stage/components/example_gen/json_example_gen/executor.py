@@ -12,18 +12,16 @@ from tfx_bsl.coders import csv_decoder
 from tfx.types import Artifact, artifact_utils
 
 from hilo_stage.components.example_gen.json_example_gen.json_decoder import (
-    JsonValue, JsonCellSerialized, ParseJsonLine,
-    ValueTypeInferrer, ValueInfo, deserialize_json_cell)
+    JsonValue, JsonCellSerialized, ParseJsonLine, ValueTypeInferrer, ValueInfo,
+    deserialize_json_cell)
 
 TypeHandler = Callable[[JsonValue], tf.train.Feature]
 
 
-@beam.typehints.with_input_types(List[JsonCellSerialized],
-                                 List[ValueInfo])
+@beam.typehints.with_input_types(List[JsonCellSerialized], List[ValueInfo])
 @beam.typehints.with_output_types(tf.train.Example)
 class _ParsedJsonToTfExample(beam.DoFn, ABC):
     """A beam.DoFn to convert a parsed CSV line to a tf.Example."""
-
     def __init__(self, *unused_args, **unused_kwargs):
         super().__init__(*unused_args, **unused_kwargs)
         self._prop_handlers: Optional[Dict[Text, TypeHandler]] = None
@@ -37,13 +35,13 @@ class _ParsedJsonToTfExample(beam.DoFn, ABC):
             if prop_info.type == csv_decoder.ColumnType.INT:
                 prop_handlers[prop_info.name] = (
                     lambda json_value: tf.train.Feature(
-                        int64_list=tf.train.Int64List(
-                            value=[int(json_value)])))
+                        int64_list=tf.train.Int64List(value=[int(json_value)]))
+                )
             elif prop_info.type == csv_decoder.ColumnType.FLOAT:
                 prop_handlers[prop_info.name] = (
                     lambda json_value: tf.train.Feature(
-                        float_list=tf.train.FloatList(
-                            value=[float(json_value)])))
+                        float_list=tf.train.FloatList(value=  # noqa: E251
+                                                      [float(json_value)])))
             elif prop_info.type == csv_decoder.ColumnType.STRING:
                 prop_handlers[prop_info.name] = (
                     lambda json_value: tf.train.Feature(
@@ -59,8 +57,7 @@ class _ParsedJsonToTfExample(beam.DoFn, ABC):
             **kwargs,
     ) -> Iterable[tf.train.Example]:
         prop_handlers: Dict[Text, TypeHandler] = (
-                self._prop_handlers or
-                self._initialize_prop_infos(prop_infos))
+            self._prop_handlers or self._initialize_prop_infos(prop_infos))
 
         # skip blank lines.
         if not json_cells_serialized:
@@ -77,11 +74,10 @@ class _ParsedJsonToTfExample(beam.DoFn, ABC):
 
             handler_fn = prop_handlers.get(prop_name, None)
             if not handler_fn:
-                raise ValueError(
-                    'Internal error: failed to infer type'
-                    ' of column {} while it'
-                    'had at least some values {}'.format(
-                        prop_name, prop_value))
+                raise ValueError('Internal error: failed to infer type'
+                                 ' of column {} while it'
+                                 'had at least some values {}'.format(
+                                     prop_name, prop_value))
             feature[prop_name] = handler_fn(prop_value)
         yield tf.train.Example(features=tf.train.Features(feature=feature))
 
@@ -90,10 +86,10 @@ class _ParsedJsonToTfExample(beam.DoFn, ABC):
 @beam.typehints.with_input_types(beam.Pipeline)
 @beam.typehints.with_output_types(tf.train.Example)
 def _JsonToExample(
-        pipeline: beam.Pipeline,
-        input_dict: Dict[Text, List[Artifact]],
-        exec_properties: Dict[Text, Any],  # pylint: disable=unused-argument
-        split_pattern: Text,
+    pipeline: beam.Pipeline,
+    input_dict: Dict[Text, List[Artifact]],
+    exec_properties: Dict[Text, Any],  # pylint: disable=unused-argument
+    split_pattern: Text,
 ) -> beam.pvalue.PCollection:
     input_base_uri = artifact_utils.get_single_uri(input_dict[INPUT_KEY])
     json_pattern = os.path.join(input_base_uri, split_pattern)
@@ -106,17 +102,17 @@ def _JsonToExample(
             'Split pattern {} does not match any files.'.format(json_pattern))
 
     parsed_json_lines = (
-            pipeline
-            | 'ReadFromText' >> beam.io.ReadFromText(file_pattern=json_pattern)
-            | 'ParseJSONLine' >> beam.ParDo(ParseJsonLine()))
+        pipeline
+        | 'ReadFromText' >> beam.io.ReadFromText(file_pattern=json_pattern)
+        | 'ParseJSONLine' >> beam.ParDo(ParseJsonLine()))
 
     value_infos = beam.pvalue.AsSingleton(
         parsed_json_lines
         | 'InferColumnTypes' >> beam.CombineGlobally(ValueTypeInferrer()))
 
     return (parsed_json_lines
-            | 'ToTFExample' >> beam.ParDo(
-                _ParsedJsonToTfExample(), value_infos))
+            |
+            'ToTFExample' >> beam.ParDo(_ParsedJsonToTfExample(), value_infos))
 
 
 class Executor(BaseExampleGenExecutor):

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hilo_rpc.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1ahilo_rpc/proto/stage.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb3\x02\n\x12PartitionGenConfig\x12\x39\n\x06params\x18\x01 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Params\x12\x39\n\x06inputs\x18\x02 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Inputs\x12;\n\x07outputs\x18\x03 \x01(\x0b\x32*.hilo_rpc.proto.PartitionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a,\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x10\n\x08\x64\x61tasets\x18\x02 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\npartitions\x18\x01 \x01(\t\"\xd0\x03\n\x0cPusherConfig\x12\x33\n\x06params\x18\x01 \x01(\x0b\x32#.hilo_rpc.proto.PusherConfig.Params\x12\x33\n\x06inputs\x18\x02 \x01(\x0b\x32#.hilo_rpc.proto.PusherConfig.Inputs\x12\x35\n\x07outputs\x18\x03 \x01(\x0b\x32$.hilo_rpc.proto.PusherConfig.Outputs\x1a\x95\x01\n\x0fPushDestination\x12M\n\nfilesystem\x18\x01 \x01(\x0b\x32\x37.hilo_rpc.proto.PusherConfig.PushDestination.FilesystemH\x00\x1a$\n\nFilesystem\x12\x16\n\x0e\x62\x61se_directory\x18\x01 \x01(\tB\r\n\x0b\x64\x65stination\x1aK\n\x06Params\x12\x41\n\x0b\x64\x65stination\x18\x01 \x01(\x0b\x32,.hilo_rpc.proto.PusherConfig.PushDestination\x1a/\n\x06Inputs\x12\r\n\x05model\x18\x01 \x01(\t\x12\x16\n\x0emodel_blessing\x18\x02 \x01(\t\x1a\t\n\x07Outputs\"\xb9\x02\n\x18SingleDimensionGenConfig\x12?\n\x06params\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Params\x12?\n\x06inputs\x18\x02 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Inputs\x12\x41\n\x07outputs\x18\x03 \x01(\x0b\x32\x30.hilo_rpc.proto.SingleDimensionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x64\x61tasets\x18\x01 \x01(\t\"\x9b\x02\n\x0fSchemaGenConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.SchemaGenConfig.Outputs\x1a%\n\x06Params\x12\x1b\n\x13infer_feature_shape\x18\x01 \x01(\x08\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x19\n\x07Outputs\x12\x0e\n\x06schema\x18\x01 \x01(\t\"\xa5\x02\n\x13StatisticsGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.StatisticsGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1a\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\"\xa4\x05\n\x14JsonExampleGenConfig\x12;\n\x06params\x18\x01 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Params\x12;\n\x06inputs\x18\x02 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Inputs\x12=\n\x07outputs\x18\x03 \x01(\x0b\x32,.hilo_rpc.proto.JsonExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aN\n\x0bInputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.JsonExampleGenConfig.InputSplit\x1aP\n\x0cOutputConfig\x12@\n\x06splits\x18\x01 \x03(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.OutputSplit\x1a\x9a\x01\n\x06Params\x12\x46\n\x0cinput_config\x18\x01 \x01(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.InputConfig\x12H\n\routput_config\x18\x02 \x01(\x0b\x32\x31.hilo_rpc.proto.JsonExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\xdd\x02\n\x0fTransformConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.TransformConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.TransformConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.TransformConfig.Outputs\x1a\x32\n\x06Params\x12\x13\n\x0bmodule_file\x18\x01 \x01(\t\x12\x13\n\x0bsplit_names\x18\x02 \x03(\t\x1a*\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x1a@\n\x07Outputs\x12\x1c\n\x14transformed_examples\x18\x01 \x01(\t\x12\x17\n\x0ftransform_graph\x18\x02 \x01(\t\"\x9c\x05\n\x13\x43svExampleGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.CsvExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aM\n\x0bInputConfig\x12>\n\x06splits\x18\x01 \x03(\x0b\x32..hilo_rpc.proto.CsvExampleGenConfig.InputSplit\x1aO\n\x0cOutputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.OutputSplit\x1a\x98\x01\n\x06Params\x12\x45\n\x0cinput_config\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.InputConfig\x12G\n\routput_config\x18\x02 \x01(\x0b\x32\x30.hilo_rpc.proto.CsvExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\xad\x02\n\x16\x45xampleValidatorConfig\x12=\n\x06params\x18\x01 \x01(\x0b\x32-.hilo_rpc.proto.ExampleValidatorConfig.Params\x12=\n\x06inputs\x18\x02 \x01(\x0b\x32-.hilo_rpc.proto.ExampleValidatorConfig.Inputs\x12?\n\x07outputs\x18\x03 \x01(\x0b\x32..hilo_rpc.proto.ExampleValidatorConfig.Outputs\x1a\x08\n\x06Params\x1a,\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x1a\x1c\n\x07Outputs\x12\x11\n\tanomalies\x18\x01 \x01(\t\"\xe9\x03\n\rTrainerConfig\x12\x34\n\x06params\x18\x01 \x01(\x0b\x32$.hilo_rpc.proto.TrainerConfig.Params\x12\x34\n\x06inputs\x18\x02 \x01(\x0b\x32$.hilo_rpc.proto.TrainerConfig.Inputs\x12\x36\n\x07outputs\x18\x03 \x01(\x0b\x32%.hilo_rpc.proto.TrainerConfig.Outputs\x1a\x1e\n\tTrainArgs\x12\x11\n\tnum_steps\x18\x01 \x01(\x05\x1a\x1d\n\x08\x45valArgs\x12\x11\n\tnum_steps\x18\x01 \x01(\x05\x1a\x95\x01\n\x06Params\x12\x13\n\x0bmodule_file\x18\x01 \x01(\t\x12;\n\ntrain_args\x18\x02 \x01(\x0b\x32\'.hilo_rpc.proto.TrainerConfig.TrainArgs\x12\x39\n\teval_args\x18\x03 \x01(\x0b\x32&.hilo_rpc.proto.TrainerConfig.EvalArgs\x1a\x43\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x12\x17\n\x0ftransform_graph\x18\x03 \x01(\t\x1a\x18\n\x07Outputs\x12\r\n\x05model\x18\x01 \x01(\t\"\xf4\x02\n\x0f\x45valuatorConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.EvaluatorConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.EvaluatorConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.EvaluatorConfig.Outputs\x1a\x0c\n\nEvalConfig\x1aI\n\x06Params\x12?\n\x0b\x65val_config\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.EvaluatorConfig.EvalConfig\x1a\x41\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x16\n\x0e\x62\x61seline_model\x18\x03 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x62lessing\x18\x01 \x01(\t\"\xf5\x01\n\x12ResolverNodeConfig\x12\x39\n\x06params\x18\x01 \x01(\x0b\x32).hilo_rpc.proto.ResolverNodeConfig.Params\x12\x39\n\x06inputs\x18\x02 \x01(\x0b\x32).hilo_rpc.proto.ResolverNodeConfig.Inputs\x12;\n\x07outputs\x18\x03 \x01(\x0b\x32*.hilo_rpc.proto.ResolverNodeConfig.Outputs\x1a\x08\n\x06Params\x1a\x08\n\x06Inputs\x1a\x18\n\x07Outputs\x12\r\n\x05model\x18\x01 \x01(\t\"\xe6\x05\n\x0bStageConfig\x12>\n\x0f\x63sv_example_gen\x18\x01 \x01(\x0b\x32#.hilo_rpc.proto.CsvExampleGenConfigH\x00\x12@\n\x10json_example_gen\x18\x02 \x01(\x0b\x32$.hilo_rpc.proto.JsonExampleGenConfigH\x00\x12=\n\x0estatistics_gen\x18\x03 \x01(\x0b\x32#.hilo_rpc.proto.StatisticsGenConfigH\x00\x12\x35\n\nschema_gen\x18\x04 \x01(\x0b\x32\x1f.hilo_rpc.proto.SchemaGenConfigH\x00\x12H\n\x14single_dimension_gen\x18\x05 \x01(\x0b\x32(.hilo_rpc.proto.SingleDimensionGenConfigH\x00\x12;\n\rpartition_gen\x18\x06 \x01(\x0b\x32\".hilo_rpc.proto.PartitionGenConfigH\x00\x12\x34\n\ttransform\x18\x07 \x01(\x0b\x32\x1f.hilo_rpc.proto.TransformConfigH\x00\x12\x43\n\x11\x65xample_validator\x18\x08 \x01(\x0b\x32&.hilo_rpc.proto.ExampleValidatorConfigH\x00\x12\x30\n\x07trainer\x18\t \x01(\x0b\x32\x1d.hilo_rpc.proto.TrainerConfigH\x00\x12;\n\rresolver_node\x18\n \x01(\x0b\x32\".hilo_rpc.proto.ResolverNodeConfigH\x00\x12\x34\n\tevaluator\x18\x0b \x01(\x0b\x32\x1f.hilo_rpc.proto.EvaluatorConfigH\x00\x12.\n\x06pusher\x18\x0c \x01(\x0b\x32\x1c.hilo_rpc.proto.PusherConfigH\x00\x42\x08\n\x06\x63onfig\"\xd2\x01\n\x05Stage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\r\n\x05owner\x18\x04 \x01(\t\x12.\n\ncreated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x06\x63onfig\x18\x07 \x01(\x0b\x32\x1b.hilo_rpc.proto.StageConfigb\x06proto3'
+  serialized_pb=b'\n\x1ahilo_rpc/proto/stage.proto\x12\x0ehilo_rpc.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb0\x02\n\x12PartitionGenConfig\x12\x39\n\x06params\x18\x01 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Params\x12\x39\n\x06inputs\x18\x02 \x01(\x0b\x32).hilo_rpc.proto.PartitionGenConfig.Inputs\x12;\n\x07outputs\x18\x03 \x01(\x0b\x32*.hilo_rpc.proto.PartitionGenConfig.Outputs\x1a\x08\n\x06Params\x1a>\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x12\n\nstatistics\x18\x02 \x01(\t\x12\x0e\n\x06schema\x18\x03 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\npartitions\x18\x01 \x01(\t\"\xd0\x03\n\x0cPusherConfig\x12\x33\n\x06params\x18\x01 \x01(\x0b\x32#.hilo_rpc.proto.PusherConfig.Params\x12\x33\n\x06inputs\x18\x02 \x01(\x0b\x32#.hilo_rpc.proto.PusherConfig.Inputs\x12\x35\n\x07outputs\x18\x03 \x01(\x0b\x32$.hilo_rpc.proto.PusherConfig.Outputs\x1a\x95\x01\n\x0fPushDestination\x12M\n\nfilesystem\x18\x01 \x01(\x0b\x32\x37.hilo_rpc.proto.PusherConfig.PushDestination.FilesystemH\x00\x1a$\n\nFilesystem\x12\x16\n\x0e\x62\x61se_directory\x18\x01 \x01(\tB\r\n\x0b\x64\x65stination\x1aK\n\x06Params\x12\x41\n\x0b\x64\x65stination\x18\x01 \x01(\x0b\x32,.hilo_rpc.proto.PusherConfig.PushDestination\x1a/\n\x06Inputs\x12\r\n\x05model\x18\x01 \x01(\t\x12\x16\n\x0emodel_blessing\x18\x02 \x01(\t\x1a\t\n\x07Outputs\"\xb9\x02\n\x18SingleDimensionGenConfig\x12?\n\x06params\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Params\x12?\n\x06inputs\x18\x02 \x01(\x0b\x32/.hilo_rpc.proto.SingleDimensionGenConfig.Inputs\x12\x41\n\x07outputs\x18\x03 \x01(\x0b\x32\x30.hilo_rpc.proto.SingleDimensionGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x64\x61tasets\x18\x01 \x01(\t\"\x9b\x02\n\x0fSchemaGenConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.SchemaGenConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.SchemaGenConfig.Outputs\x1a%\n\x06Params\x12\x1b\n\x13infer_feature_shape\x18\x01 \x01(\x08\x1a\x1c\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x1a\x19\n\x07Outputs\x12\x0e\n\x06schema\x18\x01 \x01(\t\"\xa5\x02\n\x13StatisticsGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.StatisticsGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.StatisticsGenConfig.Outputs\x1a\x1d\n\x06Params\x12\x13\n\x0bsplit_names\x18\x01 \x03(\t\x1a\x1a\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x1a\x1d\n\x07Outputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\"\xa4\x05\n\x14JsonExampleGenConfig\x12;\n\x06params\x18\x01 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Params\x12;\n\x06inputs\x18\x02 \x01(\x0b\x32+.hilo_rpc.proto.JsonExampleGenConfig.Inputs\x12=\n\x07outputs\x18\x03 \x01(\x0b\x32,.hilo_rpc.proto.JsonExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aN\n\x0bInputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.JsonExampleGenConfig.InputSplit\x1aP\n\x0cOutputConfig\x12@\n\x06splits\x18\x01 \x03(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.OutputSplit\x1a\x9a\x01\n\x06Params\x12\x46\n\x0cinput_config\x18\x01 \x01(\x0b\x32\x30.hilo_rpc.proto.JsonExampleGenConfig.InputConfig\x12H\n\routput_config\x18\x02 \x01(\x0b\x32\x31.hilo_rpc.proto.JsonExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\xdd\x02\n\x0fTransformConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.TransformConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.TransformConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.TransformConfig.Outputs\x1a\x32\n\x06Params\x12\x13\n\x0bmodule_file\x18\x01 \x01(\t\x12\x13\n\x0bsplit_names\x18\x02 \x03(\t\x1a*\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x1a@\n\x07Outputs\x12\x1c\n\x14transformed_examples\x18\x01 \x01(\t\x12\x17\n\x0ftransform_graph\x18\x02 \x01(\t\"\x9c\x05\n\x13\x43svExampleGenConfig\x12:\n\x06params\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Params\x12:\n\x06inputs\x18\x02 \x01(\x0b\x32*.hilo_rpc.proto.CsvExampleGenConfig.Inputs\x12<\n\x07outputs\x18\x03 \x01(\x0b\x32+.hilo_rpc.proto.CsvExampleGenConfig.Outputs\x1a+\n\nInputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07pattern\x18\x02 \x01(\t\x1a\x31\n\x0bOutputSplit\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0chash_buckets\x18\x02 \x01(\r\x1aM\n\x0bInputConfig\x12>\n\x06splits\x18\x01 \x03(\x0b\x32..hilo_rpc.proto.CsvExampleGenConfig.InputSplit\x1aO\n\x0cOutputConfig\x12?\n\x06splits\x18\x01 \x03(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.OutputSplit\x1a\x98\x01\n\x06Params\x12\x45\n\x0cinput_config\x18\x01 \x01(\x0b\x32/.hilo_rpc.proto.CsvExampleGenConfig.InputConfig\x12G\n\routput_config\x18\x02 \x01(\x0b\x32\x30.hilo_rpc.proto.CsvExampleGenConfig.OutputConfig\x1a\x17\n\x06Inputs\x12\r\n\x05input\x18\x01 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\"\xad\x02\n\x16\x45xampleValidatorConfig\x12=\n\x06params\x18\x01 \x01(\x0b\x32-.hilo_rpc.proto.ExampleValidatorConfig.Params\x12=\n\x06inputs\x18\x02 \x01(\x0b\x32-.hilo_rpc.proto.ExampleValidatorConfig.Inputs\x12?\n\x07outputs\x18\x03 \x01(\x0b\x32..hilo_rpc.proto.ExampleValidatorConfig.Outputs\x1a\x08\n\x06Params\x1a,\n\x06Inputs\x12\x12\n\nstatistics\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x1a\x1c\n\x07Outputs\x12\x11\n\tanomalies\x18\x01 \x01(\t\"\xe9\x03\n\rTrainerConfig\x12\x34\n\x06params\x18\x01 \x01(\x0b\x32$.hilo_rpc.proto.TrainerConfig.Params\x12\x34\n\x06inputs\x18\x02 \x01(\x0b\x32$.hilo_rpc.proto.TrainerConfig.Inputs\x12\x36\n\x07outputs\x18\x03 \x01(\x0b\x32%.hilo_rpc.proto.TrainerConfig.Outputs\x1a\x1e\n\tTrainArgs\x12\x11\n\tnum_steps\x18\x01 \x01(\x05\x1a\x1d\n\x08\x45valArgs\x12\x11\n\tnum_steps\x18\x01 \x01(\x05\x1a\x95\x01\n\x06Params\x12\x13\n\x0bmodule_file\x18\x01 \x01(\t\x12;\n\ntrain_args\x18\x02 \x01(\x0b\x32\'.hilo_rpc.proto.TrainerConfig.TrainArgs\x12\x39\n\teval_args\x18\x03 \x01(\x0b\x32&.hilo_rpc.proto.TrainerConfig.EvalArgs\x1a\x43\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\x0e\n\x06schema\x18\x02 \x01(\t\x12\x17\n\x0ftransform_graph\x18\x03 \x01(\t\x1a\x18\n\x07Outputs\x12\r\n\x05model\x18\x01 \x01(\t\"\xf4\x02\n\x0f\x45valuatorConfig\x12\x36\n\x06params\x18\x01 \x01(\x0b\x32&.hilo_rpc.proto.EvaluatorConfig.Params\x12\x36\n\x06inputs\x18\x02 \x01(\x0b\x32&.hilo_rpc.proto.EvaluatorConfig.Inputs\x12\x38\n\x07outputs\x18\x03 \x01(\x0b\x32\'.hilo_rpc.proto.EvaluatorConfig.Outputs\x1a\x0c\n\nEvalConfig\x1aI\n\x06Params\x12?\n\x0b\x65val_config\x18\x01 \x01(\x0b\x32*.hilo_rpc.proto.EvaluatorConfig.EvalConfig\x1a\x41\n\x06Inputs\x12\x10\n\x08\x65xamples\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x16\n\x0e\x62\x61seline_model\x18\x03 \x01(\t\x1a\x1b\n\x07Outputs\x12\x10\n\x08\x62lessing\x18\x01 \x01(\t\"\xf5\x01\n\x12ResolverNodeConfig\x12\x39\n\x06params\x18\x01 \x01(\x0b\x32).hilo_rpc.proto.ResolverNodeConfig.Params\x12\x39\n\x06inputs\x18\x02 \x01(\x0b\x32).hilo_rpc.proto.ResolverNodeConfig.Inputs\x12;\n\x07outputs\x18\x03 \x01(\x0b\x32*.hilo_rpc.proto.ResolverNodeConfig.Outputs\x1a\x08\n\x06Params\x1a\x08\n\x06Inputs\x1a\x18\n\x07Outputs\x12\r\n\x05model\x18\x01 \x01(\t\"\xe6\x05\n\x0bStageConfig\x12>\n\x0f\x63sv_example_gen\x18\x01 \x01(\x0b\x32#.hilo_rpc.proto.CsvExampleGenConfigH\x00\x12@\n\x10json_example_gen\x18\x02 \x01(\x0b\x32$.hilo_rpc.proto.JsonExampleGenConfigH\x00\x12=\n\x0estatistics_gen\x18\x03 \x01(\x0b\x32#.hilo_rpc.proto.StatisticsGenConfigH\x00\x12\x35\n\nschema_gen\x18\x04 \x01(\x0b\x32\x1f.hilo_rpc.proto.SchemaGenConfigH\x00\x12H\n\x14single_dimension_gen\x18\x05 \x01(\x0b\x32(.hilo_rpc.proto.SingleDimensionGenConfigH\x00\x12;\n\rpartition_gen\x18\x06 \x01(\x0b\x32\".hilo_rpc.proto.PartitionGenConfigH\x00\x12\x34\n\ttransform\x18\x07 \x01(\x0b\x32\x1f.hilo_rpc.proto.TransformConfigH\x00\x12\x43\n\x11\x65xample_validator\x18\x08 \x01(\x0b\x32&.hilo_rpc.proto.ExampleValidatorConfigH\x00\x12\x30\n\x07trainer\x18\t \x01(\x0b\x32\x1d.hilo_rpc.proto.TrainerConfigH\x00\x12;\n\rresolver_node\x18\n \x01(\x0b\x32\".hilo_rpc.proto.ResolverNodeConfigH\x00\x12\x34\n\tevaluator\x18\x0b \x01(\x0b\x32\x1f.hilo_rpc.proto.EvaluatorConfigH\x00\x12.\n\x06pusher\x18\x0c \x01(\x0b\x32\x1c.hilo_rpc.proto.PusherConfigH\x00\x42\x08\n\x06\x63onfig\"\xd2\x01\n\x05Stage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\r\n\x05owner\x18\x04 \x01(\t\x12.\n\ncreated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x06\x63onfig\x18\x07 \x01(\x0b\x32\x1b.hilo_rpc.proto.StageConfigb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -33,13 +33,6 @@ _PARTITIONGENCONFIG_PARAMS = _descriptor.Descriptor(
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
-    _descriptor.FieldDescriptor(
-      name='split_names', full_name='hilo_rpc.proto.PartitionGenConfig.Params.split_names', index=0,
-      number=1, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -53,7 +46,7 @@ _PARTITIONGENCONFIG_PARAMS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=281,
-  serialized_end=310,
+  serialized_end=289,
 )
 
 _PARTITIONGENCONFIG_INPUTS = _descriptor.Descriptor(
@@ -71,8 +64,15 @@ _PARTITIONGENCONFIG_INPUTS = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='datasets', full_name='hilo_rpc.proto.PartitionGenConfig.Inputs.datasets', index=1,
+      name='statistics', full_name='hilo_rpc.proto.PartitionGenConfig.Inputs.statistics', index=1,
       number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='schema', full_name='hilo_rpc.proto.PartitionGenConfig.Inputs.schema', index=2,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -89,8 +89,8 @@ _PARTITIONGENCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=312,
-  serialized_end=356,
+  serialized_start=291,
+  serialized_end=353,
 )
 
 _PARTITIONGENCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -119,8 +119,8 @@ _PARTITIONGENCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=358,
-  serialized_end=387,
+  serialized_start=355,
+  serialized_end=384,
 )
 
 _PARTITIONGENCONFIG = _descriptor.Descriptor(
@@ -164,7 +164,7 @@ _PARTITIONGENCONFIG = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=80,
-  serialized_end=387,
+  serialized_end=384,
 )
 
 
@@ -194,8 +194,8 @@ _PUSHERCONFIG_PUSHDESTINATION_FILESYSTEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=666,
-  serialized_end=702,
+  serialized_start=663,
+  serialized_end=699,
 )
 
 _PUSHERCONFIG_PUSHDESTINATION = _descriptor.Descriptor(
@@ -227,8 +227,8 @@ _PUSHERCONFIG_PUSHDESTINATION = _descriptor.Descriptor(
       name='destination', full_name='hilo_rpc.proto.PusherConfig.PushDestination.destination',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=568,
-  serialized_end=717,
+  serialized_start=565,
+  serialized_end=714,
 )
 
 _PUSHERCONFIG_PARAMS = _descriptor.Descriptor(
@@ -257,8 +257,8 @@ _PUSHERCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=719,
-  serialized_end=794,
+  serialized_start=716,
+  serialized_end=791,
 )
 
 _PUSHERCONFIG_INPUTS = _descriptor.Descriptor(
@@ -294,8 +294,8 @@ _PUSHERCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=796,
-  serialized_end=843,
+  serialized_start=793,
+  serialized_end=840,
 )
 
 _PUSHERCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -317,8 +317,8 @@ _PUSHERCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=358,
-  serialized_end=367,
+  serialized_start=355,
+  serialized_end=364,
 )
 
 _PUSHERCONFIG = _descriptor.Descriptor(
@@ -361,8 +361,8 @@ _PUSHERCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=390,
-  serialized_end=854,
+  serialized_start=387,
+  serialized_end=851,
 )
 
 
@@ -392,8 +392,8 @@ _SINGLEDIMENSIONGENCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=281,
-  serialized_end=310,
+  serialized_start=1079,
+  serialized_end=1108,
 )
 
 _SINGLEDIMENSIONGENCONFIG_INPUTS = _descriptor.Descriptor(
@@ -422,8 +422,8 @@ _SINGLEDIMENSIONGENCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1113,
-  serialized_end=1141,
+  serialized_start=1110,
+  serialized_end=1138,
 )
 
 _SINGLEDIMENSIONGENCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -452,8 +452,8 @@ _SINGLEDIMENSIONGENCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1143,
-  serialized_end=1170,
+  serialized_start=1140,
+  serialized_end=1167,
 )
 
 _SINGLEDIMENSIONGENCONFIG = _descriptor.Descriptor(
@@ -496,8 +496,8 @@ _SINGLEDIMENSIONGENCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=857,
-  serialized_end=1170,
+  serialized_start=854,
+  serialized_end=1167,
 )
 
 
@@ -527,8 +527,8 @@ _SCHEMAGENCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1362,
-  serialized_end=1399,
+  serialized_start=1359,
+  serialized_end=1396,
 )
 
 _SCHEMAGENCONFIG_INPUTS = _descriptor.Descriptor(
@@ -557,8 +557,8 @@ _SCHEMAGENCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1113,
-  serialized_end=1141,
+  serialized_start=1110,
+  serialized_end=1138,
 )
 
 _SCHEMAGENCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -587,8 +587,8 @@ _SCHEMAGENCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1431,
-  serialized_end=1456,
+  serialized_start=1428,
+  serialized_end=1453,
 )
 
 _SCHEMAGENCONFIG = _descriptor.Descriptor(
@@ -631,8 +631,8 @@ _SCHEMAGENCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1173,
-  serialized_end=1456,
+  serialized_start=1170,
+  serialized_end=1453,
 )
 
 
@@ -662,8 +662,8 @@ _STATISTICSGENCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=281,
-  serialized_end=310,
+  serialized_start=1079,
+  serialized_end=1108,
 )
 
 _STATISTICSGENCONFIG_INPUTS = _descriptor.Descriptor(
@@ -692,8 +692,8 @@ _STATISTICSGENCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=312,
-  serialized_end=338,
+  serialized_start=291,
+  serialized_end=317,
 )
 
 _STATISTICSGENCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -722,8 +722,8 @@ _STATISTICSGENCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1723,
-  serialized_end=1752,
+  serialized_start=1720,
+  serialized_end=1749,
 )
 
 _STATISTICSGENCONFIG = _descriptor.Descriptor(
@@ -766,8 +766,8 @@ _STATISTICSGENCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1459,
-  serialized_end=1752,
+  serialized_start=1456,
+  serialized_end=1749,
 )
 
 
@@ -804,8 +804,8 @@ _JSONEXAMPLEGENCONFIG_INPUTSPLIT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1964,
-  serialized_end=2007,
+  serialized_start=1961,
+  serialized_end=2004,
 )
 
 _JSONEXAMPLEGENCONFIG_OUTPUTSPLIT = _descriptor.Descriptor(
@@ -841,8 +841,8 @@ _JSONEXAMPLEGENCONFIG_OUTPUTSPLIT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2009,
-  serialized_end=2058,
+  serialized_start=2006,
+  serialized_end=2055,
 )
 
 _JSONEXAMPLEGENCONFIG_INPUTCONFIG = _descriptor.Descriptor(
@@ -871,8 +871,8 @@ _JSONEXAMPLEGENCONFIG_INPUTCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2060,
-  serialized_end=2138,
+  serialized_start=2057,
+  serialized_end=2135,
 )
 
 _JSONEXAMPLEGENCONFIG_OUTPUTCONFIG = _descriptor.Descriptor(
@@ -901,8 +901,8 @@ _JSONEXAMPLEGENCONFIG_OUTPUTCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2140,
-  serialized_end=2220,
+  serialized_start=2137,
+  serialized_end=2217,
 )
 
 _JSONEXAMPLEGENCONFIG_PARAMS = _descriptor.Descriptor(
@@ -938,8 +938,8 @@ _JSONEXAMPLEGENCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2223,
-  serialized_end=2377,
+  serialized_start=2220,
+  serialized_end=2374,
 )
 
 _JSONEXAMPLEGENCONFIG_INPUTS = _descriptor.Descriptor(
@@ -968,8 +968,8 @@ _JSONEXAMPLEGENCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2379,
-  serialized_end=2402,
+  serialized_start=2376,
+  serialized_end=2399,
 )
 
 _JSONEXAMPLEGENCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -998,8 +998,8 @@ _JSONEXAMPLEGENCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2404,
-  serialized_end=2431,
+  serialized_start=2401,
+  serialized_end=2428,
 )
 
 _JSONEXAMPLEGENCONFIG = _descriptor.Descriptor(
@@ -1042,8 +1042,8 @@ _JSONEXAMPLEGENCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1755,
-  serialized_end=2431,
+  serialized_start=1752,
+  serialized_end=2428,
 )
 
 
@@ -1080,8 +1080,8 @@ _TRANSFORMCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2623,
-  serialized_end=2673,
+  serialized_start=2620,
+  serialized_end=2670,
 )
 
 _TRANSFORMCONFIG_INPUTS = _descriptor.Descriptor(
@@ -1117,8 +1117,8 @@ _TRANSFORMCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2675,
-  serialized_end=2717,
+  serialized_start=2672,
+  serialized_end=2714,
 )
 
 _TRANSFORMCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -1154,8 +1154,8 @@ _TRANSFORMCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2719,
-  serialized_end=2783,
+  serialized_start=2716,
+  serialized_end=2780,
 )
 
 _TRANSFORMCONFIG = _descriptor.Descriptor(
@@ -1198,8 +1198,8 @@ _TRANSFORMCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2434,
-  serialized_end=2783,
+  serialized_start=2431,
+  serialized_end=2780,
 )
 
 
@@ -1236,8 +1236,8 @@ _CSVEXAMPLEGENCONFIG_INPUTSPLIT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1964,
-  serialized_end=2007,
+  serialized_start=1961,
+  serialized_end=2004,
 )
 
 _CSVEXAMPLEGENCONFIG_OUTPUTSPLIT = _descriptor.Descriptor(
@@ -1273,8 +1273,8 @@ _CSVEXAMPLEGENCONFIG_OUTPUTSPLIT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2009,
-  serialized_end=2058,
+  serialized_start=2006,
+  serialized_end=2055,
 )
 
 _CSVEXAMPLEGENCONFIG_INPUTCONFIG = _descriptor.Descriptor(
@@ -1303,8 +1303,8 @@ _CSVEXAMPLEGENCONFIG_INPUTCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3087,
-  serialized_end=3164,
+  serialized_start=3084,
+  serialized_end=3161,
 )
 
 _CSVEXAMPLEGENCONFIG_OUTPUTCONFIG = _descriptor.Descriptor(
@@ -1333,8 +1333,8 @@ _CSVEXAMPLEGENCONFIG_OUTPUTCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3166,
-  serialized_end=3245,
+  serialized_start=3163,
+  serialized_end=3242,
 )
 
 _CSVEXAMPLEGENCONFIG_PARAMS = _descriptor.Descriptor(
@@ -1370,8 +1370,8 @@ _CSVEXAMPLEGENCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3248,
-  serialized_end=3400,
+  serialized_start=3245,
+  serialized_end=3397,
 )
 
 _CSVEXAMPLEGENCONFIG_INPUTS = _descriptor.Descriptor(
@@ -1400,8 +1400,8 @@ _CSVEXAMPLEGENCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2379,
-  serialized_end=2402,
+  serialized_start=2376,
+  serialized_end=2399,
 )
 
 _CSVEXAMPLEGENCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -1430,8 +1430,8 @@ _CSVEXAMPLEGENCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2404,
-  serialized_end=2431,
+  serialized_start=2401,
+  serialized_end=2428,
 )
 
 _CSVEXAMPLEGENCONFIG = _descriptor.Descriptor(
@@ -1474,8 +1474,8 @@ _CSVEXAMPLEGENCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2786,
-  serialized_end=3454,
+  serialized_start=2783,
+  serialized_end=3451,
 )
 
 
@@ -1535,8 +1535,8 @@ _EXAMPLEVALIDATORCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3684,
-  serialized_end=3728,
+  serialized_start=3681,
+  serialized_end=3725,
 )
 
 _EXAMPLEVALIDATORCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -1565,8 +1565,8 @@ _EXAMPLEVALIDATORCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3730,
-  serialized_end=3758,
+  serialized_start=3727,
+  serialized_end=3755,
 )
 
 _EXAMPLEVALIDATORCONFIG = _descriptor.Descriptor(
@@ -1609,8 +1609,8 @@ _EXAMPLEVALIDATORCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3457,
-  serialized_end=3758,
+  serialized_start=3454,
+  serialized_end=3755,
 )
 
 
@@ -1640,8 +1640,8 @@ _TRAINERCONFIG_TRAINARGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3942,
-  serialized_end=3972,
+  serialized_start=3939,
+  serialized_end=3969,
 )
 
 _TRAINERCONFIG_EVALARGS = _descriptor.Descriptor(
@@ -1670,8 +1670,8 @@ _TRAINERCONFIG_EVALARGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3974,
-  serialized_end=4003,
+  serialized_start=3971,
+  serialized_end=4000,
 )
 
 _TRAINERCONFIG_PARAMS = _descriptor.Descriptor(
@@ -1714,8 +1714,8 @@ _TRAINERCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4006,
-  serialized_end=4155,
+  serialized_start=4003,
+  serialized_end=4152,
 )
 
 _TRAINERCONFIG_INPUTS = _descriptor.Descriptor(
@@ -1758,8 +1758,8 @@ _TRAINERCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4157,
-  serialized_end=4224,
+  serialized_start=4154,
+  serialized_end=4221,
 )
 
 _TRAINERCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -1788,8 +1788,8 @@ _TRAINERCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4226,
-  serialized_end=4250,
+  serialized_start=4223,
+  serialized_end=4247,
 )
 
 _TRAINERCONFIG = _descriptor.Descriptor(
@@ -1832,8 +1832,8 @@ _TRAINERCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3761,
-  serialized_end=4250,
+  serialized_start=3758,
+  serialized_end=4247,
 )
 
 
@@ -1856,8 +1856,8 @@ _EVALUATORCONFIG_EVALCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4442,
-  serialized_end=4454,
+  serialized_start=4439,
+  serialized_end=4451,
 )
 
 _EVALUATORCONFIG_PARAMS = _descriptor.Descriptor(
@@ -1886,8 +1886,8 @@ _EVALUATORCONFIG_PARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4456,
-  serialized_end=4529,
+  serialized_start=4453,
+  serialized_end=4526,
 )
 
 _EVALUATORCONFIG_INPUTS = _descriptor.Descriptor(
@@ -1930,8 +1930,8 @@ _EVALUATORCONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4531,
-  serialized_end=4596,
+  serialized_start=4528,
+  serialized_end=4593,
 )
 
 _EVALUATORCONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -1960,8 +1960,8 @@ _EVALUATORCONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4598,
-  serialized_end=4625,
+  serialized_start=4595,
+  serialized_end=4622,
 )
 
 _EVALUATORCONFIG = _descriptor.Descriptor(
@@ -2004,8 +2004,8 @@ _EVALUATORCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4253,
-  serialized_end=4625,
+  serialized_start=4250,
+  serialized_end=4622,
 )
 
 
@@ -2051,8 +2051,8 @@ _RESOLVERNODECONFIG_INPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=312,
-  serialized_end=320,
+  serialized_start=291,
+  serialized_end=299,
 )
 
 _RESOLVERNODECONFIG_OUTPUTS = _descriptor.Descriptor(
@@ -2081,8 +2081,8 @@ _RESOLVERNODECONFIG_OUTPUTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4226,
-  serialized_end=4250,
+  serialized_start=4223,
+  serialized_end=4247,
 )
 
 _RESOLVERNODECONFIG = _descriptor.Descriptor(
@@ -2125,8 +2125,8 @@ _RESOLVERNODECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4628,
-  serialized_end=4873,
+  serialized_start=4625,
+  serialized_end=4870,
 )
 
 
@@ -2236,8 +2236,8 @@ _STAGECONFIG = _descriptor.Descriptor(
       name='config', full_name='hilo_rpc.proto.StageConfig.config',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=4876,
-  serialized_end=5618,
+  serialized_start=4873,
+  serialized_end=5615,
 )
 
 
@@ -2309,8 +2309,8 @@ _STAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5621,
-  serialized_end=5831,
+  serialized_start=5618,
+  serialized_end=5828,
 )
 
 _PARTITIONGENCONFIG_PARAMS.containing_type = _PARTITIONGENCONFIG

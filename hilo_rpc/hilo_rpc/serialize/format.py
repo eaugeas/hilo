@@ -8,9 +8,9 @@ from hilo_rpc.serialize import json, text, yaml
 
 class Serializer(object):
     def __init__(
-            self,
-            fn: Any,
-            args: List[Text],
+        self,
+        fn: Any,
+        args: List[Text],
     ):
         self._serialize = fn
         self._args = args
@@ -25,11 +25,8 @@ class Serializer(object):
         self._serialize(stream, message, **props)
 
 
-def serialize(
-    stream: io.IOBase,
-    message: Union[Message, Type[Message]],
-    **kwargs
-):
+def serialize(stream: io.IOBase, message: Union[Message, Type[Message]],
+              **kwargs):
     formatters: Dict[str, Serializer] = {
         'json': Serializer(json.serialize, ['pretty', 'with_types']),
         'text': Serializer(text.serialize, ['set_defaults']),
@@ -41,10 +38,7 @@ def serialize(
 
     if kwargs['formatter'] in formatters:
         formatter = kwargs['formatter']
-        formatters[formatter].serialize(
-            stream,
-            message,
-            **kwargs)
+        formatters[formatter].serialize(stream, message, **kwargs)
     else:
         raise KeyError(
             'Unknown formatter {0}. Valid formatters are: {1}'.format(

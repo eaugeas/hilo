@@ -7,23 +7,20 @@ from hilo_rpc.serialize.argparse import (
 )
 from hilo_tool_src.apply import ApplyCmd
 from hilo_tool_src.example import ExampleCmd
-from hilo_tool_src.logging.config import (
-    LoggingConfig, basic_config as config_logging)
+from hilo_tool_src.logging.config import (LoggingConfig, basic_config as
+                                          config_logging)
 
 
 class HiloToolCmd(Cmd):
     def __init__(self):
-        super().__init__(
-            'hilo_tool',
-            subcommands=[ApplyCmd(), ExampleCmd()])
+        super().__init__('hilo_tool', subcommands=[ApplyCmd(), ExampleCmd()])
 
     def add_arguments(self, parser: argparse.ArgumentParser):
         add_to_parser(parser, LoggingConfig)
         super().add_arguments(parser)
 
     def exec(self, args: argparse.Namespace):
-        logging_config = deserialize_from_namespace(
-            args, LoggingConfig)
+        logging_config = deserialize_from_namespace(args, LoggingConfig)
         config_logging(logging_config)
 
         if not Cmd.has_next(args):

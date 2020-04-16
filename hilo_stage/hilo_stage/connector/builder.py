@@ -2,8 +2,7 @@ from typing import Any, Dict, Optional, Text, Type
 
 from tfx.types import Channel
 
-from hilo_stage.connector.config import (
-    ConnectorConfig, LocalFileConfig)
+from hilo_stage.connector.config import (ConnectorConfig, LocalFileConfig)
 
 
 class ConnectorBuilder(object):
@@ -16,7 +15,6 @@ class ConnectorBuilder(object):
 
 class LocalFileBuilder(ConnectorBuilder):
     """LocalFileBuilder creates an instance of a LocalFile connector"""
-
     def __init__(self, config: LocalFileConfig):
         super().__init__(config)
         self._config = config

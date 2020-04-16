@@ -4,8 +4,7 @@ from tfx.types import artifact
 
 
 def splits_or_example_defaults(
-        split_names: Optional[Iterable[Text]]
-) -> List[Text]:
+        split_names: Optional[Iterable[Text]]) -> List[Text]:
     """splits_or_example_defaults returns split_names if the value
     is set, or the default value for example splits"""
 

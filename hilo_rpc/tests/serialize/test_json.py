@@ -7,17 +7,12 @@ from hilo_rpc.proto.tests_pb2 import TestMessage
 
 
 class SerializeTest(unittest.TestCase):
-
     def test_serialize_ok_input_config(self):
         stream = io.StringIO()
-        message = TestMessage(
-            enum=TestMessage.Enum(bool_enum=True),
-            params=TestMessage.Params(
-                bool_param=True,
-                int32_param=1,
-                string_param='hello'
-            )
-        )
+        message = TestMessage(enum=TestMessage.Enum(bool_enum=True),
+                              params=TestMessage.Params(bool_param=True,
+                                                        int32_param=1,
+                                                        string_param='hello'))
 
         serialize(stream, message)
 
@@ -31,19 +26,16 @@ class SerializeTest(unittest.TestCase):
 
     def test_serialize_ok_pretty_print(self):
         stream = io.StringIO()
-        message = TestMessage(
-            enum=TestMessage.Enum(bool_enum=True),
-            params=TestMessage.Params(
-                bool_param=True,
-                int32_param=1,
-                string_param='hello'
-            )
-        )
+        message = TestMessage(enum=TestMessage.Enum(bool_enum=True),
+                              params=TestMessage.Params(bool_param=True,
+                                                        int32_param=1,
+                                                        string_param='hello'))
 
         serialize(stream, message, pretty=True)
 
         stream.seek(0)
-        self.assertEqual("""{
+        self.assertEqual(
+            """{
  "enum": {
   "bool_enum": true
  },
@@ -67,14 +59,12 @@ class SerializeTest(unittest.TestCase):
 
         message = deserialize(stream, TestMessage)
 
-        self.assertEqual(TestMessage(
-                enum=TestMessage.Enum(bool_enum=True),
-                params=TestMessage.Params(
-                    bool_param=True,
-                    int32_param=1,
-                    string_param='hello'
-                )
-            ), message)
+        self.assertEqual(
+            TestMessage(enum=TestMessage.Enum(bool_enum=True),
+                        params=TestMessage.Params(bool_param=True,
+                                                  int32_param=1,
+                                                  string_param='hello')),
+            message)
 
 
 if __name__ == '__main__':

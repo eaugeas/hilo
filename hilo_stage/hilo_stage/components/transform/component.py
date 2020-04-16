@@ -23,16 +23,15 @@ class Transform(base_component.BaseComponent):
     SPEC_CLASS = TransformSpec
     EXECUTOR_SPEC = executor_spec.ExecutorClassSpec(Executor)
 
-    def __init__(
-            self,
-            examples: Channel = None,
-            schema: Channel = None,
-            module_file: Optional[ProcessingFn] = None,
-            preprocessing_fn: Optional[ProcessingFn] = None,
-            transform_graph: Optional[Channel] = None,
-            split_names: Optional[List[Text]] = None,
-            input_data: Optional[Channel] = None,
-            instance_name: Optional[Text] = None):
+    def __init__(self,
+                 examples: Channel = None,
+                 schema: Channel = None,
+                 module_file: Optional[ProcessingFn] = None,
+                 preprocessing_fn: Optional[ProcessingFn] = None,
+                 transform_graph: Optional[Channel] = None,
+                 split_names: Optional[List[Text]] = None,
+                 input_data: Optional[Channel] = None,
+                 instance_name: Optional[Text] = None):
         if bool(module_file) == bool(preprocessing_fn):
             raise ValueError(
                 'Exactly one of `module_file` or `preprocessing_fn`'
@@ -47,15 +46,13 @@ class Transform(base_component.BaseComponent):
             type=standard_artifacts.TransformGraph,
             artifacts=[standard_artifacts.TransformGraph()])
 
-        transformed_examples = Channel(
-            type=standard_artifacts.Examples,
-            artifacts=[transform_artifact])
+        transformed_examples = Channel(type=standard_artifacts.Examples,
+                                       artifacts=[transform_artifact])
 
-        spec = TransformSpec(
-            examples=examples,
-            schema=schema,
-            module_file=module_file,
-            preprocessing_fn=preprocessing_fn,
-            transform_graph=transform_graph,
-            transformed_examples=transformed_examples)
+        spec = TransformSpec(examples=examples,
+                             schema=schema,
+                             module_file=module_file,
+                             preprocessing_fn=preprocessing_fn,
+                             transform_graph=transform_graph,
+                             transformed_examples=transformed_examples)
         super(Transform, self).__init__(spec=spec, instance_name=instance_name)

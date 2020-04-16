@@ -14,7 +14,6 @@ class Executor(executor.Executor):
     allow the client to specify the input and output splits. Once this
     is allowed, this Executor will not be needed
     """
-
     def Do(self, input_dict: Dict[Text, List[Artifact]],
            output_dict: Dict[Text, List[Artifact]],
            exec_properties: Dict[Text, Any]) -> None:
@@ -28,8 +27,8 @@ class Executor(executor.Executor):
         data_uris = []
         for split in split_uris:
             data_uris.append(
-                artifact_utils.get_split_uri(
-                    input_dict[executor.EXAMPLES_KEY], split))
+                artifact_utils.get_split_uri(input_dict[executor.EXAMPLES_KEY],
+                                             split))
 
         schema_file = io_utils.get_only_uri_in_dir(
             artifact_utils.get_single_uri(input_dict[executor.SCHEMA_KEY]))
@@ -40,8 +39,8 @@ class Executor(executor.Executor):
             transformed_data_uris.append(
                 artifact_utils.get_split_uri(
                     output_dict[executor.TRANSFORMED_EXAMPLES_KEY], split))
-        temp_path = os.path.join(
-            transform_output, executor._TEMP_DIR_IN_TRANSFORM_OUTPUT)
+        temp_path = os.path.join(transform_output,
+                                 executor._TEMP_DIR_IN_TRANSFORM_OUTPUT)
         logging.debug('Using temp path %s for tft.beam', temp_path)
 
         def _GetCachePath(label, params_dict):
@@ -52,48 +51,50 @@ class Executor(executor.Executor):
 
         label_inputs = {
             labels.COMPUTE_STATISTICS_LABEL:
-                False,
+            False,
             labels.SCHEMA_PATH_LABEL:
-                schema_file,
+            schema_file,
             labels.EXAMPLES_DATA_FORMAT_LABEL:
-                labels.FORMAT_TF_EXAMPLE,
+            labels.FORMAT_TF_EXAMPLE,
             labels.ANALYZE_DATA_PATHS_LABEL:
-                io_utils.all_files_pattern(data_uris[0]),
+            io_utils.all_files_pattern(data_uris[0]),
             labels.ANALYZE_PATHS_FILE_FORMATS_LABEL:
-                labels.FORMAT_TFRECORD,
-            labels.TRANSFORM_DATA_PATHS_LABEL: [
-                io_utils.all_files_pattern(uri)
-                for uri in data_uris],
-            labels.TRANSFORM_PATHS_FILE_FORMATS_LABEL: [
-                labels.FORMAT_TFRECORD for uri in data_uris],
+            labels.FORMAT_TFRECORD,
+            labels.TRANSFORM_DATA_PATHS_LABEL:
+            [io_utils.all_files_pattern(uri) for uri in data_uris],
+            labels.TRANSFORM_PATHS_FILE_FORMATS_LABEL:
+            [labels.FORMAT_TFRECORD for uri in data_uris],
             labels.TFT_STATISTICS_USE_TFDV_LABEL:
-                True,
+            True,
             labels.MODULE_FILE:
-                exec_properties.get('module_file', None),
+            exec_properties.get('module_file', None),
             labels.PREPROCESSING_FN:
-                exec_properties.get('preprocessing_fn', None),
+            exec_properties.get('preprocessing_fn', None),
             # TODO(b/149754658): switch to True once the TFXIO integration is
             # complete.
-            labels.USE_TFXIO_LABEL: False,
+            labels.USE_TFXIO_LABEL:
+            False,
         }
         cache_input = _GetCachePath('cache_input_path', input_dict)
         if cache_input is not None:
             label_inputs[labels.CACHE_INPUT_PATH_LABEL] = cache_input
 
         label_outputs = {
-            labels.TRANSFORM_METADATA_OUTPUT_PATH_LABEL: transform_output,
+            labels.TRANSFORM_METADATA_OUTPUT_PATH_LABEL:
+            transform_output,
             labels.TRANSFORM_MATERIALIZE_OUTPUT_PATHS_LABEL: [
-                os.path.join(
-                    uri, executor._DEFAULT_TRANSFORMED_EXAMPLES_PREFIX)
+                os.path.join(uri,
+                             executor._DEFAULT_TRANSFORMED_EXAMPLES_PREFIX)
                 for uri in transformed_data_uris
             ],
-            labels.TEMP_OUTPUT_LABEL: str(temp_path),
+            labels.TEMP_OUTPUT_LABEL:
+            str(temp_path),
         }
         cache_output = _GetCachePath('cache_output_path', output_dict)
         if cache_output is not None:
             label_outputs[labels.CACHE_OUTPUT_PATH_LABEL] = cache_output
         status_file = 'status_file'  # Unused
         self.Transform(label_inputs, label_outputs, status_file)
-        logging.debug(
-            'Cleaning up temp path %s on executor success', temp_path)
+        logging.debug('Cleaning up temp path %s on executor success',
+                      temp_path)
         io_utils.delete_dir(temp_path)

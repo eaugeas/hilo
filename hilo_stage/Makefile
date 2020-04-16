@@ -3,6 +3,7 @@ PIP=pip
 PYTEST=pytest
 MYPY=mypy
 FLAKE8=flake8
+YAPF=yapf
 
 SRC=hilo_stage
 TESTS=tests
@@ -37,3 +38,11 @@ lint-tests:
 
 countlines:
 	@echo $(SRC)	`find . -name '*.py' | xargs grep -E '\w' | wc -l`
+
+format-src:
+	$(YAPF) -i -r $(SRC)
+
+format-tests:
+	$(YAPF) -i -r $(TESTS)
+
+format: format-src format-tests

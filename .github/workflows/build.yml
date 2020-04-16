@@ -15,15 +15,7 @@ jobs:
       if: startsWith(runner.os, 'Linux')
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py', './requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - uses: actions/cache@v1
-      if: startsWith(runner.os, 'Linux')
-      with:
-        path: ./.venv
-        key: ${{ runner.os }}-venv-${{ hashFiles('**/setup.py', './requirements.txt', '**/Makefile') }}
+        key: ${{ runner.os }}-venv-${{ hashFiles('**/setup.py', './requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-venv-
 

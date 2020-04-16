@@ -19,8 +19,8 @@ class Builder(object):
         elif self._source.config.WhichOneof('config') == 'local_file':
             return ConnectorConfig(local_file=self._source.config.local_file)
         else:
-            raise ValueError(
-                'Unknown source config type {0}'.format(self._source.config))
+            raise ValueError('Unknown source config type {0}'.format(
+                self._source.config))
 
     def build(self) -> Channel:
         config = self._connector_config()

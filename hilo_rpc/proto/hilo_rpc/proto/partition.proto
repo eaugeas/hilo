@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package hilo_rpc.proto;
+
+import "tensorflow_metadata/proto/v0/schema.proto";
+import "tensorflow_metadata/proto/v0/statistics.proto";
+
+message ExampleSplit {
+    string split = 1;
+    string uri = 2;
+}
+
+message Partition {
+    string name = 1;
+    tensorflow.metadata.v0.Schema schema = 3;
+    tensorflow.metadata.v0.DatasetFeatureStatisticsList statistics = 2;
+    repeated ExampleSplit example_splits = 4;
+}
+
+message PartitionList {
+    repeated Partition partitions = 1;
+}

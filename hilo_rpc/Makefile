@@ -3,8 +3,11 @@ PIP=pip
 PYTEST=pytest
 MYPY=mypy
 FLAKE8=flake8
+YAPF=yapf
 GRPCC=python -m grpc_tools.protoc
-PROTOS=proto/*.proto
+
+SRC=hilo_rpc
+TESTS=tests
 AUTOGEN=hilo_rpc/proto/source_pb2.py \
 	hilo_rpc/proto/source_pb2_grpc.py \
 	hilo_rpc/proto/sink_pb2.py \
@@ -15,10 +18,11 @@ AUTOGEN=hilo_rpc/proto/source_pb2.py \
 	hilo_rpc/proto/metadata_pb2.py \
 	hilo_rpc/proto/logging_pb2.py \
 	hilo_rpc/proto/tests_pb2.py \
-	hilo_rpc/proto/runner_pb2.py
-
-SRC=hilo_rpc
-TESTS=tests
+	hilo_rpc/proto/runner_pb2.py \
+	hilo_rpc/proto/partition_pb2.py
+TENSORFLOW_METADATA_AUTOGEN=tensorflow_metadata/proto/v0/path_pb2.py \
+	tensorflow_metadata/proto/v0/schema_pb2.py \
+	tensorflow_metadata/proto/v0/statistics_pb2.py
 
 .PHONY: proto build clean install test check
 
@@ -30,7 +34,7 @@ build: proto
 install:
 	$(PIP) install -e .
 
-proto: $(AUTOGEN)
+proto: $(AUTOGEN) $(TENSORFLOW_METADATA_AUTOGEN)
 
 hilo_rpc/proto/%_pb2_grpc.py: hilo_rpc/proto/%_pb2.py
 	@echo "GENERATING file from PROTOBUF "$@
@@ -42,12 +46,18 @@ hilo_rpc/proto/%_pb2.py: proto/hilo_rpc/proto/%.proto
 		--grpc_python_out . \
 		--python_out . \
 		$<
+tensorflow_metadata/proto/v0/%_pb2.py: proto/tensorflow_metadata/proto/v0/%.proto
+	@echo "GENERATING file from PROTOBUF "$@
+	@ $(GRPCC) \
+		--proto_path proto \
+		--python_out . \
+		$<
 
 clean:
 	$(PYTHON) setup.py clean
 	rm -rf build dist *.egg-info __pycache__
 	@echo "CLEAN protobuf generated files"
-	@ rm -f $(AUTOGEN)
+	@ rm -f $(AUTOGEN) $(TENSORFLOW_METADATA_AUTOGEN)
 
 test:
 	$(PYTEST) tests
@@ -65,3 +75,11 @@ lint-tests:
 
 countlines:
 	@echo $(SRC)	`find . -name '*.py' -not -path "*hilo_rpc/proto*" | xargs grep -E '\w' | wc -l`
+
+format-src:
+	$(YAPF) -e hilo_rpc/proto -i -r $(SRC)
+
+format-tests:
+	$(YAPF) -i -r $(TESTS)
+
+format: format-src format-tests

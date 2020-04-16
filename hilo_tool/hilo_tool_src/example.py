@@ -12,7 +12,6 @@ class ExampleCmd(Cmd):
     in the execution of examples and make the process of executing
     examples as easy, straightforward, and self documented as
     possible"""
-
     def __init__(self):
         super().__init__(name='example')
 
@@ -24,8 +23,9 @@ class ExampleCmd(Cmd):
             'the execution of examples easy.')
 
     def add_arguments(self, parser: argparse.ArgumentParser):
-        parser.add_argument(
-            '-path', type=str, help='path to example\'s root directory')
+        parser.add_argument('-path',
+                            type=str,
+                            help='path to example\'s root directory')
 
     def exec(self, args: argparse.Namespace):
         if not args.path:
@@ -35,10 +35,7 @@ class ExampleCmd(Cmd):
         ExampleCmd.apply(args.path)
 
     @staticmethod
-    def _decompress_gzipped_files(
-            data_dir_path: Text,
-            raw_dir_path: Text
-    ):
+    def _decompress_gzipped_files(data_dir_path: Text, raw_dir_path: Text):
         import gzip
         import os
         import shutil
@@ -81,8 +78,7 @@ class ExampleCmd(Cmd):
 
         data_dir_path = os.path.join(path, 'data')
         if not os.path.isdir(data_dir_path):
-            ExampleCmd._decompress_gzipped_files(
-                data_dir_path, raw_dir_path)
+            ExampleCmd._decompress_gzipped_files(data_dir_path, raw_dir_path)
 
         # examples must use EXAMPLE_ROOT as environment variable
         # to define their project root
